@@ -55,12 +55,24 @@ export const BackButton = () => {
 /**
  * OIL advanced settings button
  */
-export const AdvancedSettingsButton = (advancedSettings) => {
+
+//TODO: clean old version
+// export const AdvancedSettingsButton = (advancedSettings) => {
+//   return advancedSettings === true ? (
+//     `
+//         <button class="as-oil__btn-cpc ${JS_CLASS_BUTTON_ADVANCED_SETTINGS}" data-context="${DATA_CONTEXT_ADVANCED_SETTINGS}" data-qa="oil-AdvancedSettingsButton">
+//             ${getLabel(OIL_LABELS.ATTR_LABEL_BUTTON_ADVANCED_SETTINGS)}
+//         </button>
+//       `
+//   ) : '';
+// };
+
+export const AdvancedSettingsButton = (advancedSettings, classes) => {
   return advancedSettings === true ? (
     `
-        <button class="as-oil__btn-cpc ${JS_CLASS_BUTTON_ADVANCED_SETTINGS}" data-context="${DATA_CONTEXT_ADVANCED_SETTINGS}" data-qa="oil-AdvancedSettingsButton">
-            ${getLabel(OIL_LABELS.ATTR_LABEL_BUTTON_ADVANCED_SETTINGS)}
-        </button>
-      `
+      <button class="${classes} ${JS_CLASS_BUTTON_ADVANCED_SETTINGS}" data-context="${DATA_CONTEXT_ADVANCED_SETTINGS}" data-qa="oil-AdvancedSettingsButton">
+        ${getLabel(OIL_LABELS.ATTR_LABEL_BUTTON_ADVANCED_SETTINGS)}
+      </button>
+    `
   ) : '';
-};
+}

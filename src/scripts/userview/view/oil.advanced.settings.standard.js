@@ -21,7 +21,7 @@ export function oilAdvancedSettingsTemplate() {
 export function oilAdvancedSettingsInlineTemplate() {
   return `<div class="as-oil-l-wrapper-layout-max-width as-oil-cpc-wrapper">
     <div class="as-oil__heading">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_HEADING)}
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_HEADING)} DIO
     </div>
     <p class="as-oil__intro-txt">
       ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_TEXT)}
@@ -62,6 +62,7 @@ const ContentSnippet = () => {
     <div class="as-oil-cpc__row-title" id="as-oil-cpc-purposes">
       ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_DESC)}
     </div>
+    // qui vengono stampati i purposes
     ${buildPurposeEntries(getPurposes())}
     ${buildPurposeEntries(getCustomPurposes())}
 

@@ -167,6 +167,11 @@
     }
   }
 
+  &.FirstLayer__IntroText {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
   @include media('<=phone') {
     margin: .5rem 0;
     min-width: 100%;
@@ -382,5 +387,62 @@
 .as-oil-l-item--stretch {
   @supports (display: flex) {
     flex: 1 0 auto;
+  }
+}
+
+.FirstLayer {
+  display: flex;
+  flex-direction: column;
+
+  &__HeadingWrapper {
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }    
+  
+  &__PublisherLogo {
+    height: 60px;
+    margin-right: 30px;
+
+    img {
+      height: 100%;
+      width: auto;
+    }
+  }
+  
+  &__Footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+  }
+
+  &__CmpLogo {
+    display: flex;
+    align-items: center;
+  }
+
+  &__CmpLogo a {
+    height: 30px;
+
+    img {
+      height: 100%;
+      width: auto;
+    }
+  }
+
+  &__Powered {
+    margin-right: 10px;
+  }
+
+  &__Buttons {
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    & > * {
+      margin: 0 0 0 20px;
+    }
   }
 }
