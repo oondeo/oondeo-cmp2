@@ -81,15 +81,24 @@ const ContentSnippet = () => {
 
 const PurposeContainerSnippet = ({id, header, text, value}) => {
   return `
-<div class="as-oil-cpc__purpose">
-    <div class="as-oil-cpc__purpose-container">
-        <div class="as-oil-cpc__purpose-header">${header}</div>
+<div class="as-oil-cpc__purpose Purpose">
+    <div class="as-oil-cpc__purpose-container Purpose__Container">
+        <div class="Purpose__Heading">
+          <div class="as-oil-cpc__purpose-header Purpose__Title">${header}</div>
+          <div class="Purpose__Switches">
+            <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--LegInt">
+                <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
+                <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
+                <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
+            </label>
+            <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--Consent">
+                <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
+                <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
+                <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
+            </label>
+          </div>
+        </div>
         <div class="as-oil-cpc__purpose-text">${text}</div>
-        <label class="as-oil-cpc__switch">
-            <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
-            <span class="as-oil-cpc__status"></span>
-            <span class="as-oil-cpc__slider"></span>
-        </label>
     </div>
 </div>`
 };
