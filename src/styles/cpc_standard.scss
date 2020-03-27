@@ -190,7 +190,8 @@
 }
 
 .as-oil-cpc__status {
-  &.Purpose__SwitchStatus {
+  &.Purpose__SwitchStatus,
+  &.Vendor__SwitchStatus {
     position: relative;
     width: 100px;
     height: 100%;
@@ -207,7 +208,8 @@
   }
 }
 
-.Purpose {
+.Purpose,
+.Vendor {
   &__Container {
     display: flex;
     flex-direction: column;
@@ -269,5 +271,11 @@
       justify-content: flex-end;
       margin-left: 100px;
     }
+  }
+}
+
+.Vendor {
+  &__Switches {
+    margin: 10px 0;
   }
 }

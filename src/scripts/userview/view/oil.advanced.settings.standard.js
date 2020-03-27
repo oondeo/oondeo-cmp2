@@ -161,7 +161,7 @@ const buildCustomVendorEntries = () => {
 const buildVendorListEntry = (element) => {
   if (element.name) {
     return `
-          <div class="as-oil-third-party-list-element">
+          <div class="as-oil-third-party-list-element Vendor">
               <span onclick='${OIL_GLOBAL_OBJECT_NAME}._toggleViewElements(this)'>
                   <svg class='as-oil-icon-plus' width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5.675 4.328H10v1.344H5.675V10h-1.35V5.672H0V4.328h4.325V0h1.35z" fill="#0068FF" fill-rule="evenodd" fill-opacity=".88"/>
@@ -170,9 +170,23 @@ const buildVendorListEntry = (element) => {
                     <path d="M0 0h10v1.5H0z" fill="#3B7BE2" fill-rule="evenodd" opacity=".88"/>
                   </svg>
                   <span class='as-oil-third-party-name'>${element.name}</span>
+                  <div class="Vendor__Switches">
+                    <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--LegInt">
+                        <input class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+                        <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
+                        <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
+                    </label>
+                    <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--Consent">
+                        <input class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+                        <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
+                        <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
+                    </label>
+                  </div>
               </span>
               <div class='as-oil-third-party-toggle-part' style='display: none;'>
                 <a class='as-oil-third-party-link' href='${element.policyUrl}'>${element.policyUrl}</a>
+                <div><strong>Purposes:</strong>  (1) Information storage and access, (2) Personalisation, (3) Ad selection, delivery, reporting, (4) Content selection, delivery, reporting, (5) Measurement</div>
+                <div><strong>Legitimate Interest:</strong>  (1) Information storage and access, (2) Personalisation, (3) Ad selection, delivery, reporting, (4) Content selection, delivery, reporting, (5) Measurement</div>
               </div>
             </div>
           `;
