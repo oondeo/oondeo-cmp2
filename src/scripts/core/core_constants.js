@@ -23,7 +23,7 @@ export const OIL_CONFIG = {
   ATTR_THEME: 'theme',
   ATTR_TIMEOUT: 'timeout',
   ATTR_LOCALE_URL: 'locale_url',
-  ATTR_IAB_VENDOR_LIST_URL: 'iabVendorListUrl',
+  ATTR_GLOBAL_VENDOR_LIST_BASE_URL: 'globalVendorListBaseUrl',
   ATTR_CUSTOM_PURPOSES: 'customPurposes',
   ATTR_CUSTOM_VENDOR_LIST_URL: 'customVendorListUrl',
   ATTR_IAB_VENDOR_BLACKLIST: 'iabVendorBlacklist',

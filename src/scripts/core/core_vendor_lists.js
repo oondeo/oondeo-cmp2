@@ -1,12 +1,13 @@
-import { getCustomVendorListUrl, getIabVendorBlacklist, getIabVendorListUrl, getIabVendorWhitelist, getShowLimitedVendors } from './core_config';
+import { getCustomVendorListUrl, getIabVendorBlacklist, getGlobalVendorListBaseUrl ,getIabVendorWhitelist, getShowLimitedVendors } from './core_config';
 import { logError, logInfo } from './core_log';
 import { fetchJsonData } from './core_utils';
+import { tcModel, gvl } from './core_cmp_api';
 
 export const DEFAULT_VENDOR_LIST = {
   vendorListVersion: 36,
   maxVendorId: 380,
   lastUpdated: '2018-05-30T16:00:15Z',
-  purposeIds: [1, 2, 3, 4, 5]
+  purposeIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 };
 
 export const DEFAULT_CUSTOM_VENDOR_LIST = {
@@ -29,11 +30,14 @@ export function loadVendorListAndCustomVendorList() {
     return pendingVendorListPromise;
   } else {
     pendingVendorListPromise = new Promise(function (resolve) {
-      let iabVendorListUrl = getIabVendorListUrl();
-      fetchJsonData(iabVendorListUrl)
-        .then(response => {
-          sortVendors(response);
-          cachedVendorList = response;
+      console.log('tcModel', tcModel);
+      // let iabVendorListUrl = getGlobalVendorListBaseUrl();
+      // fetchJsonData(iabVendorListUrl)
+      gvl.readyPromise.then(() => {
+        return gvl.changeLanguage('fr');
+      })
+        .then(() => {
+          cachedVendorList = gvl;
           loadCustomVendorList().then(() => {
             pendingVendorListPromise = null;
             resolve();
@@ -74,6 +78,11 @@ function loadCustomVendorList() {
 }
 
 export function getPurposes() {
+  console.log('cachedVendorList',cachedVendorList)
+  return cachedVendorList ? cachedVendorList.purposes : expandIdsToObjects(DEFAULT_VENDOR_LIST.purposeIds);
+}
+
+export function getSpecialPurposes() {
   return cachedVendorList ? cachedVendorList.purposes : expandIdsToObjects(DEFAULT_VENDOR_LIST.purposeIds);
 }
 

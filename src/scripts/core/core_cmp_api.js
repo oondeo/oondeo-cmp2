@@ -8,7 +8,9 @@ import {TCModel, TCString, GVL} from '@iabtcf/core';
 GVL.baseUrl = 'http://localhost:3000/assets/';
 
 // create a new TC string
-export const tcModel = new TCModel(new GVL());
+export const gvl = new GVL();
+// create a new TC string
+export const tcModel = new TCModel(gvl);
 
 // // Some fields will not be populated until a GVL is loaded
 // tcModel.gvl.readyPromise.then(() => {

@@ -7,6 +7,7 @@ import { JS_CLASS_BUTTON_OPTIN, OIL_GLOBAL_OBJECT_NAME } from '../../core/core_c
 import { setGlobalOilObject } from '../../core/core_utils';
 import { getCustomVendorList, getPurposes, getVendorList, getVendorsToDisplay } from '../../core/core_vendor_lists';
 import { BackButton, YesButton } from './components/oil.buttons';
+const showdown  = require('showdown');
 
 
 const CLASS_NAME_FOR_ACTIVE_MENU_SECTION = 'as-oil-cpc__category-link--active';
@@ -80,6 +81,9 @@ const ContentSnippet = () => {
 };
 
 const PurposeContainerSnippet = ({id, header, text, value}) => {
+  let converter = new showdown.Converter();
+  let html = converter.makeHtml(text);
+
   return `
 <div class="as-oil-cpc__purpose Purpose">
     <div class="as-oil-cpc__purpose-container Purpose__Container">
@@ -98,7 +102,7 @@ const PurposeContainerSnippet = ({id, header, text, value}) => {
             </label>
           </div>
         </div>
-        <div class="as-oil-cpc__purpose-text">${text}</div>
+        <div class="as-oil-cpc__purpose-text">${html}</div>
     </div>
 </div>`
 };
@@ -136,7 +140,11 @@ const buildIabVendorEntries = () => {
   let vendorList = getVendorList();
 
   if (vendorList && !vendorList.isDefault) {
-    let listWrapped = getVendorsToDisplay().map((element) => {
+    let listWrapped = getVendorsToDisplay();
+    if (typeof(listWrapped) === 'object') {
+      listWrapped = Object.values(listWrapped)
+    }
+    listWrapped = listWrapped.map((element) => {
       return buildVendorListEntry(element);
     });
     return `<div class="as-oil-poi-group-list">${listWrapped.join('')}</div>`;
@@ -203,10 +211,15 @@ const ActivateButtonSnippet = () => {
 };
 
 const buildPurposeEntries = (list) => {
+  console.log('purposeslist', list);
+  if (typeof(list) === 'object') {
+    list = Object.values(list)
+  }
+
   return list.map(purpose => PurposeContainerSnippet({
     id: purpose.id,
     header: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_text`, purpose.name || `Error: Missing text for purpose with id ${purpose.id}!`),
-    text: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_desc`, purpose.description || ''),
+    text: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_desc`, purpose.descriptionLegal || ''),
     value: false
   })).join('');
 };

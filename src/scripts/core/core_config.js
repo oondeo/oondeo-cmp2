@@ -141,8 +141,8 @@ export function getLocaleUrl() {
   return getConfigValue(OIL_CONFIG.ATTR_LOCALE_URL, undefined);
 }
 
-export function getIabVendorListUrl() {
-  return getConfigValue(OIL_CONFIG.ATTR_IAB_VENDOR_LIST_URL, 'https://vendorlist.consensu.org/vendorlist.json');
+export function getGlobalVendorListBaseUrl() {
+  return getConfigValue(OIL_CONFIG.ATTR_GLOBAL_VENDOR_LIST_BASE_URL, 'http://localhost:3000/assets/');
 }
 
 export function getIabVendorBlacklist() {
