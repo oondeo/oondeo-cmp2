@@ -3,7 +3,6 @@ import { handleOptOut } from './core_optout';
 import { logError, logInfo, logPreviewInfo } from './core_log';
 import { checkOptIn } from './core_optin';
 import { getSoiCookie, isBrowserCookieEnabled, isPreviewCookieSet, removePreviewCookie, removeVerboseCookie, setPreviewCookie, setVerboseCookie } from './core_cookies';
-import { doSetTealiumVariables } from './core_tealium_loading_rules';
 import { getLocale, isAmpModeActivated, isPreviewMode, resetConfiguration, setGdprApplies } from './core_config';
 import { EVENT_NAME_HAS_OPTED_IN, EVENT_NAME_NO_COOKIES_ALLOWED } from './core_constants';
 import { executeCommandCollection } from './core_command_collection';
@@ -24,8 +23,6 @@ export function initOilLayer() {
 
   attachUtilityFunctionsToWindowObject();
 
-  doSetTealiumVariables();
-
   /**
    * We show OIL depending on the following conditions:
    * With Dev Mode turned on, we only show Oil if a developer cookie is set
@@ -38,7 +35,7 @@ export function initOilLayer() {
       logInfo('This browser doesn\'t allow cookies.');
       import('../userview/locale/userview_oil.js')
         .then(userview_modal => {
-          userview_modal.locale(uv_m => uv_m.renderOil({noCookie: true}));
+          userview_modal.locale(uv_m => uv_m.renderOil({ noCookie: true }));
         })
         .catch((e) => {
           logError('Locale could not be loaded.', e);
@@ -65,7 +62,7 @@ export function initOilLayer() {
          */
         import('../userview/locale/userview_oil.js')
           .then(userview_modal => {
-            userview_modal.locale(uv_m => uv_m.renderOil({optIn: false}));
+            userview_modal.locale(uv_m => uv_m.renderOil({ optIn: false }));
             attachCommandCollectionFunctionToWindowObject();
           })
           .catch((e) => {
