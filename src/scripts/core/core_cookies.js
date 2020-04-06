@@ -1,3 +1,5 @@
+//REVIEW: changes in todo comments @tcf2
+
 import Cookie from 'js-cookie';
 import { logInfo } from './core_log';
 import {
@@ -24,6 +26,7 @@ const OIL_DOMAIN_COOKIE_NAME = 'oil_data';
 const OIL_SESSION_COOKIE_NAME = 'oil_data_session';
 
 export function setSessionCookie(name, value) {
+
   Cookie.set(name, value);
 }
 
@@ -34,6 +37,7 @@ export function setDomainCookie(name, value, expires_in_days) {
 }
 
 export function getOilCookie(cookieConfig) {
+  //TODO: set new consent @tcf2 @tcf2soi
   let cookieJson = Cookie.getJSON(cookieConfig.name);
   cookieJson.consentData = new ConsentString(cookieJson.consentString);
   return cookieJson;
@@ -68,6 +72,7 @@ export function getSoiCookie() {
 }
 
 export function setSoiCookieWithPoiCookieData(poiCookieJson) {
+  //TODO: set new consent @tcf2 @tcf2poi
   return new Promise((resolve, reject) => {
     loadVendorListAndCustomVendorList().then(() => {
       let cookieConfig = getOilCookieConfig();
@@ -101,6 +106,7 @@ export function setSoiCookieWithPoiCookieData(poiCookieJson) {
 }
 
 export function buildSoiCookie(privacySettings) {
+  //TODO: set new consent @tcf2 @tcf2soi
   return new Promise((resolve, reject) => {
     loadVendorListAndCustomVendorList().then(() => {
       let cookieConfig = getOilCookieConfig();
@@ -167,7 +173,7 @@ export function removeSubscriberCookies() {
 export function removeHubCookie(poiGroup) {
   removeSubscriberCookies();
   if (poiGroup) {
-    Cookie.remove(`${ poiGroup }_${ OIL_DOMAIN_COOKIE_NAME }`);
+    Cookie.remove(`${poiGroup}_${OIL_DOMAIN_COOKIE_NAME}`);
   }
 }
 
@@ -260,6 +266,7 @@ function isCookieValid(name, data) {
 }
 
 function getOilCookieConfig() {
+  //TODO: set new consent @tcf2 @tcf2soi
   let consentData = new ConsentString();
   consentData.setCmpId(OIL_SPEC.CMP_ID);
   consentData.setCmpVersion(OIL_SPEC.CMP_VERSION);
@@ -287,6 +294,7 @@ function getOilCookieConfig() {
 }
 
 function transformOutdatedOilCookie(cookieConfig) {
+  //REVIEW: when does it run? @tcf2
   let cookieJson = Cookie.getJSON(cookieConfig.name);
 
   let cookie = cookieConfig.defaultCookieContent;

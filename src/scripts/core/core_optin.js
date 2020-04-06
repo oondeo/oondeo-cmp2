@@ -1,3 +1,4 @@
+//NOTE: no changes to be made @tcf2
 import { getSoiCookie, setSoiCookieWithPoiCookieData } from './core_cookies';
 import { logPreviewInfo } from './core_log';
 import { verifyPowerOptIn } from './core_poi';

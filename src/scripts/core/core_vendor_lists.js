@@ -1,16 +1,18 @@
+//REVIEW: changes in todo comments @tcf2
 import { getCustomVendorListUrl, getIabVendorBlacklist, getIabVendorListUrl, getIabVendorWhitelist, getShowLimitedVendors } from './core_config';
 import { logError, logInfo } from './core_log';
 import { fetchJsonData } from './core_utils';
 
 export const DEFAULT_VENDOR_LIST = {
-  vendorListVersion: 36,
-  maxVendorId: 380,
-  lastUpdated: '2018-05-30T16:00:15Z',
-  purposeIds: [1, 2, 3, 4, 5]
+
+  vendorListVersion: 36, //TODO: @tcf2 @tc2soi
+  maxVendorId: 380, //TODO @tcf2 @tc2soi
+  lastUpdated: '2018-05-30T16:00:15Z', //TODO @tcf2 @tc2soi
+  purposeIds: [1, 2, 3, 4, 5] //TODO @tcf2 @tc2soi
 };
 
 export const DEFAULT_CUSTOM_VENDOR_LIST = {
-  'vendorListVersion': -1,
+  'vendorListVersion': -1, //TODO @tcf2 @tc2soi
   'isDefault': true,
   'vendors': []
 };
@@ -20,7 +22,7 @@ export let cachedCustomVendorList;
 export let pendingVendorListPromise = null;
 
 export function loadVendorListAndCustomVendorList() {
-
+  //TODO @tcf2 load from API @tc2soi
   if (cachedVendorList && cachedCustomVendorList) {
     return new Promise(resolve => {
       resolve();
@@ -40,7 +42,7 @@ export function loadVendorListAndCustomVendorList() {
           });
         })
         .catch(error => {
-          logError(`OIL getVendorList failed and returned error: ${ error }. Falling back to default vendor list!`);
+          logError(`OIL getVendorList failed and returned error: ${error}. Falling back to default vendor list!`);
           loadCustomVendorList().then(() => {
             pendingVendorListPromise = null;
             resolve();
@@ -66,7 +68,7 @@ function loadCustomVendorList() {
         })
         .catch(error => {
           cachedCustomVendorList = DEFAULT_CUSTOM_VENDOR_LIST;
-          logError(`OIL getCustomVendorList failed and returned error: ${ error }. Falling back to default custom vendor list!`);
+          logError(`OIL getCustomVendorList failed and returned error: ${error}. Falling back to default custom vendor list!`);
           resolve();
         });
     }
@@ -74,6 +76,7 @@ function loadCustomVendorList() {
 }
 
 export function getPurposes() {
+  //REVIEW: need changes? @tcf2
   return cachedVendorList ? cachedVendorList.purposes : expandIdsToObjects(DEFAULT_VENDOR_LIST.purposeIds);
 }
 
@@ -82,6 +85,7 @@ export function getPurposeIds() {
 }
 
 export function getVendors() {
+  //REVIEW: need changes? @tcf2a
   return cachedVendorList ? cachedVendorList.vendors : expandIdsToObjects(buildDefaultVendorIdList());
 }
 
@@ -90,6 +94,7 @@ export function getVendorIds() {
 }
 
 export function getVendorList() {
+  //REVIEW: need changes? @tcf2a
   if (cachedVendorList) {
     return cachedVendorList;
   }
@@ -136,6 +141,7 @@ export function getLimitedVendors() {
 }
 
 export function getLimitedVendorIds() {
+  //REVIEW: need changes? @tcf2a
   let limited;
   if (!cachedVendorList) {
     limited = buildDefaultVendorIdList();
