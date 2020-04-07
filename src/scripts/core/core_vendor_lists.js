@@ -30,11 +30,8 @@ export function loadVendorListAndCustomVendorList() {
     return pendingVendorListPromise;
   } else {
     pendingVendorListPromise = new Promise(function (resolve) {
-      console.log('tcModel', tcModel);
-      // let iabVendorListUrl = getGlobalVendorListBaseUrl();
-      // fetchJsonData(iabVendorListUrl)
       gvl.readyPromise.then(() => {
-        return gvl.changeLanguage('fr');
+        return gvl;
       })
         .then(() => {
           cachedVendorList = gvl;
@@ -83,7 +80,15 @@ export function getPurposes() {
 }
 
 export function getSpecialPurposes() {
-  return cachedVendorList ? cachedVendorList.purposes : expandIdsToObjects(DEFAULT_VENDOR_LIST.purposeIds);
+  return cachedVendorList ? cachedVendorList.specialPurposes : console.log('NON CI SONO GLI SPECIAL PURPOSES' );
+}
+
+export function getFeatures() {
+  return cachedVendorList ? cachedVendorList.specialFeatures : console.log('NON CI SONO GLI SPECIAL PURPOSES' );
+}
+
+export function getSpecialFeatures() {
+  return cachedVendorList ? cachedVendorList.specialFeatures : console.log('NON CI SONO GLI SPECIAL PURPOSES' );
 }
 
 export function getPurposeIds() {

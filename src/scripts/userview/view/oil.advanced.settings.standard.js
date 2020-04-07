@@ -5,8 +5,9 @@ import { getLabel, getLabelWithDefault, getTheme } from '../userview_config';
 import { getCustomPurposes, getCustomVendorListUrl } from '../../core/core_config';
 import { JS_CLASS_BUTTON_OPTIN, OIL_GLOBAL_OBJECT_NAME } from '../../core/core_constants';
 import { setGlobalOilObject } from '../../core/core_utils';
-import { getCustomVendorList, getPurposes, getVendorList, getVendorsToDisplay } from '../../core/core_vendor_lists';
+import { getCustomVendorList, getPurposes, getSpecialPurposes, getFeatures, getSpecialFeatures, getVendorList, getVendorsToDisplay } from '../../core/core_vendor_lists';
 import { BackButton, YesButton } from './components/oil.buttons';
+import { gvl } from '../../core/core_cmp_api';
 const showdown  = require('showdown');
 
 
@@ -22,7 +23,7 @@ export function oilAdvancedSettingsTemplate() {
 export function oilAdvancedSettingsInlineTemplate() {
   return `<div class="as-oil-l-wrapper-layout-max-width as-oil-cpc-wrapper">
     <div class="as-oil__heading">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_HEADING)} DIO
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_HEADING)}
     </div>
     <p class="as-oil__intro-txt">
       ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_TEXT)}
@@ -48,7 +49,16 @@ const ContentSnippet = () => {
 <div data-qa="cpc-snippet" class="as-oil-l-row as-oil-cpc__content">
   <div class="as-oil-cpc__left">
     <a href="#as-oil-cpc-purposes" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link ${CLASS_NAME_FOR_ACTIVE_MENU_SECTION}">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_DESC)}
+      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)*/ 'Finalità'}
+    </a>
+    <a href="#as-oil-cpc-special-purposes" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
+      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)*/ 'Finalità Avanzate'}
+    </a>
+    <a href="#as-oil-cpc-features" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
+    ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_FEATURE_TITLE)*/ 'Feature'}
+    </a>
+    <a href="#as-oil-cpc-special-features" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
+      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)*/ 'Feature Avanzate'}
     </a>
     <a href="#as-oil-cpc-third-parties" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
       ${getLabel(OIL_LABELS.ATTR_LABEL_THIRD_PARTY)}
@@ -60,11 +70,34 @@ const ContentSnippet = () => {
     ` : ''}
   </div>
   <div class="as-oil-cpc__middle as-js-purposes">
+    ${getPurposes() ? `
     <div class="as-oil-cpc__row-title" id="as-oil-cpc-purposes">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_DESC)}
+    ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)*/ 'Finalità'}
     </div>
-    // qui vengono stampati i purposes
     ${buildPurposeEntries(getPurposes())}
+    ` : ''}
+
+    ${getSpecialPurposes() ? `
+    <div class="as-oil-cpc__row-title" id="as-oil-cpc-special-purposes">
+      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)*/ 'Special Purposes'}
+    </div>
+    ${buildPurposeEntries(getSpecialPurposes())}
+    ` : ''}
+
+    ${getFeatures() ? `
+    <div class="as-oil-cpc__row-title" id="as-oil-cpc-features">
+      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_FEATURE_TITLE)*/ 'Features'}
+    </div>
+    ${buildPurposeEntries(getFeatures())}
+    ` : ''}
+
+    ${getSpecialFeatures() ? `
+    <div class="as-oil-cpc__row-title" id="as-oil-cpc-special-features">
+      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)*/ 'Special Features'}
+    </div>
+    ${buildPurposeEntries(getSpecialFeatures())}
+    ` : ''}
+    
     ${buildPurposeEntries(getCustomPurposes())}
 
     ${buildIabVendorList()}
@@ -83,6 +116,11 @@ const ContentSnippet = () => {
 const PurposeContainerSnippet = ({id, header, text, value}) => {
   let converter = new showdown.Converter();
   let html = converter.makeHtml(text);
+  let hasLegInt;
+
+  console.log(gvl);
+
+  hasLegInt = Object.keys(gvl.getVendorsWithLegIntPurpose(id)).length;
 
   return `
 <div class="as-oil-cpc__purpose Purpose">
@@ -90,11 +128,13 @@ const PurposeContainerSnippet = ({id, header, text, value}) => {
         <div class="Purpose__Heading">
           <div class="as-oil-cpc__purpose-header Purpose__Title">${header}</div>
           <div class="Purpose__Switches">
+          ${hasLegInt ? `          
             <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--LegInt">
                 <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
                 <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
                 <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
             </label>
+          `: ''}
             <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--Consent">
                 <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
                 <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
