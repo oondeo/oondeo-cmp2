@@ -1,5 +1,7 @@
+//REVIEW: changes in todo comments @tcf2
+
 export const OIL_SPEC = {
-  CMP_ID: 80,
+  CMP_ID: 80, //TODO: set avacy one @tcf2
   CMP_VERSION: 1,
   LATEST_CONSENT_STRING_VERSION: 1
 };

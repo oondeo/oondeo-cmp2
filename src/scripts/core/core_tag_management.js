@@ -1,3 +1,4 @@
+//REVIEW: may have some changes to be made in order to get purposes correctly @tcf2
 import { MANAGED_TAG_IDENTIFIER, MANAGED_TAG_IDENTIFIER_ATTRIBUTE, MANAGED_TAG_PURPOSES_ATTRIBUTE } from './core_constants';
 import { getSoiCookie } from './core_cookies';
 import { arrayContainsArray } from './core_utils';

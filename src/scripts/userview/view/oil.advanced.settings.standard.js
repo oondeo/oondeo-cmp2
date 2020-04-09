@@ -78,7 +78,7 @@ const ContentSnippet = () => {
 </div>`;
 };
 
-const PurposeContainerSnippet = ({id, header, text, value}) => {
+const PurposeContainerSnippet = ({ id, header, text, value }) => {
   return `
 <div class="as-oil-cpc__purpose">
     <div class="as-oil-cpc__purpose-container">
@@ -138,6 +138,7 @@ const buildIabVendorEntries = () => {
 const buildCustomVendorEntries = () => {
   let customVendorList = getCustomVendorList();
 
+
   if (customVendorList && !customVendorList.isDefault) {
     let listWrapped = customVendorList.vendors.map((element) => {
       return buildVendorListEntry(element);
@@ -179,6 +180,11 @@ const ActivateButtonSnippet = () => {
 };
 
 const buildPurposeEntries = (list) => {
+
+  if (typeof (list) === 'object') {
+    list = Object.values(list)
+  }
+
   return list.map(purpose => PurposeContainerSnippet({
     id: purpose.id,
     header: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_text`, purpose.name || `Error: Missing text for purpose with id ${purpose.id}!`),

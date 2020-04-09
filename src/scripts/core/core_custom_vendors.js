@@ -1,3 +1,4 @@
+//NOTE: no changes to be made @tcf2
 import { getCustomVendorList, loadVendorListAndCustomVendorList } from './core_vendor_lists';
 import { logError } from './core_log';
 import { getSoiCookie } from './core_cookies';

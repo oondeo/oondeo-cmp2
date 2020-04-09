@@ -1,3 +1,4 @@
+//NOTE: no changes to be made @tcf2
 import { deActivatePowerOptIn } from './core_poi.js';
 import { logInfo } from './core_log.js';
 import { removeSubscriberCookies } from './core_cookies.js';

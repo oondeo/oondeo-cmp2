@@ -1,3 +1,5 @@
+//NOTE: no changes to be made @tcf2
+
 import { logInfo } from './core_log';
 import { OIL_GLOBAL_OBJECT_NAME } from './core_constants';
 import { getLocale } from './core_config';

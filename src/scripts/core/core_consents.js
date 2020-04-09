@@ -1,7 +1,8 @@
-import {getSoiCookie} from './core_cookies';
-import {getCustomPurposeIds, gdprApplies} from './core_config';
-import {getLimitedVendorIds, getPurposeIds} from './core_vendor_lists';
-import {OIL_SPEC} from './core_constants';
+//REVIEW: all those methods may need changes @tcf2
+import { getSoiCookie } from './core_cookies';
+import { getCustomPurposeIds, gdprApplies } from './core_config';
+import { getLimitedVendorIds, getPurposeIds } from './core_vendor_lists';
+import { OIL_SPEC } from './core_constants';
 
 export function getVendorConsentData(vendorIds) {
   let cookie = getSoiCookie();

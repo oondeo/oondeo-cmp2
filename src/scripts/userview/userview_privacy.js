@@ -1,8 +1,8 @@
-import {getSoiCookie} from '../core/core_cookies';
-import {PRIVACY_FULL_TRACKING} from '../core/core_constants';
-import {logInfo} from '../core/core_log';
-import {forEach} from './userview_modal';
-import {getPurposes} from '../core/core_vendor_lists';
+import { getSoiCookie } from '../core/core_cookies';
+import { PRIVACY_FULL_TRACKING } from '../core/core_constants';
+import { logInfo } from '../core/core_log';
+import { forEach } from './userview_modal';
+import { getPurposes } from '../core/core_vendor_lists';
 
 export function getSoiConsentData() {
   let soiCookie = getSoiCookie();
@@ -19,13 +19,44 @@ export function getSoiConsentData() {
  *  "{}": if there are multiple checkboxes
  */
 export function getPrivacySettings() {
+  //TODO: prendere i dati corretti dal pannello 
   if (document.querySelector('.as-js-purpose-slider')) {
-    let result = {};
+    let consents = {};
     forEach(document.querySelectorAll('.as-js-purpose-slider'), (element) => {
       let element_id = element.dataset ? element.dataset.id : element.getAttribute('data-id');
-      result[element_id] = element.checked;
+      consents[element_id] = element.checked;
     }, this);
-    return result;
+
+    return {
+      purpose: {
+        1: {
+          legint: false,
+          consent: true
+        },
+        2: {
+          legint: true,
+          consent: false
+        }
+      },
+      specialFeature: {
+        1: {
+          optin: true
+        },
+        2: {
+          optin: true
+        }
+      },
+      vendor: {
+        1: {
+          legint: false,
+          consent: true
+        },
+        2: {
+          legint: true,
+          consent: true
+        }
+      }
+    };
   }
   return PRIVACY_FULL_TRACKING;
 }
