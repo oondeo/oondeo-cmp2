@@ -97,6 +97,18 @@ export function getPurposes() {
   return cachedVendorList ? cachedVendorList.purposes : expandIdsToObjects(DEFAULT_VENDOR_LIST.purposeIds);
 }
 
+export function getSpecialPurposes() {
+  return cachedVendorList ? cachedVendorList.specialPurposes : console.log('NON CI SONO GLI SPECIAL PURPOSES' );
+}
+
+export function getFeatures() {
+  return cachedVendorList ? cachedVendorList.features : console.log('NON CI SONO LE FEATURES' );
+}
+
+export function getSpecialFeatures() {
+  return cachedVendorList ? cachedVendorList.specialFeatures : console.log('NON CI SONO LE SPECIAL FEATURES' );
+}
+
 export function getPurposeIds() {
   return getPurposes().map(({ id }) => id);
 }

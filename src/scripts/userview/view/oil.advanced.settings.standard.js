@@ -5,10 +5,8 @@ import { getLabel, getLabelWithDefault, getTheme } from '../userview_config';
 import { getCustomPurposes, getCustomVendorListUrl } from '../../core/core_config';
 import { JS_CLASS_BUTTON_OPTIN, OIL_GLOBAL_OBJECT_NAME } from '../../core/core_constants';
 import { setGlobalOilObject } from '../../core/core_utils';
-import { getCustomVendorList, getPurposes, getVendorList, getVendorsToDisplay } from '../../core/core_vendor_lists';
+import { getCustomVendorList, getPurposes, getSpecialPurposes, getFeatures, getSpecialFeatures, getVendorList, getVendorsToDisplay } from '../../core/core_vendor_lists';
 import { BackButton, YesButton } from './components/oil.buttons';
-
-
 const CLASS_NAME_FOR_ACTIVE_MENU_SECTION = 'as-oil-cpc__category-link--active';
 
 export function oilAdvancedSettingsTemplate() {
@@ -43,11 +41,21 @@ export function attachCpcHandlers() {
 
 
 const ContentSnippet = () => {
+
   return `
 <div data-qa="cpc-snippet" class="as-oil-l-row as-oil-cpc__content">
   <div class="as-oil-cpc__left">
     <a href="#as-oil-cpc-purposes" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link ${CLASS_NAME_FOR_ACTIVE_MENU_SECTION}">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_DESC)}
+      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)*/ 'Finalità'}
+    </a>
+    <a href="#as-oil-cpc-special-purposes" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)}
+    </a>
+    <a href="#as-oil-cpc-features" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
+    ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_FEATURE_TITLE)}
+    </a>
+    <a href="#as-oil-cpc-special-features" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)}
     </a>
     <a href="#as-oil-cpc-third-parties" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
       ${getLabel(OIL_LABELS.ATTR_LABEL_THIRD_PARTY)}
@@ -59,10 +67,34 @@ const ContentSnippet = () => {
     ` : ''}
   </div>
   <div class="as-oil-cpc__middle as-js-purposes">
+    ${getPurposes() ? `
     <div class="as-oil-cpc__row-title" id="as-oil-cpc-purposes">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_DESC)}
+    ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)}
     </div>
     ${buildPurposeEntries(getPurposes())}
+    ` : ''}
+
+    ${getSpecialPurposes() ? `
+    <div class="as-oil-cpc__row-title" id="as-oil-cpc-special-purposes">
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)}
+    </div>
+    ${buildPurposeEntries(getSpecialPurposes())}
+    ` : ''}
+
+    ${getFeatures() ? `
+    <div class="as-oil-cpc__row-title" id="as-oil-cpc-features">
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_FEATURE_TITLE)}
+    </div>
+    ${buildPurposeEntries(getFeatures())}
+    ` : ''}
+
+    ${getSpecialFeatures() ? `
+    <div class="as-oil-cpc__row-title" id="as-oil-cpc-special-features">
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)}
+    </div>
+    ${buildPurposeEntries(getSpecialFeatures())}
+    ` : ''}
+    
     ${buildPurposeEntries(getCustomPurposes())}
 
     ${buildIabVendorList()}
@@ -79,16 +111,33 @@ const ContentSnippet = () => {
 };
 
 const PurposeContainerSnippet = ({ id, header, text, value }) => {
+  text = text.replace(/(\r\n|\n|\r)/gm, '<br>').replace(/\*/gm, '&bull;');
+
+  let hasLegInt;
+
+  hasLegInt = Object.keys(getVendorList().getVendorsWithLegIntPurpose(id)).length;
+
   return `
-<div class="as-oil-cpc__purpose">
-    <div class="as-oil-cpc__purpose-container">
-        <div class="as-oil-cpc__purpose-header">${header}</div>
+<div class="as-oil-cpc__purpose Purpose">
+    <div class="as-oil-cpc__purpose-container Purpose__Container">
+        <div class="Purpose__Heading">
+          <div class="as-oil-cpc__purpose-header Purpose__Title">${header}</div>
+          <div class="Purpose__Switches">
+          ${hasLegInt ? `          
+            <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--LegInt">
+                <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
+                <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
+                <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
+            </label>
+          `: ''}
+            <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--Consent">
+                <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
+                <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
+                <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
+            </label>
+          </div>
+        </div>
         <div class="as-oil-cpc__purpose-text">${text}</div>
-        <label class="as-oil-cpc__switch">
-            <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
-            <span class="as-oil-cpc__status"></span>
-            <span class="as-oil-cpc__slider"></span>
-        </label>
     </div>
 </div>`
 };
@@ -125,8 +174,14 @@ const buildCustomVendorList = () => {
 const buildIabVendorEntries = () => {
   let vendorList = getVendorList();
 
+
   if (vendorList && !vendorList.isDefault) {
-    let listWrapped = getVendorsToDisplay().map((element) => {
+    let listWrapped = getVendorsToDisplay();
+
+    if (typeof (listWrapped) === 'object') {
+      listWrapped = Object.values(listWrapped)
+    }
+    listWrapped = listWrapped.map((element) => {
       return buildVendorListEntry(element);
     });
     return `<div class="as-oil-poi-group-list">${listWrapped.join('')}</div>`;
@@ -137,7 +192,6 @@ const buildIabVendorEntries = () => {
 
 const buildCustomVendorEntries = () => {
   let customVendorList = getCustomVendorList();
-
 
   if (customVendorList && !customVendorList.isDefault) {
     let listWrapped = customVendorList.vendors.map((element) => {
@@ -150,9 +204,10 @@ const buildCustomVendorEntries = () => {
 };
 
 const buildVendorListEntry = (element) => {
+
   if (element.name) {
     return `
-          <div class="as-oil-third-party-list-element">
+          <div class="as-oil-third-party-list-element Vendor">
               <span onclick='${OIL_GLOBAL_OBJECT_NAME}._toggleViewElements(this)'>
                   <svg class='as-oil-icon-plus' width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5.675 4.328H10v1.344H5.675V10h-1.35V5.672H0V4.328h4.325V0h1.35z" fill="#0068FF" fill-rule="evenodd" fill-opacity=".88"/>
@@ -161,13 +216,50 @@ const buildVendorListEntry = (element) => {
                     <path d="M0 0h10v1.5H0z" fill="#3B7BE2" fill-rule="evenodd" opacity=".88"/>
                   </svg>
                   <span class='as-oil-third-party-name'>${element.name}</span>
+                  <div class="Vendor__Switches">
+                      ${element.legIntPurposes.length > 0 ? `
+                        <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--LegInt">
+                            <input class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+                            <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
+                            <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
+                        </label>
+                      ` : ''}
+                    <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--Consent">
+                        <input class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+                        <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
+                        <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
+                    </label>
+                  </div>
               </span>
               <div class='as-oil-third-party-toggle-part' style='display: none;'>
-                <a class='as-oil-third-party-link' href='${element.policyUrl}'>${element.policyUrl}</a>
+                <a class='as-oil-third-party-link' href='${element.policyUrl}'>${element.policyUrl}</a>      
+                ${snippetLegalDescription(element.purposes, 'Purposes')}
+                ${snippetLegalDescription(element.legIntPurposes, 'Legitimate Interest')}
+                ${snippetLegalDescription(element.features, 'Features')}
+                ${snippetLegalDescription(element.specialFeatures, 'Special Features')}
               </div>
             </div>
           `;
   }
+};
+
+const snippetLegalDescription = (list, category) => {
+  if (list.length > 0) {
+    return `
+      <div>
+        <p>
+          <strong>${category}: </strong> ${categoryList(list)}
+        </p>
+      </div>
+    `;
+  } else {
+    return '';
+  }
+}
+
+
+const categoryList = (list) => {
+  return list.map((purpose) => `(${purpose}) ${getVendorList().purposes[purpose]['name']}`).join(', ');
 };
 
 const ActivateButtonSnippet = () => {
@@ -180,15 +272,16 @@ const ActivateButtonSnippet = () => {
 };
 
 const buildPurposeEntries = (list) => {
-
   if (typeof (list) === 'object') {
     list = Object.values(list)
   }
 
+  console.log(list);
+
   return list.map(purpose => PurposeContainerSnippet({
     id: purpose.id,
     header: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_text`, purpose.name || `Error: Missing text for purpose with id ${purpose.id}!`),
-    text: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_desc`, purpose.description || ''),
+    text: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_desc`, purpose.descriptionLegal || ''),
     value: false
   })).join('');
 };

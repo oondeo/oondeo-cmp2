@@ -135,6 +135,7 @@
 .as-oil-cpc__purpose-text {
   font-size: 0.9rem;
   color: lighten($text-color-primary-light, 30%);
+  margin-top: 10px;
 }
 
 .dark {
@@ -152,27 +153,16 @@
 }
 
 .as-oil-cpc__switch {
-  position: absolute;
-  display: inline-block;
   width: 50px;
   height: 26px;
-  right: 0;
-  top: 0;
-  float: right;
+  position: relative;
+  margin-bottom: 10px;
 
   input {
     display: none;
 
-    & + .as-oil-cpc__status:after {
-      content: "Off";
-    }
-
     &:checked ~ .as-oil-cpc__slider {
       background-color: $btn-primary;
-    }
-
-    &:checked ~ .as-oil-cpc__status:after {
-      content: "On";
     }
 
     &:focus ~ .as-oil-cpc__slider {
@@ -196,5 +186,96 @@
     .as-oil-cpc__purpose {
       background-color: $cpc-background-dark;
     }
+  }
+}
+
+.as-oil-cpc__status {
+  &.Purpose__SwitchStatus,
+  &.Vendor__SwitchStatus {
+    position: relative;
+    width: 100px;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    left: -100px;
+    top: auto;
+
+    &::after {
+      padding: 0 8px;
+      text-align: right;
+    }
+  }
+}
+
+.Purpose,
+.Vendor {
+  &__Container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__Heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__Switches {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    @include media('>=1280px') {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  }
+
+  &__Switch {
+    width: 50px;
+    height: 26px;
+    position: relative;
+    margin-bottom: 10px;
+
+    &--Consent {
+      input {
+        & + .as-oil-cpc__status:after {
+          content: "Consent";
+        }
+    
+        &:checked ~ .as-oil-cpc__status:after {
+          content: "Consent";
+        }
+      }
+    }
+
+    &--LegInt {
+      input {
+        & + .as-oil-cpc__status:after {
+          content: "Legitimate Interest";
+        }
+    
+        &:checked ~ .as-oil-cpc__status:after {
+          content: "Legitimate Interest";
+        }
+      }
+    }
+
+
+    @include media('>=1280px') {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      margin-left: 100px;
+    }
+  }
+}
+
+.Vendor {
+  &__Switches {
+    margin: 10px 0;
   }
 }

@@ -41,8 +41,10 @@ export const listSnippet = (list) => {
   if (!list) {
     list = [];
   }
+
   let listWrapped = list.map((element) => {
     if (typeof element === 'object') {
+
       return `<div class="as-oil-third-party-list-element">
                 <span onclick='${OIL_GLOBAL_OBJECT_NAME}._toggleViewElements(this)'>
                     <svg class='as-oil-icon-plus' width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
@@ -54,8 +56,7 @@ export const listSnippet = (list) => {
                     <span class='as-oil-third-party-name'>${element.name}</span>
                 </span>
                 <div class='as-oil-third-party-toggle-part' style='display: none;'>
-                <p class='as-oil-third-party-description' >${element.description}</p>
-                  <div class='as-oil-third-party-link'>${element.link}</div>
+                  <p class='as-oil-third-party-link'>${element.policyUrl}</p>
                 </div>
               </div>`;
     } else {
@@ -138,6 +139,9 @@ function removeCssFromHtmlAndDocument() {
 }
 
 function oilListTemplate(list, heading, text) {
+  if (typeof(list) === 'object') {
+    list = Object.values(list)
+  }
   attachCssToHtmlAndDocument();
   return `<div class="as-oil-fixed">
     <div class="as-oil-content-overlay as-oil-poi-group-list-wrapper" data-qa="oil-poi-list">
