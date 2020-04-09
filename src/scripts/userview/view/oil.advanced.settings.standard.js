@@ -9,9 +9,8 @@ import { getCustomVendorList, getPurposes, getSpecialPurposes, getFeatures, getS
 import { BackButton, YesButton } from './components/oil.buttons';
 import { gvl } from '../../core/core_cmp_api';
 const showdown  = require('showdown');
-
-
 const CLASS_NAME_FOR_ACTIVE_MENU_SECTION = 'as-oil-cpc__category-link--active';
+const GVL_OBJ = gvl;
 
 export function oilAdvancedSettingsTemplate() {
   return `
@@ -52,13 +51,13 @@ const ContentSnippet = () => {
       ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)*/ 'Finalità'}
     </a>
     <a href="#as-oil-cpc-special-purposes" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
-      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)*/ 'Finalità Avanzate'}
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)}
     </a>
     <a href="#as-oil-cpc-features" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
-    ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_FEATURE_TITLE)*/ 'Feature'}
+    ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_FEATURE_TITLE)}
     </a>
     <a href="#as-oil-cpc-special-features" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
-      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)*/ 'Feature Avanzate'}
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)}
     </a>
     <a href="#as-oil-cpc-third-parties" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
       ${getLabel(OIL_LABELS.ATTR_LABEL_THIRD_PARTY)}
@@ -72,28 +71,28 @@ const ContentSnippet = () => {
   <div class="as-oil-cpc__middle as-js-purposes">
     ${getPurposes() ? `
     <div class="as-oil-cpc__row-title" id="as-oil-cpc-purposes">
-    ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)*/ 'Finalità'}
+    ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)}
     </div>
     ${buildPurposeEntries(getPurposes())}
     ` : ''}
 
     ${getSpecialPurposes() ? `
     <div class="as-oil-cpc__row-title" id="as-oil-cpc-special-purposes">
-      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)*/ 'Special Purposes'}
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)}
     </div>
     ${buildPurposeEntries(getSpecialPurposes())}
     ` : ''}
 
     ${getFeatures() ? `
     <div class="as-oil-cpc__row-title" id="as-oil-cpc-features">
-      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_FEATURE_TITLE)*/ 'Features'}
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_FEATURE_TITLE)}
     </div>
     ${buildPurposeEntries(getFeatures())}
     ` : ''}
 
     ${getSpecialFeatures() ? `
     <div class="as-oil-cpc__row-title" id="as-oil-cpc-special-features">
-      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)*/ 'Special Features'}
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)}
     </div>
     ${buildPurposeEntries(getSpecialFeatures())}
     ` : ''}
@@ -114,13 +113,13 @@ const ContentSnippet = () => {
 };
 
 const PurposeContainerSnippet = ({id, header, text, value}) => {
-  let converter = new showdown.Converter();
-  let html = converter.makeHtml(text);
+  text = text.replace(/(\r\n|\n|\r)/gm,'<br>').replace(/\*/gm, '&bull;');
+  // let converter = new showdown.Converter();
+  // window.textTest = 'To do basic ad selection vendors can:\n* Use real-time information about the context in which the ad will be shown, to show the ad, including information about the content and the device, such as: device type and capabilities, user agent, URL, IP address\n* Use a user’s non-precise geolocation data\n* Control the frequency of ads shown to a user.\n* Sequence the order in which ads are shown to a user.\n* Prevent an ad from serving in an unsuitable editorial (brand-unsafe) context\nVendors cannot:\n* Create a personalised ads profile using this information for the selection of future ads.\n* N.B. Non-precise means only an approximate location involving at least a radius of 500 meters is permitted.';
+  // let html = converter.makeHtml(text);
   let hasLegInt;
 
-  console.log(gvl);
-
-  hasLegInt = Object.keys(gvl.getVendorsWithLegIntPurpose(id)).length;
+  hasLegInt = Object.keys(GVL_OBJ.getVendorsWithLegIntPurpose(id)).length;
 
   return `
 <div class="as-oil-cpc__purpose Purpose">
@@ -142,7 +141,7 @@ const PurposeContainerSnippet = ({id, header, text, value}) => {
             </label>
           </div>
         </div>
-        <div class="as-oil-cpc__purpose-text">${html}</div>
+        <div class="as-oil-cpc__purpose-text">${text}</div>
     </div>
 </div>`
 };
@@ -179,8 +178,10 @@ const buildCustomVendorList = () => {
 const buildIabVendorEntries = () => {
   let vendorList = getVendorList();
 
+  
   if (vendorList && !vendorList.isDefault) {
     let listWrapped = getVendorsToDisplay();
+
     if (typeof(listWrapped) === 'object') {
       listWrapped = Object.values(listWrapped)
     }
@@ -207,6 +208,7 @@ const buildCustomVendorEntries = () => {
 };
 
 const buildVendorListEntry = (element) => {
+  console.log('element',element)
   if (element.name) {
     return `
           <div class="as-oil-third-party-list-element Vendor">
@@ -219,11 +221,13 @@ const buildVendorListEntry = (element) => {
                   </svg>
                   <span class='as-oil-third-party-name'>${element.name}</span>
                   <div class="Vendor__Switches">
-                    <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--LegInt">
-                        <input class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
-                        <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
-                        <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
-                    </label>
+                      ${element.legIntPurposes.length > 0 ? `
+                        <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--LegInt">
+                            <input class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+                            <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
+                            <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
+                        </label>
+                      ` : ''}
                     <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--Consent">
                         <input class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
                         <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
@@ -232,13 +236,34 @@ const buildVendorListEntry = (element) => {
                   </div>
               </span>
               <div class='as-oil-third-party-toggle-part' style='display: none;'>
-                <a class='as-oil-third-party-link' href='${element.policyUrl}'>${element.policyUrl}</a>
-                <div><strong>Purposes:</strong>  (1) Information storage and access, (2) Personalisation, (3) Ad selection, delivery, reporting, (4) Content selection, delivery, reporting, (5) Measurement</div>
-                <div><strong>Legitimate Interest:</strong>  (1) Information storage and access, (2) Personalisation, (3) Ad selection, delivery, reporting, (4) Content selection, delivery, reporting, (5) Measurement</div>
+                <a class='as-oil-third-party-link' href='${element.policyUrl}'>${element.policyUrl}</a>      
+                ${snippetLegalDescription(element.purposes, 'Purposes')}
+                ${snippetLegalDescription(element.legIntPurposes, 'Legitimate Interest')}
+                ${snippetLegalDescription(element.features, 'Features')}
+                ${snippetLegalDescription(element.specialFeatures, 'Special Features')}
               </div>
             </div>
           `;
   }
+};
+
+const snippetLegalDescription = (list, category) => {
+  if (list.length > 0) {    
+    return `
+      <div>
+        <p>
+          <strong>${category}: </strong> ${cateogryList(list)}
+        </p>
+      </div>
+    `;
+  } else {
+    return '';
+  }
+}
+
+
+const cateogryList = (list) => {
+  return list.map((purpose) => `(${purpose}) ${GVL_OBJ.purposes[purpose]['name']}`).join(', ');
 };
 
 const ActivateButtonSnippet = () => {
@@ -251,7 +276,6 @@ const ActivateButtonSnippet = () => {
 };
 
 const buildPurposeEntries = (list) => {
-  console.log('purposeslist', list);
   if (typeof(list) === 'object') {
     list = Object.values(list)
   }
