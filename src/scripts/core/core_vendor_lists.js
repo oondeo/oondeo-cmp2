@@ -1,14 +1,16 @@
 //REVIEW: changes in todo comments @tcf2
-import { getCustomVendorListUrl, getIabVendorBlacklist, getIabVendorListUrl, getIabVendorWhitelist, getShowLimitedVendors } from './core_config';
+import { getCustomVendorListUrl, getIabVendorBlacklist, getIabVendorListDomain, getIabVendorWhitelist, getShowLimitedVendors } from './core_config';
 import { logError, logInfo } from './core_log';
 import { fetchJsonData } from './core_utils';
+import { GVL } from '@iabtcf/core';
+import { getLanguage } from './core_config';
 
 export const DEFAULT_VENDOR_LIST = {
 
   vendorListVersion: 36, //TODO: @tcf2 @tc2soi
-  maxVendorId: 380, //TODO @tcf2 @tc2soi
+  maxVendorId: 747, //TODO @tcf2 @tc2soi
   lastUpdated: '2018-05-30T16:00:15Z', //TODO @tcf2 @tc2soi
-  purposeIds: [1, 2, 3, 4, 5] //TODO @tcf2 @tc2soi
+  purposeIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] //TODO @tcf2 @tc2soi
 };
 
 export const DEFAULT_CUSTOM_VENDOR_LIST = {
@@ -31,10 +33,8 @@ export function loadVendorListAndCustomVendorList() {
     return pendingVendorListPromise;
   } else {
     pendingVendorListPromise = new Promise(function (resolve) {
-      let iabVendorListUrl = getIabVendorListUrl();
-      fetchJsonData(iabVendorListUrl)
+      getGlobalVendorListPromise()
         .then(response => {
-          sortVendors(response);
           cachedVendorList = response;
           loadCustomVendorList().then(() => {
             pendingVendorListPromise = null;
@@ -49,6 +49,7 @@ export function loadVendorListAndCustomVendorList() {
           });
         });
     });
+
     return pendingVendorListPromise;
   }
 
@@ -75,6 +76,22 @@ function loadCustomVendorList() {
   });
 }
 
+function getGlobalVendorList() {
+  GVL.baseUrl = getIabVendorListDomain();
+
+  return new GVL();
+}
+
+function getGlobalVendorListPromise() {
+
+  let iabGvl = getGlobalVendorList();
+
+  return iabGvl.changeLanguage(getLanguage()).then(() => {
+    return iabGvl;
+  });
+
+}
+
 export function getPurposes() {
   //REVIEW: need changes? @tcf2
   return cachedVendorList ? cachedVendorList.purposes : expandIdsToObjects(DEFAULT_VENDOR_LIST.purposeIds);
@@ -86,7 +103,7 @@ export function getPurposeIds() {
 
 export function getVendors() {
   //REVIEW: need changes? @tcf2a
-  return cachedVendorList ? cachedVendorList.vendors : expandIdsToObjects(buildDefaultVendorIdList());
+  return cachedVendorList ? Object.values(cachedVendorList.vendors) : expandIdsToObjects(buildDefaultVendorIdList());
 }
 
 export function getVendorIds() {
@@ -98,14 +115,9 @@ export function getVendorList() {
   if (cachedVendorList) {
     return cachedVendorList;
   }
-  return {
-    vendorListVersion: DEFAULT_VENDOR_LIST.vendorListVersion,
-    lastUpdated: DEFAULT_VENDOR_LIST.lastUpdated,
-    vendors: expandIdsToObjects(buildDefaultVendorIdList()),
-    purposes: expandIdsToObjects(DEFAULT_VENDOR_LIST.purposeIds),
-    features: [],
-    isDefault: true
-  };
+
+  return getGlobalVendorList();
+
 }
 
 export function getCustomVendorList() {
@@ -168,10 +180,6 @@ function buildDefaultVendorIdList() {
     }
     return b;
   })(DEFAULT_VENDOR_LIST.maxVendorId, []);
-}
-
-function sortVendors(vendorList) {
-  vendorList.vendors = vendorList.vendors.sort((leftVendor, rightVendor) => leftVendor.id - rightVendor.id);
 }
 
 /**

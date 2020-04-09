@@ -141,8 +141,8 @@ export function getLocaleUrl() {
   return getConfigValue(OIL_CONFIG.ATTR_LOCALE_URL, undefined);
 }
 
-export function getIabVendorListUrl() {
-  return getConfigValue(OIL_CONFIG.ATTR_IAB_VENDOR_LIST_URL, 'https://vendorlist.consensu.org/vendorlist.json');
+export function getIabVendorListDomain() {
+  return getConfigValue(OIL_CONFIG.ATTR_IAB_VENDOR_LIST_URL, 'https://cdn.jumpgroup.it/assets/'); //TODO: add our domain vendor list
 }
 
 export function getIabVendorBlacklist() {
@@ -204,7 +204,7 @@ export function getHubLocation() {
 
 export function getPoiListDirectory() {
   let hubOrigin = getHubOrigin();
-  return endsWith(hubOrigin,'/') ? hubOrigin.replace(/\/$/, '/poi-lists') : hubOrigin + '/poi-lists';
+  return endsWith(hubOrigin, '/') ? hubOrigin.replace(/\/$/, '/poi-lists') : hubOrigin + '/poi-lists';
 }
 
 function endsWith(str, suffix) {
@@ -223,7 +223,7 @@ export function getCustomPurposes() {
 }
 
 export function getCustomPurposeIds() {
-  return getCustomPurposes().map(({id}) => id);
+  return getCustomPurposes().map(({ id }) => id);
 }
 
 /**
