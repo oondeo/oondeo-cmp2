@@ -20,42 +20,70 @@ export function getSoiConsentData() {
  */
 export function getPrivacySettings() {
   //TODO: prendere i dati corretti dal pannello 
-  if (document.querySelector('.as-js-purpose-slider')) {
-    let consents = {};
-    forEach(document.querySelectorAll('.as-js-purpose-slider'), (element) => {
+  if (document.querySelector('.as-oil-cpc-wrapper')) {
+    let purpose = {};
+    let specialFeature = {}
+    let vendor = {}
+
+    const purposeSliders = document.querySelectorAll('.as-js-purpose-slider');
+    purposeSliders && forEach(purposeSliders, (element) => {
       let element_id = element.dataset ? element.dataset.id : element.getAttribute('data-id');
-      consents[element_id] = element.checked;
+      if(purpose[element_id] !== undefined) {
+        purpose[element_id].consent = element.checked;
+      } else {
+        purpose[element_id] = {};
+        purpose[element_id].consent = element.checked;
+      }
+    }, this);
+
+    const purposeLegintSliders = document.querySelectorAll('.as-js-purpose-legint-slider');
+    purposeLegintSliders && forEach(purposeLegintSliders, (element) => {
+      let element_id = element.dataset ? element.dataset.id : element.getAttribute('data-id');
+      if(purpose[element_id] !== undefined) {
+        purpose[element_id].legint = element.checked;
+      } else {
+        purpose[element_id] = {};
+        purpose[element_id].legint = element.checked;
+      }
+    }, this);
+
+    const specialFeatureSliders = document.querySelectorAll('.as-js-specialFeature-slider');
+    specialFeatureSliders && forEach(specialFeatureSliders, (element) => {
+      let element_id = element.dataset ? element.dataset.id : element.getAttribute('data-id');
+      if(specialFeature[element_id] !== undefined) {
+        specialFeature[element_id].optin = element.checked;
+      } else {
+        specialFeature[element_id] = {};
+        specialFeature[element_id].optin = element.checked;
+      }
+    }, this);
+
+    const vendorSliders = document.querySelectorAll('.as-js-vendor-slider');
+    vendorSliders && forEach(vendorSliders, (element) => {
+      let element_id = element.dataset ? element.dataset.id : element.getAttribute('data-id');
+      if(vendor[element_id] !== undefined) {
+        vendor[element_id].consent = element.checked;
+      } else {
+        vendor[element_id] = {};
+        vendor[element_id].consent = element.checked;
+      }
+    }, this);
+
+    const vendorLegintSliders = document.querySelectorAll('.as-js-vendor-legint-slider');
+    vendorLegintSliders && forEach(vendorLegintSliders, (element) => {
+      let element_id = element.dataset ? element.dataset.id : element.getAttribute('data-id');
+      if(vendor[element_id] !== undefined) {
+        vendor[element_id].legint = element.checked;
+      } else {
+        vendor[element_id] = {};
+        vendor[element_id].legint = element.checked;
+      }
     }, this);
 
     return {
-      purpose: {
-        1: {
-          legint: false,
-          consent: true
-        },
-        2: {
-          legint: true,
-          consent: false
-        }
-      },
-      specialFeature: {
-        1: {
-          optin: true
-        },
-        2: {
-          optin: true
-        }
-      },
-      vendor: {
-        1: {
-          legint: false,
-          consent: true
-        },
-        2: {
-          legint: true,
-          consent: true
-        }
-      }
+      purpose: purpose,
+      specialFeature: specialFeature,
+      vendor: vendor
     };
   }
   return PRIVACY_FULL_TRACKING;

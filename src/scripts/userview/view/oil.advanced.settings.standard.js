@@ -71,7 +71,7 @@ const ContentSnippet = () => {
     <div class="as-oil-cpc__row-title" id="as-oil-cpc-purposes">
     ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)}
     </div>
-    ${buildPurposeEntries(getPurposes())}
+    ${buildPurposeEntries(getPurposes(), 'purpose')}
     ` : ''}
 
     ${getSpecialPurposes() ? `
@@ -92,7 +92,7 @@ const ContentSnippet = () => {
     <div class="as-oil-cpc__row-title" id="as-oil-cpc-special-features">
       ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)}
     </div>
-    ${buildPurposeEntries(getSpecialFeatures())}
+    ${buildPurposeEntries(getSpecialFeatures(), 'specialFeature')}
     ` : ''}
     
     ${buildPurposeEntries(getCustomPurposes())}
@@ -110,7 +110,7 @@ const ContentSnippet = () => {
 </div>`;
 };
 
-const PurposeContainerSnippet = ({ id, header, text, value }) => {
+const PurposeContainerSnippet = ({ id, header, text, value, key }) => {
   text = text.replace(/(\r\n|\n|\r)/gm, '<br>').replace(/\*/gm, '&bull;');
 
   let hasLegInt;
@@ -118,28 +118,30 @@ const PurposeContainerSnippet = ({ id, header, text, value }) => {
   hasLegInt = Object.keys(getVendorList().getVendorsWithLegIntPurpose(id)).length;
 
   return `
-<div class="as-oil-cpc__purpose Purpose">
-    <div class="as-oil-cpc__purpose-container Purpose__Container">
-        <div class="Purpose__Heading">
-          <div class="as-oil-cpc__purpose-header Purpose__Title">${header}</div>
-          <div class="Purpose__Switches">
-          ${hasLegInt ? `          
-            <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--LegInt">
-                <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
-                <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
-                <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
-            </label>
-          `: ''}
-            <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--Consent">
-                <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
-                <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
-                <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
-            </label>
-          </div>
+    <div class="as-oil-cpc__purpose Purpose">
+        <div class="as-oil-cpc__purpose-container Purpose__Container">
+            <div class="Purpose__Heading">
+              <div class="as-oil-cpc__purpose-header Purpose__Title">${header}</div>
+              <div class="Purpose__Switches">
+              ${key !== undefined ? `              
+                ${hasLegInt && key!=='specialFeature' ? `          
+                  <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--LegInt">
+                      <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-${key}-legint-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
+                      <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
+                      <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
+                  </label>
+                `: ''}
+                  <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--Consent">
+                      <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-${key}-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
+                      <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
+                      <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
+                  </label>
+              `: ''}
+              </div>
+            </div>
+            <div class="as-oil-cpc__purpose-text">${text}</div>
         </div>
-        <div class="as-oil-cpc__purpose-text">${text}</div>
-    </div>
-</div>`
+    </div>`
 };
 
 const IsCustomVendorsEnables = () => {
@@ -204,7 +206,6 @@ const buildCustomVendorEntries = () => {
 };
 
 const buildVendorListEntry = (element) => {
-
   if (element.name) {
     return `
           <div class="as-oil-third-party-list-element Vendor">
@@ -219,13 +220,13 @@ const buildVendorListEntry = (element) => {
                   <div class="Vendor__Switches">
                       ${element.legIntPurposes.length > 0 ? `
                         <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--LegInt">
-                            <input class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+                            <input data-id="${element.id}" class="as-js-vendor-legint-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
                             <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
                             <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
                         </label>
                       ` : ''}
                     <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--Consent">
-                        <input class="as-js-purpose-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+                        <input data-id="${element.id}" class="as-js-vendor-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
                         <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
                         <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
                     </label>
@@ -271,18 +272,17 @@ const ActivateButtonSnippet = () => {
   `
 };
 
-const buildPurposeEntries = (list) => {
+const buildPurposeEntries = (list, key = undefined) => {
   if (typeof (list) === 'object') {
     list = Object.values(list)
   }
-
-  console.log(list);
 
   return list.map(purpose => PurposeContainerSnippet({
     id: purpose.id,
     header: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_text`, purpose.name || `Error: Missing text for purpose with id ${purpose.id}!`),
     text: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_desc`, purpose.descriptionLegal || ''),
-    value: false
+    value: false,
+    key: key
   })).join('');
 };
 
@@ -291,14 +291,15 @@ const formatPurposeId = (id) => {
 };
 
 function activateAll() {
-  let elements = document.querySelectorAll('.as-js-purpose-slider');
+  let elements = document.querySelectorAll('.as-js-purpose-slider, .as-js-purpose-legint-slider, .as-js-specialFeature-slider, .as-js-vendor-slider, .as-js-vendor-legint-slider');
   forEach(elements, (domNode) => {
     domNode && (domNode.checked = true);
   });
 }
 
 export function deactivateAll() {
-  forEach(document.querySelectorAll('.as-js-purpose-slider'), (domNode) => {
+  let elements = document.querySelectorAll('.as-js-purpose-slider, .as-js-purpose-legint-slider, .as-js-specialFeature-slider, .as-js-vendor-slider, .as-js-vendor-legint-slider');
+  forEach(elements, (domNode) => {
     domNode && (domNode.checked = false);
   });
 }
