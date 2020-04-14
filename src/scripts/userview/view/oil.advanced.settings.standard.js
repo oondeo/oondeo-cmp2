@@ -46,7 +46,7 @@ const ContentSnippet = () => {
 <div data-qa="cpc-snippet" class="as-oil-l-row as-oil-cpc__content">
   <div class="as-oil-cpc__left">
     <a href="#as-oil-cpc-purposes" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link ${CLASS_NAME_FOR_ACTIVE_MENU_SECTION}">
-      ${/*getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)*/ 'Finalità'}
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)}
     </a>
     <a href="#as-oil-cpc-special-purposes" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
       ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)}
@@ -124,15 +124,15 @@ const PurposeContainerSnippet = ({ id, header, text, value, key }) => {
               <div class="as-oil-cpc__purpose-header Purpose__Title">${header}</div>
               <div class="Purpose__Switches">
               ${key !== undefined ? `              
-                ${hasLegInt && key!=='specialFeature' ? `          
+                ${hasLegInt && (key !== 'specialFeature') ? `          
                   <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--LegInt">
-                      <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-${key}-legint-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
+                      <input data-id="${id}" id="as-js-legint-slider-${id}" class="as-js-${key}-legint-slider" type="checkbox" name="oil-cpc-legint-${id}" value="${value}"/>
                       <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
                       <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
                   </label>
                 `: ''}
                   <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--Consent">
-                      <input data-id="${id}" id="as-js-purpose-slider-${id}" class="as-js-${key}-slider" type="checkbox" name="oil-cpc-purpose-${id}" value="${value}"/>
+                      <input data-id="${id}" id="as-js-${key}-slider-${id}" class="as-js-${key}-slider" type="checkbox" name="oil-cpc-${key}-${id}" value="${value}"/>
                       <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
                       <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
                   </label>
@@ -220,13 +220,13 @@ const buildVendorListEntry = (element) => {
                   <div class="Vendor__Switches">
                       ${element.legIntPurposes.length > 0 ? `
                         <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--LegInt">
-                            <input data-id="${element.id}" class="as-js-vendor-legint-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+                            <input data-id="${element.id}" id="as-js-vendor-legint-slider-${element.id}" class="as-js-vendor-legint-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
                             <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
                             <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
                         </label>
                       ` : ''}
                     <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--Consent">
-                        <input data-id="${element.id}" class="as-js-vendor-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+                        <input data-id="${element.id}" id="as-js-vendor-slider-${element.id}" class="as-js-vendor-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
                         <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
                         <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
                     </label>
@@ -277,13 +277,15 @@ const buildPurposeEntries = (list, key = undefined) => {
     list = Object.values(list)
   }
 
-  return list.map(purpose => PurposeContainerSnippet({
-    id: purpose.id,
-    header: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_text`, purpose.name || `Error: Missing text for purpose with id ${purpose.id}!`),
-    text: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_desc`, purpose.descriptionLegal || ''),
-    value: false,
-    key: key
-  })).join('');
+  return list.map(purpose => {
+    return PurposeContainerSnippet({
+      id: purpose.id,
+      header: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_text`, purpose.name || `Error: Missing text for purpose with id ${purpose.id}!`),
+      text: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_desc`, purpose.descriptionLegal || ''),
+      value: false,
+      key: key
+    })
+  }).join('');
 };
 
 const formatPurposeId = (id) => {

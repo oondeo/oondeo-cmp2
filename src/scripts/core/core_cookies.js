@@ -320,6 +320,7 @@ function getDefaultTCModel() {
   let consentData = new TCModel(gvl);
   consentData.cmpId = OIL_SPEC.CMP_ID;
   consentData.cmpVersion = OIL_SPEC.CMP_VERSION;
+  consentData.isServiceSpecific = true;
   consentData.consentScreen = 1; //TODO: add number of layer where consent was given
 
   // consentData.setConsentLanguage(getLanguage());
