@@ -15,8 +15,6 @@ import { getLocaleVariantVersion } from './core_utils';
 import { OIL_CONFIG_DEFAULT_VERSION, OIL_SPEC } from './core_constants';
 import { getCustomVendorListVersion, getLimitedVendorIds, getPurposes, getVendorList, loadVendorListAndCustomVendorList } from './core_vendor_lists';
 import { OilVersion } from './core_utils';
-
-const { ConsentString } = require('consent-string');
 import { TCModel, TCString } from '@iabtcf/core';
 
 const COOKIE_PREVIEW_NAME = 'oil_preview';
@@ -39,7 +37,8 @@ export function setDomainCookie(name, value, expires_in_days) {
 export function getOilCookie(cookieConfig) {
   //TODO: set new consent @tcf2 @tcf2soi
   let cookieJson = Cookie.getJSON(cookieConfig.name);
-  cookieJson.consentData = new ConsentString(cookieJson.consentString);
+  cookieJson.consentData = TCString.decode(cookieJson.consentString);
+  logInfo('getting consent settings from cookie:', cookieJson.consentData);
   return cookieJson;
 }
 
@@ -122,18 +121,11 @@ export function updateTCModel(privacySettings) {
           tcModel[consentMethod].unset(id);
         }
 
-        logInfo(category, 'consent', id);
-        logInfo(tcModel[consentMethod].has(id));
-
         if (settings.legint) {
           tcModel[legintMethod].set(id);
         } else {
           tcModel[legintMethod].unset(id);
         }
-
-        logInfo(category, 'legint', id);
-        logInfo(tcModel[legintMethod].has(id));
-
 
       });
     });
@@ -147,9 +139,6 @@ export function updateTCModel(privacySettings) {
       } else {
         tcModel.specialFeatureOptins.unset(id);
       }
-
-      logInfo('specialFeature consent', id);
-      logInfo(tcModel.specialFeatureOptins.has(id));
 
     });
     return tcModel;
@@ -165,7 +154,9 @@ export function buildSoiCookie(privacySettings) {
 
   return new Promise((resolve, reject) => {
     loadVendorListAndCustomVendorList().then(() => {
+      let cookieConfig = getOilCookieConfig();
 
+      logInfo('creating TCModel with this settings:', privacySettings);
       let consentData = updateTCModel(privacySettings);
 
       logInfo('privacySettings', privacySettings);
@@ -330,6 +321,7 @@ function getDefaultTCModel() {
   consentData.cmpId = OIL_SPEC.CMP_ID;
   consentData.cmpVersion = OIL_SPEC.CMP_VERSION;
   consentData.consentScreen = 1; //TODO: add number of layer where consent was given
+
   // consentData.setConsentLanguage(getLanguage());
   // consentData.setPurposesAllowed(getAllowedStandardPurposesDefault());
   // consentData.setVendorsAllowed(getAllowedVendorsDefault());

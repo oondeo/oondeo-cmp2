@@ -5,22 +5,22 @@ import { getConsentDataString, getVendorConsentData, getPublisherConsentData } f
 import { getVendorList, loadVendorListAndCustomVendorList } from './core_vendor_lists';
 
 const commands = {
-  getVendorConsents: (vendorIds) => {
-    return getVendorConsentData(vendorIds);
-  },
+  // getVendorConsents: (vendorIds) => {
+  //   return getVendorConsentData(vendorIds);
+  // },
 
-  getConsentData: (consentStringVersion) => {
-    return getConsentDataString(consentStringVersion);
-  },
+  // getConsentData: (consentStringVersion) => {
+  //   return getConsentDataString(consentStringVersion);
+  // },
 
-  getPublisherConsents: (purposeIds) => {
-    return getPublisherConsentData(purposeIds);
-  },
+  // getPublisherConsents: (purposeIds) => {
+  //   return getPublisherConsentData(purposeIds);
+  // },
 
-  // FIXME needs support for vendorListVersion
-  getVendorList: () => {
-    return getVendorList();
-  }
+  // // FIXME needs support for vendorListVersion
+  // getVendorList: () => {
+  //   return getVendorList();
+  // }
 
 };
 
