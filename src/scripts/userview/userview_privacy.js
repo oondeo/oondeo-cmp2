@@ -2,11 +2,11 @@ import { getSoiCookie } from '../core/core_cookies';
 import { PRIVACY_FULL_TRACKING } from '../core/core_constants';
 import { logInfo } from '../core/core_log';
 import { forEach } from './userview_modal';
-import { getPurposes } from '../core/core_vendor_lists';
+import { getPurposes, getSpecialFeatures, getVendorIds } from '../core/core_vendor_lists';
 
 export function getSoiConsentData() {
   let soiCookie = getSoiCookie();
-  console.log('getSoiConsentData', soiCookie.consentData);
+
   return soiCookie.opt_in ? soiCookie.consentData : undefined;
 }
 
@@ -93,19 +93,46 @@ export function getPrivacySettings() {
 export function applyPrivacySettings(allowedPurposes) {
   logInfo('Apply privacy settings from cookie', allowedPurposes);
 
-  for (let i = 1; i <= getPurposes().length; i++) {
-    document.querySelector(`#as-js-purpose-slider-${i}`).checked = (allowedPurposes.indexOf(i) !== -1);
+  if (allowedPurposes.length === 0) {
+    return;
   }
 
-  if (allowedPurposes === 1) {
-    forEach(document.querySelectorAll('.as-js-purpose-slider'), (domNode) => {
-      domNode && (domNode.checked = true);
-    });
-  }
+  applyPurposesSettings(allowedPurposes.purpose);
+  applySpecialFeaturesSettings(allowedPurposes.specialFeature);
+  applyVendorsSettings(allowedPurposes.vendor);
+}
 
-  if (allowedPurposes === 0) {
-    forEach(document.querySelectorAll('.as-js-purpose-slider'), (domNode) => {
-      domNode && (domNode.checked = false);
-    });
+function applyPurposesSettings(purposes) {
+  for (let i = 1; i <= Object.keys(getPurposes()).length; i++) {
+    if (purposes[i]) {
+      document.querySelector(`#as-js-purpose-slider-${i}`) && (document.querySelector(`#as-js-purpose-slider-${i}`).checked = purposes[i].consent);
+      document.querySelector(`#as-js-legint-slider-${i}`) && (document.querySelector(`#as-js-legint-slider-${i}`).checked = purposes[i].legint);
+    } else {
+      document.querySelector(`#as-js-purpose-slider-${i}`) && (document.querySelector(`#as-js-purpose-slider-${i}`).checked = false);
+      document.querySelector(`#as-js-legint-slider-${i}`) && (document.querySelector(`#as-js-legint-slider-${i}`).checked = false);
+    }
   }
 }
+
+function applySpecialFeaturesSettings(specialFeatures) {
+  for (let i = 1; i <= Object.keys(getSpecialFeatures()).length; i++) {
+    if (specialFeatures[i]) {
+      (document.querySelector(`#as-js-specialFeature-slider-${i}`).checked = specialFeatures[i].optin);
+    } else {
+      (document.querySelector(`#as-js-specialFeature-slider-${i}`).checked = false);
+    }
+  }
+}
+
+function applyVendorsSettings(vendors) {
+  getVendorIds().forEach(id => {
+    if (vendors[id]) {
+      document.querySelector(`#as-js-vendor-legint-slider-${id}`) && (document.querySelector(`#as-js-vendor-legint-slider-${id}`).checked = vendors[id].legint);
+      document.querySelector(`#as-js-vendor-slider-${id}`) && (document.querySelector(`#as-js-vendor-slider-${id}`).checked = vendors[id].consent);
+    } else {
+      document.querySelector(`#as-js-vendor-legint-slider-${id}`) && (document.querySelector(`#as-js-vendor-legint-slider-${id}`).checked = false);
+      document.querySelector(`#as-js-vendor-slider-${id}`) && (document.querySelector(`#as-js-vendor-slider-${id}`).checked = false);
+    }
+  });
+}
+
