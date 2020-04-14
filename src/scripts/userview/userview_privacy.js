@@ -6,6 +6,7 @@ import { getPurposes } from '../core/core_vendor_lists';
 
 export function getSoiConsentData() {
   let soiCookie = getSoiCookie();
+  console.log('getSoiConsentData', soiCookie.consentData);
   return soiCookie.opt_in ? soiCookie.consentData : undefined;
 }
 
@@ -28,7 +29,7 @@ export function getPrivacySettings() {
     const purposeSliders = document.querySelectorAll('.as-js-purpose-slider');
     purposeSliders && forEach(purposeSliders, (element) => {
       let element_id = element.dataset ? element.dataset.id : element.getAttribute('data-id');
-      if(purpose[element_id] !== undefined) {
+      if (purpose[element_id] !== undefined) {
         purpose[element_id].consent = element.checked;
       } else {
         purpose[element_id] = {};
@@ -39,7 +40,7 @@ export function getPrivacySettings() {
     const purposeLegintSliders = document.querySelectorAll('.as-js-purpose-legint-slider');
     purposeLegintSliders && forEach(purposeLegintSliders, (element) => {
       let element_id = element.dataset ? element.dataset.id : element.getAttribute('data-id');
-      if(purpose[element_id] !== undefined) {
+      if (purpose[element_id] !== undefined) {
         purpose[element_id].legint = element.checked;
       } else {
         purpose[element_id] = {};
@@ -50,7 +51,7 @@ export function getPrivacySettings() {
     const specialFeatureSliders = document.querySelectorAll('.as-js-specialFeature-slider');
     specialFeatureSliders && forEach(specialFeatureSliders, (element) => {
       let element_id = element.dataset ? element.dataset.id : element.getAttribute('data-id');
-      if(specialFeature[element_id] !== undefined) {
+      if (specialFeature[element_id] !== undefined) {
         specialFeature[element_id].optin = element.checked;
       } else {
         specialFeature[element_id] = {};
@@ -61,7 +62,7 @@ export function getPrivacySettings() {
     const vendorSliders = document.querySelectorAll('.as-js-vendor-slider');
     vendorSliders && forEach(vendorSliders, (element) => {
       let element_id = element.dataset ? element.dataset.id : element.getAttribute('data-id');
-      if(vendor[element_id] !== undefined) {
+      if (vendor[element_id] !== undefined) {
         vendor[element_id].consent = element.checked;
       } else {
         vendor[element_id] = {};
@@ -72,7 +73,7 @@ export function getPrivacySettings() {
     const vendorLegintSliders = document.querySelectorAll('.as-js-vendor-legint-slider');
     vendorLegintSliders && forEach(vendorLegintSliders, (element) => {
       let element_id = element.dataset ? element.dataset.id : element.getAttribute('data-id');
-      if(vendor[element_id] !== undefined) {
+      if (vendor[element_id] !== undefined) {
         vendor[element_id].legint = element.checked;
       } else {
         vendor[element_id] = {};
