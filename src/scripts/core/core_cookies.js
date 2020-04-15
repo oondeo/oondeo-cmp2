@@ -319,6 +319,7 @@ function getDefaultTCModel() {
   let gvl = getVendorList();
   let consentData = new TCModel(gvl);
   consentData.cmpId = OIL_SPEC.CMP_ID;
+  consentData.publisherCountryCode = 'EN'; //TODO: get from configuration
   consentData.cmpVersion = OIL_SPEC.CMP_VERSION;
   consentData.isServiceSpecific = true;
   consentData.consentScreen = 1; //TODO: add number of layer where consent was given

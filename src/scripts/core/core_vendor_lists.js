@@ -22,6 +22,7 @@ export const DEFAULT_CUSTOM_VENDOR_LIST = {
 export let cachedVendorList;
 export let cachedCustomVendorList;
 export let pendingVendorListPromise = null;
+let cachedGVL = null;
 
 export function loadVendorListAndCustomVendorList() {
   //TODO @tcf2 load from API @tc2soi
@@ -77,9 +78,14 @@ function loadCustomVendorList() {
 }
 
 function getGlobalVendorList() {
+  if (cachedGVL) {
+    return cachedGVL;
+  }
+  
   GVL.baseUrl = getIabVendorListDomain();
 
-  return new GVL();
+  cachedGVL = new GVL();
+  return cachedGVL;
 }
 
 function getGlobalVendorListPromise() {
@@ -127,7 +133,7 @@ export function getVendorList() {
   if (cachedVendorList) {
     return cachedVendorList;
   }
-
+  
   return getGlobalVendorList();
 
 }
