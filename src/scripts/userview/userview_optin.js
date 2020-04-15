@@ -15,6 +15,7 @@ import {
 } from '../core/core_constants';
 import { setSoiCookie } from '../core/core_cookies';
 import { isAmpModeActivated, isInfoBannerOnly, isPoiActive } from '../core/core_config';
+import { updateTcfApi } from '../core/core_tcf_api';
 
 /**
  * Oil optIn power
@@ -75,8 +76,11 @@ export function oilOptIn(privacySettings = PRIVACY_FULL_TRACKING) {
     return Promise.resolve(true);
   }
   return new Promise((resolve, reject) => {
-    setSoiCookie(privacySettings).then(() => {
+    setSoiCookie(privacySettings).then((cookieData) => {
+
+      updateTcfApi(cookieData, false);
       sendEventToHostSite(EVENT_NAME_OPT_IN);
+
       resolve(true);
     }).catch((error) => reject(error));
   });

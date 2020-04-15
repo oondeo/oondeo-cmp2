@@ -24,21 +24,23 @@ function logPreviewOptInInfo(singleOptIn, powerOptIn) {
  */
 export function checkOptIn() {
   return new Promise((resolve, reject) => {
-    let soiOptIn = getSoiCookie().opt_in;
+    let cookie = getSoiCookie();
+    let soiOptIn = cookie.opt_in;
     let resultOptIn = soiOptIn;
 
     // Verify Power Opt In (will return immediately if not activated), it will overwrite the SOI result only if its positive
     verifyPowerOptIn().then((powerOptIn) => {
       logPreviewOptInInfo(soiOptIn, powerOptIn.power_opt_in);
       if (powerOptIn.power_opt_in) {
-        resultOptIn = powerOptIn.power_opt_in;
+        cookie = powerOptIn;
+        resultOptIn = cookie.power_opt_in;
         if (!soiOptIn) {
           setSoiCookieWithPoiCookieData(powerOptIn)
-            .then(() => resolve(resultOptIn))
+            .then(() => resolve([resultOptIn, cookie]))
             .catch(error => reject(error));
         }
       }
-      resolve(resultOptIn);
+      resolve([resultOptIn, cookie]);
     });
   });
 }

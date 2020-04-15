@@ -188,13 +188,6 @@ export function getLocaleVariantVersion() {
 }
 
 /**
- * Gets the command collection from window object.
- */
-export function getCommandCollection() {
-  return window.__cmp ? window.__cmp.commandCollection : undefined;
-}
-
-/**
  * Fetches JSON data from web service addressed by given url.
  *
  * @param url the url of the web service.

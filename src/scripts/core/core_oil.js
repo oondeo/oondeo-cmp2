@@ -5,7 +5,7 @@ import { checkOptIn } from './core_optin';
 import { getSoiCookie, isBrowserCookieEnabled, isPreviewCookieSet, removePreviewCookie, removeVerboseCookie, setPreviewCookie, setVerboseCookie } from './core_cookies';
 import { getLocale, isAmpModeActivated, isPreviewMode, resetConfiguration, setGdprApplies } from './core_config';
 import { EVENT_NAME_HAS_OPTED_IN, EVENT_NAME_NO_COOKIES_ALLOWED } from './core_constants';
-import { executeCommandCollection } from './core_command_collection';
+import { updateTcfApi } from './core_tcf_api';
 import { manageDomElementActivation } from './core_tag_management';
 import { sendConsentInformationToCustomVendors } from './core_custom_vendors';
 
@@ -47,14 +47,15 @@ export function initOilLayer() {
     /**
      * We read our cookie and get an opt-in value, true or false
      */
-    checkOptIn().then((optin) => {
+    checkOptIn().then(([result]) => {
+      let optin = result[0];
+      let cookieData = result[1];
       if (optin) {
         /**
          * User has opted in
          */
         sendEventToHostSite(EVENT_NAME_HAS_OPTED_IN);
-        executeCommandCollection();
-        attachCommandCollectionFunctionToWindowObject();
+        updateTcfApi(cookieData, false);
         sendConsentInformationToCustomVendors().then(() => logInfo('Consent information sending to custom vendors after OIL start with found opt-in finished!'));
       } else {
         /**
@@ -63,7 +64,7 @@ export function initOilLayer() {
         import('../userview/locale/userview_oil.js')
           .then(userview_modal => {
             userview_modal.locale(uv_m => uv_m.renderOil({ optIn: false }));
-            attachCommandCollectionFunctionToWindowObject();
+            updateTcfApi(cookieData, true);
           })
           .catch((e) => {
             logError('Locale could not be loaded.', e);
@@ -81,10 +82,6 @@ function registerDomElementActivationManager() {
 function onDomContentLoaded() {
   document.removeEventListener('DOMContentLoaded', onDomContentLoaded);
   manageDomElementActivation();
-}
-
-function attachCommandCollectionFunctionToWindowObject() {
-  setGlobalOilObject('commandCollectionExecutor', executeCommandCollection);
 }
 
 /**
