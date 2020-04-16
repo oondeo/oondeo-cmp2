@@ -104,15 +104,15 @@ export function getPurposes() {
 }
 
 export function getSpecialPurposes() {
-  return cachedVendorList ? cachedVendorList.specialPurposes : console.log('NON CI SONO GLI SPECIAL PURPOSES' );
+  return cachedVendorList ? cachedVendorList.specialPurposes : null;
 }
 
 export function getFeatures() {
-  return cachedVendorList ? cachedVendorList.features : console.log('NON CI SONO LE FEATURES' );
+  return cachedVendorList ? cachedVendorList.features : null;
 }
 
 export function getSpecialFeatures() {
-  return cachedVendorList ? cachedVendorList.specialFeatures : console.log('NON CI SONO LE SPECIAL FEATURES' );
+  return cachedVendorList ? cachedVendorList.specialFeatures : null;
 }
 
 export function getPurposeIds() {

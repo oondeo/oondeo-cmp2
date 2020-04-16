@@ -47,7 +47,7 @@ export function initOilLayer() {
     /**
      * We read our cookie and get an opt-in value, true or false
      */
-    checkOptIn().then(([result]) => {
+    checkOptIn().then((result) => {
       let optin = result[0];
       let cookieData = result[1];
       if (optin) {

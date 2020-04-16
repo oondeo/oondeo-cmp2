@@ -95,7 +95,6 @@ export function oilShowPreferenceCenter() {
           let currentPrivacySettings;
           if (consentData) {
             currentPrivacySettings = getAllPreferences(consentData);
-            console.log('oilShowPreferenceCenter', currentPrivacySettings);
           } else {
             //TODO: getAdvancedSettingsPurposesDefault() @tc2
             currentPrivacySettings = getAdvancedSettingsPurposesDefault() ? getPurposeIds() : [];
@@ -110,6 +109,7 @@ export function oilShowPreferenceCenter() {
 function handleOptInBtn() {
   sendEventToHostSite(EVENT_NAME_OPT_IN_BUTTON_CLICKED);
   handleOptIn();
+  document.querySelector('#oil-preference-center').innerHTML = '';
 }
 export function handleOptIn() {
   stopTimeOut();
