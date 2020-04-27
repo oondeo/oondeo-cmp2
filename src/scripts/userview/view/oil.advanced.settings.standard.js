@@ -234,9 +234,9 @@ const buildVendorListEntry = (element) => {
               </span>
               <div class='as-oil-third-party-toggle-part' style='display: none;'>
                 <a class='as-oil-third-party-link' href='${element.policyUrl}'>${element.policyUrl}</a>  
-                ${snippetLegalDescription(element.purposes, 'purposes', 'Purposes')}
+                ${snippetLegalDescription(element.purposes, 'purposes', 'Purposes (Consent)')}
+                ${snippetLegalDescription(element.legIntPurposes, 'purposes', 'Purposes (Legitimate Interest)')}
                 ${snippetLegalDescription(element.specialPurposes, 'specialPurposes', 'Special Purposes')}
-                ${snippetLegalDescription(element.legIntPurposes, 'purposes', 'Legitimate Interest')}
                 ${snippetLegalDescription(element.features, 'features','Features')}
                 ${snippetLegalDescription(element.specialFeatures, 'specialFeatures','Special Features')}
               </div>
