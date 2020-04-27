@@ -233,23 +233,24 @@ const buildVendorListEntry = (element) => {
                   </div>
               </span>
               <div class='as-oil-third-party-toggle-part' style='display: none;'>
-                <a class='as-oil-third-party-link' href='${element.policyUrl}'>${element.policyUrl}</a>      
-                ${snippetLegalDescription(element.purposes, 'Purposes')}
-                ${snippetLegalDescription(element.legIntPurposes, 'Legitimate Interest')}
-                ${snippetLegalDescription(element.features, 'Features')}
-                ${snippetLegalDescription(element.specialFeatures, 'Special Features')}
+                <a class='as-oil-third-party-link' href='${element.policyUrl}'>${element.policyUrl}</a>  
+                ${snippetLegalDescription(element.purposes, 'purposes', 'Purposes')}
+                ${snippetLegalDescription(element.specialPurposes, 'specialPurposes', 'Special Purposes')}
+                ${snippetLegalDescription(element.legIntPurposes, 'purposes', 'Legitimate Interest')}
+                ${snippetLegalDescription(element.features, 'features','Features')}
+                ${snippetLegalDescription(element.specialFeatures, 'specialFeatures','Special Features')}
               </div>
             </div>
           `;
   }
 };
 
-const snippetLegalDescription = (list, category) => {
+const snippetLegalDescription = (list, index ,category) => {
   if (list.length > 0) {
     return `
       <div>
         <p>
-          <strong>${category}: </strong> ${categoryList(list)}
+          <strong>${category}: </strong> ${categoryList(list, index)}
         </p>
       </div>
     `;
@@ -259,8 +260,10 @@ const snippetLegalDescription = (list, category) => {
 }
 
 
-const categoryList = (list) => {
-  return list.map((purpose) => `(${purpose}) ${getVendorList().purposes[purpose]['name']}`).join(', ');
+const categoryList = (list, index) => {
+  return list.map((id) => {
+    return `(${id}) ${getVendorList()[index][id]['name']}`
+  }).join(', ');
 };
 
 const ActivateButtonSnippet = () => {
