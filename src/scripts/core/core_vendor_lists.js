@@ -3,7 +3,7 @@ import { getCustomVendorListUrl, getIabVendorBlacklist, getIabVendorListDomain, 
 import { logError, logInfo } from './core_log';
 import { fetchJsonData } from './core_utils';
 import { GVL } from '@iabtcf/core';
-import { getLanguage } from './core_config';
+import { getLanguage, getLanguageFromConfigObject } from './core_config';
 
 export const DEFAULT_VENDOR_LIST = {
 
@@ -91,8 +91,8 @@ function getGlobalVendorList() {
 function getGlobalVendorListPromise() {
 
   let iabGvl = getGlobalVendorList();
-
-  return iabGvl.changeLanguage(getLanguage()).then(() => {
+  console.log('getLanguageFromConfigObject', getLanguageFromConfigObject() )
+  return iabGvl.changeLanguage(getLanguageFromConfigObject()).then(() => {
     return iabGvl;
   });
 

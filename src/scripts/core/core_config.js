@@ -194,6 +194,10 @@ export function getLanguageFromLocale(localeVariantName = 'en') {
   return localeVariantName.substring(0, 2);
 }
 
+export function getLanguageFromConfigObject() {
+    return getConfigValue(OIL_CONFIG.ATTR_LANGUAGE, 'en')
+}
+
 /**
  * Get the hub iFrame URL with protocol prefix for the current location
  * @returns {string, null} complete iframe orgin
@@ -240,6 +244,12 @@ export function getDefaultToOptin() {
 }
 
 export function getLocale() {
+  if (getConfigValue(OIL_CONFIG.ATTR_LANGUAGES_LIST, undefined)) {
+    let lang = getLanguageFromConfigObject();
+    let languages_list = getConfigValue(OIL_CONFIG.ATTR_LANGUAGES_LIST, undefined);
+    setConfigValue(OIL_CONFIG.ATTR_LOCALE, languages_list[lang]);
+  }
+
   return getConfigValue(OIL_CONFIG.ATTR_LOCALE, undefined);
 }
 
