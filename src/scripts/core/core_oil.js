@@ -203,8 +203,6 @@ function attachUtilityFunctionsToWindowObject() {
   });
 
   setGlobalOilObject('hasConsents', (purposes = [], legint = []) => {
-    console.log(purposes)
-    console.log(legint)
     return new Promise((resolve, reject) => {
       if (Array.isArray(purposes) && purposes.length > 0 && Array.isArray(legint)) {
           let consentsResult = window.AS_OIL.getPurposeConsents().then(value => {

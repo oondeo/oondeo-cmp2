@@ -111,4 +111,8 @@ export const OIL_GLOBAL_OBJECT_NAME = 'AS_OIL';
 // Tag management
 export const MANAGED_TAG_IDENTIFIER = 'as-oil';
 export const MANAGED_TAG_IDENTIFIER_ATTRIBUTE = 'data-managed';
-export const MANAGED_TAG_PURPOSES_ATTRIBUTE = 'data-purposes';
+export const MANAGED_TAG__ATTRIBUTES = {
+  PURPOSES_ATTRIBUTE: 'data-purposes',
+  LEGINT_ATTRIBUTE: 'data-legints',
+  SPECIAL_FEATURES_ATTRIBUTE: 'data-special-features'
+}
