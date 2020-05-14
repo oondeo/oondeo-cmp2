@@ -72,7 +72,7 @@ export function renderOil(props) {
 
 export function oilShowPreferenceCenter(mode) {
   // We need the PowerGroupUi-Stuff for the CPC
-  console.log('mode',mode);
+
   import('../poi-list/poi-info.js');
 
   // We need to make sure the vendor list is loaded before showing the cpc

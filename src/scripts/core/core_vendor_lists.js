@@ -92,7 +92,7 @@ function getGlobalVendorList() {
 function getGlobalVendorListPromise() {
 
   let iabGvl = getGlobalVendorList();
-  console.log('getLanguageFromConfigObject', getLanguageFromConfigObject() )
+
   return iabGvl.changeLanguage(getLanguageFromConfigObject()).then(() => {
     return iabGvl;
   });
