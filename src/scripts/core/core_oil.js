@@ -3,7 +3,7 @@ import { handleOptOut } from './core_optout';
 import { logError, logInfo, logPreviewInfo } from './core_log';
 import { checkOptIn } from './core_optin';
 import { getSoiCookie, isBrowserCookieEnabled, isPreviewCookieSet, removePreviewCookie, removeVerboseCookie, setPreviewCookie, setVerboseCookie } from './core_cookies';
-import { getLocale, isAmpModeActivated, isPreviewMode, resetConfiguration, setGdprApplies } from './core_config';
+import { getLocale, isAmpModeActivated, isPreviewMode, resetConfiguration, setGdprApplies, gdprApplies } from './core_config';
 import { EVENT_NAME_HAS_OPTED_IN, EVENT_NAME_NO_COOKIES_ALLOWED } from './core_constants';
 import { updateTcfApi } from './core_tcf_api';
 import { manageDomElementActivation } from './core_tag_management';
@@ -51,6 +51,7 @@ export function initOilLayer() {
     checkOptIn().then((result) => {
       let optin = result[0];
       let cookieData = result[1];
+
       if (optin) {
         /**
          * User has opted in
@@ -65,7 +66,9 @@ export function initOilLayer() {
         import('../userview/locale/userview_oil.js')
           .then(userview_modal => {
             userview_modal.locale(uv_m => uv_m.renderOil({ optIn: false }));
-            updateTcfApi(cookieData, true);
+            if (gdprApplies()) {
+              updateTcfApi(cookieData, true);
+            }
           })
           .catch((e) => {
             logError('Locale could not be loaded.', e);

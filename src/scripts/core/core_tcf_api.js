@@ -16,3 +16,12 @@ export function updateTcfApi(cookieData, cmpVisible = false) {
     tcfCmpApi.update(TCString, cmpVisible);
     return tcfCmpApi;
 }
+
+export function disableGdprTcfApi() {
+    if (!tcfCmpApi) {
+        loadTcfApi();
+    }
+
+    tcfCmpApi.update(null, false);
+    return tcfCmpApi;
+}

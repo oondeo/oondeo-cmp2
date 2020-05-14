@@ -3,7 +3,7 @@ import { MANAGED_TAG_IDENTIFIER, MANAGED_TAG_IDENTIFIER_ATTRIBUTE, MANAGED_TAG__
 import { getSoiCookie } from './core_cookies';
 import { arrayContainsArray } from './core_utils';
 import { getPurposeIds, getSpecialFeatureIds, getLegintIds } from './core_vendor_lists';
-import { getCustomPurposeIds } from './core_config';
+import { getCustomPurposeIds, gdprApplies } from './core_config';
 
 export function manageDomElementActivation() {
   let managedElements = findManagedElements();
@@ -119,6 +119,10 @@ function manageElementWithoutConsent(element, managedAttribute) {
 }
 
 function hasConsent(element, cookie) {
+  if(gdprApplies() === false) {
+    return true;
+  }
+
   if (cookie.opt_in) {
     let necessaryPurposes = getNecessaryPurposes(element);
     let necessaryLegint = getNecessaryLegint(element);
