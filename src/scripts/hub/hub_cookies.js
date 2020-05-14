@@ -1,5 +1,6 @@
 import {
   OIL_CONFIG_DEFAULT_VERSION,
+  OIL_POLICY_DEFAULT_VERSION,
   OIL_PAYLOAD_CONFIG_VERSION,
   OIL_PAYLOAD_CUSTOM_PURPOSES, OIL_PAYLOAD_CUSTOM_VENDORLIST_VERSION,
   OIL_PAYLOAD_LOCALE_VARIANT_NAME,
@@ -9,7 +10,7 @@ import {
   OIL_SPEC
 } from '../core/core_constants';
 import { logError, logInfo } from '../core/core_log';
-import { getConfigVersion, getCookieExpireInDays, getLanguageFromLocale } from '../core/core_config';
+import { getConfigVersion, getPolicyVersion, getCookieExpireInDays, getLanguageFromLocale } from '../core/core_config';
 import { getLimitedVendorIds } from '../core/core_vendor_lists';
 import { findCookieConsideringCookieVersions, getStandardPurposesWithConsent, setDomainCookie } from '../core/core_cookies';
 import Cookie from 'js-cookie';
@@ -38,7 +39,8 @@ export function setPoiCookie(groupName, payload) {
       customPurposes: getCustomPurposesFromPayload(payload),
       customVendorListVersion: getCustomVendorlistVersionFromPayload(payload),
       consentString: consentStringAsPrivacy,
-      configVersion: getConfigVersionFromPayload(payload)
+      configVersion: getConfigVersionFromPayload(payload),
+      policyVersion: getPolicyVersionFromPayload(payload)
     };
     setDomainCookie(getOilHubCookieName(groupName), cookie, getCookieExpireInDays());
   } else {
@@ -53,6 +55,7 @@ function transformOutdatedOilCookie(cookieConfig) {
   cookie.power_opt_in = cookieJson.power_opt_in;
   cookie.version = cookieJson.version;
   cookie.configVersion = OIL_CONFIG_DEFAULT_VERSION;
+  cookie.policyVersion = OIL_POLICY_DEFAULT_VERSION;
   cookie.localeVariantName = cookieJson.localeVariantName;
   cookie.localeVariantVersion = cookieJson.localeVariantVersion;
   cookie.customPurposes = []; // we do not know custom purposes config in the hub, but old cookies does not encode them
@@ -90,7 +93,8 @@ function getHubDomainCookieConfig(groupName) {
       customPurposes: [],
       consentData: consentData,
       consentString: '', // consent string is not computed because global vendor list is not loaded in hub
-      configVersion: getConfigVersion()
+      configVersion: getConfigVersion(),
+      policyVersion: getPolicyVersion()
     },
     outdated_cookie_content_keys: ['power_opt_in', 'timestamp', 'version', 'localeVariantName', 'localeVariantVersion', 'privacy']
   };
@@ -102,6 +106,10 @@ function getConsentStringFromPayload(payload) {
 
 function getConfigVersionFromPayload(payload) {
   return getPayloadPropertyOrDefault(payload, OIL_PAYLOAD_CONFIG_VERSION, OIL_CONFIG_DEFAULT_VERSION);
+}
+
+function getPolicyVersionFromPayload(payload) {
+  return getPayloadPropertyOrDefault(payload, OIL_PAYLOAD_POLICY_VERSION, OIL_POLICY_DEFAULT_VERSION);
 }
 
 function getCustomPurposesFromPayload(payload) {

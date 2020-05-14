@@ -1,4 +1,4 @@
-import { OIL_CONFIG, OIL_CONFIG_DEFAULT_VERSION } from './core_constants';
+import { OIL_CONFIG, OIL_CONFIG_DEFAULT_VERSION, OIL_POLICY_DEFAULT_VERSION } from './core_constants';
 import { logError, logInfo } from './core_log.js';
 import { getGlobalOilObject, isObject, OilVersion, setGlobalOilObject } from './core_utils';
 
@@ -99,6 +99,10 @@ export function getConfigValue(name, defaultValue) {
 
 export function getConfigVersion() {
   return getConfigValue(OIL_CONFIG.ATTR_CONFIG_VERSION, OIL_CONFIG_DEFAULT_VERSION);
+}
+
+export function getPolicyVersion() {
+  return getConfigValue(OIL_CONFIG.ATTR_POLICY_VERSION, OIL_POLICY_DEFAULT_VERSION);
 }
 
 export function isPreviewMode() {

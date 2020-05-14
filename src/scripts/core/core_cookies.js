@@ -4,6 +4,7 @@ import Cookie from 'js-cookie';
 import { logInfo } from './core_log';
 import {
   getConfigVersion,
+  getPolicyVersion,
   getCookieExpireInDays,
   getCustomPurposes,
   getDefaultToOptin,
@@ -12,7 +13,7 @@ import {
   getLocaleVariantName
 } from './core_config';
 import { getLocaleVariantVersion } from './core_utils';
-import { OIL_CONFIG_DEFAULT_VERSION, OIL_SPEC } from './core_constants';
+import { OIL_CONFIG_DEFAULT_VERSION, OIL_POLICY_DEFAULT_VERSION, OIL_SPEC } from './core_constants';
 import { getCustomVendorListVersion, getLimitedVendorIds, getPurposes, getVendorList, loadVendorListAndCustomVendorList } from './core_vendor_lists';
 import { OilVersion } from './core_utils';
 import { TCModel, TCString } from '@iabtcf/core';
@@ -46,6 +47,8 @@ export function hasOutdatedOilCookie(cookieConfig) {
   return isCookieValid(cookieConfig.name, cookieConfig.outdated_cookie_content_keys);
 }
 
+
+//TODO: CAPIRE IMPLEMENTAZIONE
 export function findCookieConsideringCookieVersions(cookieConfig, outdatedCookieTransformer) {
   let cookie;
 
@@ -54,6 +57,7 @@ export function findCookieConsideringCookieVersions(cookieConfig, outdatedCookie
   } else if (hasOilCookieWithoutVersion(cookieConfig)) {
     cookie = getOilCookie(cookieConfig);
     cookie.configVersion = OIL_CONFIG_DEFAULT_VERSION;
+    cookie.policyVersion = OIL_POLICY_DEFAULT_VERSION;
   } else if (hasOutdatedOilCookie(cookieConfig)) {
     cookie = outdatedCookieTransformer(cookieConfig);
   } else {
@@ -77,6 +81,7 @@ export function setSoiCookieWithPoiCookieData(poiCookieJson) {
       let cookieConfig = getOilCookieConfig();
       let consentString;
       let configVersion = poiCookieJson.configVersion || cookieConfig.configVersion;
+      let policyVersion = poiCookieJson.policyVersion || cookieConfig.policyVersion;
 
       if (poiCookieJson.consentString) {
         consentString = poiCookieJson.consentString;
@@ -95,7 +100,8 @@ export function setSoiCookieWithPoiCookieData(poiCookieJson) {
         customVendorListVersion: poiCookieJson.customVendorListVersion,
         customPurposes: poiCookieJson.customPurposes,
         consentString: !isInfoBannerOnly() ? consentString : '',
-        configVersion: configVersion
+        configVersion: configVersion,
+        policyVersion: policyVersion
       };
 
       setDomainCookie(cookieConfig.name, cookie, cookieConfig.expires);
@@ -172,7 +178,8 @@ export function buildSoiCookie(privacySettings) {
         customVendorListVersion: getCustomVendorListVersion(),
         customPurposes: getCustomPurposesWithConsent(privacySettings),
         consentString: !isInfoBannerOnly() ? TCString.encode(consentData) : '',
-        configVersion: cookieConfig.defaultCookieContent.configVersion
+        configVersion: cookieConfig.defaultCookieContent.configVersion,
+        policyVersion: cookieConfig.defaultCookieContent.policyVersion
       };
 
       resolve(outputCookie);
@@ -322,7 +329,11 @@ function getDefaultTCModel() {
   consentData.publisherCountryCode = 'EN'; //TODO: get from configuration
   consentData.cmpVersion = OIL_SPEC.CMP_VERSION;
   consentData.isServiceSpecific = true;
+  consentData.purposeOneTreatment = true;
+  consentData.supportOOB = false;
   consentData.consentScreen = 1; //TODO: add number of layer where consent was given
+
+  consentData.vendorsDisclosed.set(2);
 
   // consentData.setConsentLanguage(getLanguage());
   // consentData.setPurposesAllowed(getAllowedStandardPurposesDefault());
@@ -349,7 +360,8 @@ function getOilCookieConfig() {
       customPurposes: getAllowedCustomPurposesDefault(),
       consentData: consentData,
       consentString: !isInfoBannerOnly() && consentData.gvl.isReady ? TCString.encode(consentData) : '',
-      configVersion: getConfigVersion()
+      configVersion: getConfigVersion(),
+      policyVersion: getPolicyVersion()
     },
     outdated_cookie_content_keys: ['opt_in', 'timestamp', 'version', 'localeVariantName', 'localeVariantVersion', 'privacy']
   };
@@ -365,6 +377,7 @@ function transformOutdatedOilCookie(cookieConfig) {
   cookie.localeVariantName = cookieJson.localeVariantName;
   cookie.localeVariantVersion = cookieJson.localeVariantVersion;
   cookie.configVersion = OIL_CONFIG_DEFAULT_VERSION;
+  cookie.policyVersion = OIL_POLICY_DEFAULT_VERSION;
   cookie.customPurposes = getCustomPurposesWithConsent(cookieJson.privacy);
   cookie.consentData.setConsentLanguage(getLanguageFromLocale(cookieJson.localeVariantName));
   cookie.consentData.setPurposesAllowed(getStandardPurposesWithConsent(cookieJson.privacy));

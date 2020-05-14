@@ -8,6 +8,7 @@ export const OIL_SPEC = {
 
 export const OIL_CONFIG = {
   ATTR_CONFIG_VERSION: 'config_version',
+  ATTR_POLICY_VERSION: 'policy_version',
   ATTR_ACTIVATE_POI: 'poi_activate_poi',
   ATTR_HUB_ORIGIN: 'poi_hub_origin',
   ATTR_HUB_PATH: 'poi_hub_path',
@@ -48,6 +49,7 @@ export const OIL_CONFIG_CPC_TYPES = {
 };
 
 export const OIL_CONFIG_DEFAULT_VERSION = 0;
+export const OIL_POLICY_DEFAULT_VERSION = 0;
 
 // Main Click events
 export const EVENT_NAME_OPT_IN = 'oil_optin_done';
@@ -86,6 +88,7 @@ export const OIL_PAYLOAD_LOCALE_VARIANT_VERSION = 'lvv';
 export const OIL_PAYLOAD_CUSTOM_PURPOSES = 'cp';
 export const OIL_PAYLOAD_CUSTOM_VENDORLIST_VERSION = 'cvl';
 export const OIL_PAYLOAD_CONFIG_VERSION = 'cv';
+export const OIL_PAYLOAD_POLICY_VERSION = 'pv';
 
 // Identify privacy page link, eg. for tracking
 export const DATAQA_PRIVACY_PAGE = 'oil-PrivacyPage';
