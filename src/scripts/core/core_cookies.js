@@ -10,7 +10,8 @@ import {
   getDefaultToOptin,
   isInfoBannerOnly,
   getLanguageFromLocale,
-  getLocaleVariantName
+  getLocaleVariantName,
+  getIabVendorWhitelist
 } from './core_config';
 import { getLocaleVariantVersion } from './core_utils';
 import { OIL_CONFIG_DEFAULT_VERSION, OIL_POLICY_DEFAULT_VERSION, OIL_SPEC } from './core_constants';
@@ -151,6 +152,12 @@ export function updateTCModel(privacySettings) {
   }
 
   tcModel.setAll();
+
+
+  if (getIabVendorWhitelist() !== undefined) {
+    consentData.vendorsAllowed.set(getIabVendorWhitelist());
+  }
+
   return tcModel;
 
 }
@@ -333,7 +340,11 @@ function getDefaultTCModel() {
   consentData.supportOOB = false;
   consentData.consentScreen = 1; //TODO: add number of layer where consent was given
 
-  consentData.vendorsDisclosed.set(2);
+  console.log('getIabVendorWhitelist',getIabVendorWhitelist());
+  if (getIabVendorWhitelist() !== undefined) {
+    consentData.vendorsAllowed.set(getIabVendorWhitelist());
+  }
+
 
   // consentData.setConsentLanguage(getLanguage());
   // consentData.setPurposesAllowed(getAllowedStandardPurposesDefault());
