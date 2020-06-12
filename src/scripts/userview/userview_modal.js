@@ -24,7 +24,7 @@ import { oilNoCookiesTemplate } from './view/oil.no.cookies';
 import * as AdvancedSettingsStandard from './view/oil.advanced.settings.standard';
 import * as AdvancedSettingsTabs from './view/oil.advanced.settings.tabs';
 import { logError, logInfo } from '../core/core_log';
-import { getCpcType, getTheme, getTimeOutValue, isOptoutConfirmRequired, isPersistMinimumTracking } from './userview_config';
+import { getCpcType, getTheme, getTimeOutValue, isOptoutConfirmRequired, isPersistMinimumTracking, getBannerPosition, getBannerAnimation } from './userview_config';
 import { gdprApplies, getAdvancedSettingsPurposesDefault, isInfoBannerOnly, isPoiActive } from '../core/core_config';
 import { applyPrivacySettings, getPrivacySettings, getSoiConsentData } from './userview_privacy';
 import { activateOptoutConfirm } from './userview_optout_confirm';
@@ -32,6 +32,7 @@ import { getPurposeIds, loadVendorListAndCustomVendorList } from '../core/core_v
 import { manageDomElementActivation } from '../core/core_tag_management';
 import { sendConsentInformationToCustomVendors } from '../core/core_custom_vendors';
 import { getAllPreferences } from '../core/core_consents';
+import { getVisualConfig, getDefaultVisualConfig } from '../userview/userview_config';
 // Initialize our Oil wrapper and save it ...
 
 export const oilWrapper = defineOilWrapper;
@@ -227,7 +228,7 @@ function oilShowThirdPartyList() {
 function defineOilWrapper() {
   let oilWrapper = document.createElement('div');
   // Set some attributes as CSS classes and attributes for testing
-  oilWrapper.setAttribute('class', `as-oil ${getTheme()}`);
+  oilWrapper.setAttribute('class', `as-oil ${getTheme()} ${getBannerPosition()} ${getBannerAnimation()}`);
   oilWrapper.setAttribute('data-qa', 'oil-Layer');
   return oilWrapper;
 }
@@ -239,7 +240,46 @@ function defineOilWrapper() {
 function renderOilContentToWrapper(content) {
   let wrapper = oilWrapper();
   wrapper.innerHTML = content;
+  setColorVariables(wrapper);
+  setFontBaseSize(wrapper);
+  setFontFamily(wrapper);
   injectOilWrapperInDOM(wrapper);
+
+}
+
+function setColorVariables(wrapper) {
+  let default_colors = getDefaultVisualConfig().colors;
+  let config_colors = getVisualConfig().colors;
+
+  Object.entries(default_colors).forEach(([key, value]) => {
+    if (config_colors[key] !== undefined) {
+      wrapper.style.setProperty(`--avacy-${key}`,config_colors[key])
+    } else {
+      wrapper.style.setProperty(`--avacy-${key}`,value)
+    }
+  });
+}
+
+function setFontBaseSize(wrapper) {
+  let default_font_base_scale= getDefaultVisualConfig().font_base_scale;
+  let font_base_scale = getVisualConfig().font_base_scale;
+
+  if (font_base_scale !== undefined) {
+    wrapper.style.setProperty('--avacy-font-base-scale',font_base_scale)
+  } else {
+    wrapper.style.setProperty('--avacy-font-base-scale',default_font_base_scale)
+  }
+}
+
+function setFontFamily(wrapper) {
+  let default_font_family = getDefaultVisualConfig().font_family;
+  let font_family = getVisualConfig().font_family;
+
+  if (font_family !== undefined) {
+    wrapper.style.setProperty('--avacy-font-family',font_family)
+  } else {
+    wrapper.style.setProperty('--avacy-font-family',default_font_family)
+  }
 }
 
 function removeOilWrapperFromDOM() {

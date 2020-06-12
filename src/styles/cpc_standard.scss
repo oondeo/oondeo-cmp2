@@ -1,3 +1,13 @@
+/*
+  $background-color-dark
+  $text-color-primary
+  $text-color-primary-dark
+  $btn-primary
+  $slider-size
+  $slider-background-circle
+  $cpc-background-dark
+*/
+
 @import "./_cpc_global";
 
 .as-oil-cpc-wrapper {
@@ -6,187 +16,185 @@
     cursor: pointer;
   }
 
-  .as-oil-l-buttons-light {
+  .as-oil {
+    &__heading,
+    &__intro-txt {
+      display: block;
+      width: 100%;
+      order: 1;
+    }
+  }
+
+  .as-oil-l-item {
+    justify-content: flex-end;
+    padding: 0.2rem;
+  }
+
+  #as-js-third-parties-list {
+    background-color: $third-parties-background;
+    background-color: var(--avacy-third-parties-background);
+  }
+
+  @include media('>desktop') {
+    .as-oil{ 
+      &__intro-txt {
+        width: 60%;
+      }
+    }
+  }
+}
+
+.as-oil-cpc {
+  &__content {
+    order: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  &__left {
+    display: flex;
+    align-items: center;
+    overflow-x: scroll;
+    margin-bottom: 1rem;
+
+    @include media('>desktop') {
+      flex-direction: column;
+      align-items: flex-start;
+      width: auto;
+    }
+  }
+
+  &__middle {
+    display: inline-block;
+    overflow: scroll;
+    max-height: 500px; /* The Fallback */
+    height: 30vh;
+    width: 100%;
+  
     @include media('>phone') {
-      float: right;
+      padding: 0 1.5rem 1.5rem 1.5rem;
     }
-
-    @include media('<=phone') {
-      padding: 8px;
+    @include media('>tablet') {
+      flex: 1;
     }
   }
-
-  .as-oil-l-buttons-dark {
+  
+  &__right {
+    width: 100%;
+    display: flex;
+    
     @include media('>phone') {
-      float: right;
-    }
-
-    @include media('<=phone') {
-      background: $background-color-dark;
-      padding: 8px;
+      justify-content: flex-end;
+      padding-top: 1rem;
+      margin-top: 1rem;
+      border-top: 1px solid lightgray;
     }
   }
+  
+  &__row-btn-all {
+    width: 100%;
+    order: 1;
+    margin-top: 1rem;
+    padding-bottom: 1rem;
 
-  .as-oil__heading,
-  .as-oil__intro-txt {
-    margin-left: 200px;
-    display: block;
-    max-width: 100%;
-
-    @include media('<=929px') {
-      margin-left: 0;
-      margin-right: 20px;
-      text-align: center;
-    }
-  }
-}
-
-.as-oil-cpc__content {
-  display: flex;
-  @include media('<=phone') {
-    display: block;
-  }
-}
-
-.as-oil-cpc__left {
-  flex: 0 0 200px;
-  max-width: 200px;
-  display: inline-block;
-  text-align: right;
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  margin-bottom: -25px;
-  border-right: 1px solid #ccc;
-
-  @include media('<=849px') {
-    display: none;
-  }
-
-  @include media('<=929px') {
-    flex: 0;
-  }
-
-  &:first-child {
-    padding-top: 40px;
-  }
-
-  a {
-    text-decoration: none;
-  }
-}
-
-.as-oil-cpc__right {
-  flex: 0 0 200px;
-  display: inline-block;
-  align-self: flex-end;
-
-  @include media('<=phone') {
-    flex: 0;
-    display: block;
-  }
-
-}
-
-.as-oil-cpc__row-btn-all {
-  text-align: right;
-  span {
-    @include media('<=phone') {
-      display: inline-block;
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       width: 49%;
+      margin: 0 0.2rem;
       text-align: center;
       padding: .7rem 1rem;
     }
   }
-}
+  
+  &__row-title {
+    margin: 0 0.5rem 1.2rem 0.5rem;
 
-.as-oil-cpc__row-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin: 20px 8px;
-}
-
-.as-oil-cpc__category-link {
-  padding: 6px 12px;
-  display: block;
-  border-right: 2px solid rgba(255, 255, 255, 0);
-}
-
-.as-oil-cpc__category-link--active {
-  border-right: 2px solid #3f7ddf;
-}
-
-.as-oil-cpc__purpose {
-  border: 1px solid #eaeaea;
-  border-radius: 5px;
-  padding: 20px;
-  margin: 16px 0;
-}
-
-.as-oil-cpc__purpose-container {
-  position: relative;
-}
-
-.as-oil-cpc__purpose-header {
-  font-size: 1rem;
-  font-weight: 500;
-  margin: 0 75px 30px 0;
-}
-
-.as-oil-cpc__purpose-text {
-  font-size: 0.9rem;
-  color: lighten($text-color-primary-light, 30%);
-  margin-top: 10px;
-}
-
-.dark {
-  .as-oil-cpc__purpose-text {
-    color: darken($text-color-primary-dark, 30%);
+    &#as-oil-cpc-third-parties {
+      padding: 1rem 1rem 0 1rem;
+      margin: 0;
+      background-color: $third-parties-background;
+      background-color: var(--avacy-third-parties-background);
   }
-}
-
-.light {
-  .as-oil-cpc__left {
-    a {
-      color: $text-color-primary-light;
-    }
   }
-}
-
-.as-oil-cpc__switch {
-  width: 50px;
-  height: 26px;
-  position: relative;
-  margin-bottom: 10px;
-
-  input {
-    display: none;
-
-    &:checked ~ .as-oil-cpc__slider {
-      background-color: $btn-primary;
-    }
-
-    &:focus ~ .as-oil-cpc__slider {
-      box-shadow: 0 0 1px $btn-primary;
-    }
-
-    &:checked ~ .as-oil-cpc__slider:before {
-      transform: translateX($slider-size);
-      background-color: darken($slider-background-circle, 30%);
+  
+  &__category-link {
+    padding: 6px 8px;
+    display: block;
+  }
+  
+  
+  &__purpose {
+    border-top: 1px solid #eaeaea;
+    padding: 20px;
+  }
+  
+  &__purpose-container {
+    position: relative;
+    display: flex;
+  }
+  
+  &__purpose-header {
+    margin: 0 75px 0 0;
+  }
+  
+  &__purpose-text {
+    margin-top: 10px;
+  }
+  
+  &__switch {
+    width: 50px;
+    height: 26px;
+    position: relative;
+    margin-bottom: 10px;
+  
+    input {
+      display: none;
+  
+      &:checked ~ .as-oil-cpc__slider {
+        background-color: $accent-primary;
+        background-color: var(--avacy-accent-primary);
+      }
+  
+      &:focus ~ .as-oil-cpc__slider {
+        box-shadow: 0 0 1px $accent-primary;
+        box-shadow: 0 0 1px var(--avacy-accent-primary);
+      }
+  
+      &:checked ~ .as-oil-cpc__slider:before {
+        transform: translateX($slider-size);
+      }
     }
   }
-}
 
-//dark theme adjustments
-.as-oil {
-  &.dark {
-    .as-oil-cpc__left a,
-    .as-oil-back-button__text {
-      color: $text-color-primary-dark !important;
-    }
-    .as-oil-cpc__purpose {
-      background-color: $cpc-background-dark;
+  @include media('<tablet') {
+    &__purpose-text {
+      display: none;
     }
   }
+
+  @include media('<desktop') {
+    &__row-btn-all {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  @include media('>tablet') {
+    &__purpose-more {
+      display: none;
+    }
+  }
+
+  @include media('>desktop') {
+    &__row-btn-all {
+      margin-top: 0;
+      width: 40%;
+    }
+  }
+  
 }
 
 .as-oil-cpc__status {
@@ -200,6 +208,7 @@
     align-items: center;
     left: -100px;
     top: auto;
+    display: none;
 
     &::after {
       padding: 0 8px;
@@ -217,7 +226,6 @@
 
   &__Heading {
     display: flex;
-    align-items: center;
     justify-content: space-between;
   }
 
@@ -235,10 +243,10 @@
   }
 
   &__Switch {
-    width: 50px;
-    height: 26px;
+    width: $slider-size * 2;
+    height: $slider-size;
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: $slider-size / 2;
 
     &--Consent {
       input {
@@ -253,6 +261,7 @@
     }
 
     &--LegInt {
+      // display: none;
       input {
         & + .as-oil-cpc__status:after {
           content: "Legitimate Interest";
@@ -269,13 +278,16 @@
       flex-direction: row;
       align-items: center;
       justify-content: flex-end;
-      margin-left: 100px;
+      margin-left: 0.3rem;
     }
   }
 }
 
 .Vendor {
+  padding: 1rem;
+
   &__Switches {
     margin: 10px 0;
+    // display: none;
   }
 }

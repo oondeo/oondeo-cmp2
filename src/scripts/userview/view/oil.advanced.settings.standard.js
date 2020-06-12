@@ -1,7 +1,7 @@
 import '../../../styles/cpc_standard.scss';
 import { OIL_LABELS } from '../userview_constants';
 import { forEach } from '../userview_modal';
-import { getLabel, getLabelWithDefault, getTheme } from '../userview_config';
+import { getLabel, getLabelWithDefault } from '../userview_config';
 import { getCustomPurposes, getCustomVendorListUrl } from '../../core/core_config';
 import { JS_CLASS_BUTTON_OPTIN, OIL_GLOBAL_OBJECT_NAME } from '../../core/core_constants';
 import { setGlobalOilObject } from '../../core/core_utils';
@@ -101,7 +101,7 @@ const ContentSnippet = () => {
     ${buildCustomVendorList()}
   </div>
   <div class="as-oil-cpc__right">
-    <div class="as-oil-l-row as-oil-l-buttons-${getTheme()}">
+    <div class="as-oil-l-row as-oil-l-buttons">
       <div class="as-oil-l-item">
         ${YesButton(`as-oil__btn-optin ${JS_CLASS_BUTTON_OPTIN}`)}
       </div>
@@ -141,6 +141,7 @@ const PurposeContainerSnippet = ({ id, header, text, value, key }) => {
             </div>
             <div class="as-oil-cpc__purpose-text">${text}</div>
         </div>
+        <span class="as-oil-cpc__purpose-more">Leggi di più...</span>
     </div>`
 };
 
@@ -248,7 +249,7 @@ const buildVendorListEntry = (element) => {
 const snippetLegalDescription = (list, index ,category) => {
   if (list.length > 0) {
     return `
-      <div>
+      <div class="as-oil-third-party-category-list">
         <p>
           <strong>${category}: </strong> ${categoryList(list, index)}
         </p>

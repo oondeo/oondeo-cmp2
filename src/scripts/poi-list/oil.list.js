@@ -1,4 +1,4 @@
-import { getLabel, getTheme } from '../userview/userview_config';
+import { getLabel } from '../userview/userview_config';
 import { OIL_LABELS } from '../userview/userview_constants';
 import { JS_CLASS_BUTTON_OPTIN, OIL_GLOBAL_OBJECT_NAME } from '../core/core_constants';
 import './poi.group.scss';
@@ -155,7 +155,7 @@ function oilListTemplate(list, heading, text) {
             ${listSnippet(list)}
             ${BackButton()}
         </div>
-        <div class="as-oil-l-row as-oil-l-buttons-${getTheme()}">
+        <div class="as-oil-l-row as-oil-l-buttons">
             <div class="as-oil-l-item">
               ${YesButton(`as-oil__btn-optin ${JS_CLASS_BUTTON_OPTIN}`)}
             </div>

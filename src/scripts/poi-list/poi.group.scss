@@ -30,7 +30,7 @@
     }
 
     @include media('<=phone') {
-      background: $background-color-light;
+      background: $background-color;
       padding: 8px;
       bottom: 0;
       left: 0;
@@ -57,6 +57,13 @@
   padding-bottom: 8px;
   margin-bottom: 8px;
 
+  svg {
+    path {
+      fill: $accent-color;
+      fill: var(--avacy-accent-primary);
+    }
+  }
+
   .as-oil-third-party-toggle-part {
     margin-left: 16px;
   }
@@ -64,18 +71,28 @@
   .as-oil-third-party-name {
     font-weight: bold;
     cursor: pointer;
+    font-size: 13px;
+    font-size: calc(13px * var(--avacy-font-base-scale));
   }
   .as-oil-third-party-description, .as-oil-third-party-purpose {
     font-size: 12px;
+    font-size: calc(12px * var(--avacy-font-base-scale));
   }
   .as-oil-third-party-link {
     color: $background-color-dark;
     font-size: 12px;
+    font-size: calc(12px * var(--avacy-font-base-scale));
     opacity: .5;
     text-decoration: none;
+  }
 
-    .dark & {
-      color: $text-color-primary-dark;
+  .as-oil-third-party-category-list {
+    font-size: 12px;
+    font-size: calc(12px * var(--avacy-font-base-scale));
+    
+    strong,
+    b {
+      font-weight: bold;
     }
   }
 }

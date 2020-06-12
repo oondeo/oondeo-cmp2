@@ -40,7 +40,8 @@ export const OIL_CONFIG = {
   ATTR_INFO_BANNER_ONLY: 'info_banner_only',
   ATTR_SUPPRESS_COOKIES: 'suppress_cookies',
   ATTR_LANGUAGE: 'language',
-  ATTR_LANGUAGES_LIST: 'languages'
+  ATTR_LANGUAGES_LIST: 'languages',
+  ATTR_VISUAL_CONFIGURATION: 'visual_configuration'
 };
 
 export const OIL_CONFIG_CPC_TYPES = {

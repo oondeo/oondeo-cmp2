@@ -9,7 +9,6 @@ import { updateTcfApi } from './core_tcf_api';
 import { manageDomElementActivation } from './core_tag_management';
 import { sendConsentInformationToCustomVendors } from './core_custom_vendors';
 import { getPurposes } from './core_vendor_lists';
-
 /**
  * Initialize Oil on Host Site
  * This functions gets called directly after Oil has loaded
