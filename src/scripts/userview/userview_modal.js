@@ -253,9 +253,9 @@ function setColorVariables(wrapper) {
 
   Object.entries(default_colors).forEach(([key, value]) => {
     if (config_colors[key] !== undefined) {
-      wrapper.style.setProperty(`--avacy-${key}`,config_colors[key])
+      wrapper.style.setProperty(`--avacy_${key}`,config_colors[key])
     } else {
-      wrapper.style.setProperty(`--avacy-${key}`,value)
+      wrapper.style.setProperty(`--avacy_${key}`,value)
     }
   });
 }
@@ -265,9 +265,9 @@ function setFontBaseSize(wrapper) {
   let font_base_scale = getVisualConfig().font_base_scale;
 
   if (font_base_scale !== undefined) {
-    wrapper.style.setProperty('--avacy-font-base-scale',font_base_scale)
+    wrapper.style.setProperty('--avacy_font_base_scale',font_base_scale)
   } else {
-    wrapper.style.setProperty('--avacy-font-base-scale',default_font_base_scale)
+    wrapper.style.setProperty('--avacy_font_base_scale',default_font_base_scale)
   }
 }
 
@@ -276,9 +276,9 @@ function setFontFamily(wrapper) {
   let font_family = getVisualConfig().font_family;
 
   if (font_family !== undefined) {
-    wrapper.style.setProperty('--avacy-font-family',font_family)
+    wrapper.style.setProperty('--avacy_font_family',font_family)
   } else {
-    wrapper.style.setProperty('--avacy-font-family',default_font_family)
+    wrapper.style.setProperty('--avacy_font_family',default_font_family)
   }
 }
 

@@ -75,10 +75,10 @@
     margin: 0;
     padding: 0.5rem 1rem;
     font-size: 13px;
-    font-size: calc(13px * var(--avacy-font-base-scale));
+    font-size: calc(13px * var(--avacy_font_base_scale));
     font-weight: 700;
     font-family: $font-family;
-    font-family: var(--avacy-font-family);
+    font-family: var(--avacy_font_family);
     border: none;
     border-radius: 7px;
     outline: none;
@@ -91,7 +91,7 @@
 
     @include media('>phone') {
         font-size: 16px;
-        font-size: calc(16px * var(--avacy-font-base-scale));
+        font-size: calc(16px * var(--avacy_font_base_scale));
     }
 }
 
@@ -99,13 +99,13 @@
     @include btn-shared;
 
     color: $btn-primary-text-color;
-    color: var(--avacy-btn-primary-text-color);
+    color: var(--avacy_btn_primary_text_color);
     background-color: $btn-primary;
-    background-color: var(--avacy-btn-primary-background);
+    background-color: var(--avacy_btn_primary_background);
 
     &:hover {
         background-color: $btn-primary;
-        background-color: var(--avacy-btn-primary-background-hover);
+        background-color: var(--avacy_btn_primary_background_hover);
     }
 }
 
@@ -113,13 +113,13 @@
     @include btn-shared;
 
     color: $btn-text-grey;
-    color: var(--avacy-btn-secondary-text-color);
+    color: var(--avacy_btn_secondary_text_color);
     background-color: $btn-background-grey;
-    background-color: var(--avacy-btn-secondary-background);
+    background-color: var(--avacy_btn_secondary_background);
 
     &:hover {
         background-color: $btn-background-grey;
-        background-color: var(--avacy-btn-secondary-background-hover);
+        background-color: var(--avacy_btn_secondary_background_hover);
     }
 }
 

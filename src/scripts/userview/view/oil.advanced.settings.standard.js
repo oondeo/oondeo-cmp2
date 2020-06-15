@@ -110,8 +110,8 @@ const ContentSnippet = () => {
 </div>`;
 };
 
-const PurposeContainerSnippet = ({ id, header, text, value, key }) => {
-  text = text.replace(/(\r\n|\n|\r)/gm, '<br>').replace(/\*/gm, '&bull;');
+const PurposeContainerSnippet = ({ id, header, text, legalText, value, key }) => {
+  legalText = legalText.replace(/(\r\n|\n|\r)/gm, '<br>').replace(/\*/gm, '<br>&#160;&hybull;');
 
   let hasLegInt;
 
@@ -123,27 +123,43 @@ const PurposeContainerSnippet = ({ id, header, text, value, key }) => {
             <div class="Purpose__Heading">
               <div class="as-oil-cpc__purpose-header Purpose__Title">${header}</div>
               <div class="Purpose__Switches">
-              ${key !== undefined ? `              
-                ${hasLegInt && (key !== 'specialFeature') ? `          
-                  <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--LegInt">
-                      <input data-id="${id}" id="as-js-legint-slider-${id}" class="as-js-${key}-legint-slider" type="checkbox" name="oil-cpc-legint-${id}" value="${value}"/>
-                      <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
-                      <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
-                  </label>
-                `: ''}
+              ${key !== undefined ? `
                   <label class="as-oil-cpc__switch Purpose__Switch Purpose__Switch--Consent">
                       <input data-id="${id}" id="as-js-${key}-slider-${id}" class="as-js-${key}-slider" type="checkbox" name="oil-cpc-${key}-${id}" value="${value}"/>
-                      <span class="as-oil-cpc__status Purpose__SwitchStatus"></span>
                       <span class="as-oil-cpc__slider Purpose__SwitchSlider"></span>
                   </label>
               `: ''}
               </div>
             </div>
             <div class="as-oil-cpc__purpose-text">${text}</div>
+            <div class="as-oil-cpc__purpose-legal-text" style="display: none">${legalText}</div>
+            ${snippetTextMore()}
         </div>
-        <span class="as-oil-cpc__purpose-more">Leggi di più...</span>
+        ${key !== undefined ? `              
+          ${hasLegInt && (key !== 'specialFeature') ? `          
+            ${snippetPurposeLengint(id, key, value)}
+          `: ''}
+        `: ''}
     </div>`
 };
+
+const snippetPurposeLengint = (id, key, value) => {
+  return `
+    <div class="LegintBlock">
+      <span class="LegintBlock__Description">Permetti a questo servizio di trattare i tuoi dati sulla base di un interesse legittimo.</span>
+      <label class="LegintBlock__Input">
+          <input data-id="${id}" id="as-js-legint-slider-${id}" class="as-js-${key}-legint-slider" type="checkbox" name="oil-cpc-legint-${id}" value="${value}"/>
+          <span class="LegintBlock__CheckBox"></span>
+      </label>
+    </div>
+  `;
+}
+
+const snippetTextMore = () => {
+  return `
+    <span class="as-oil-cpc__purpose-more" onClick='${OIL_GLOBAL_OBJECT_NAME}._toggleMoreText(this)'>${getLabel(OIL_LABELS.ATTR_LABEL_CPC_READ_MORE)}</span>
+  `;
+}
 
 const IsCustomVendorsEnables = () => {
   return !!getCustomVendorListUrl();
@@ -210,7 +226,7 @@ const buildVendorListEntry = (element) => {
   if (element.name) {
     return `
           <div class="as-oil-third-party-list-element Vendor">
-              <span onclick='${OIL_GLOBAL_OBJECT_NAME}._toggleViewElements(this)'>
+              <span class="Vendor__Heading" onclick='${OIL_GLOBAL_OBJECT_NAME}._toggleViewElements(this)'>
                   <svg class='as-oil-icon-plus' width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5.675 4.328H10v1.344H5.675V10h-1.35V5.672H0V4.328h4.325V0h1.35z" fill="#0068FF" fill-rule="evenodd" fill-opacity=".88"/>
                   </svg>
@@ -218,21 +234,8 @@ const buildVendorListEntry = (element) => {
                     <path d="M0 0h10v1.5H0z" fill="#3B7BE2" fill-rule="evenodd" opacity=".88"/>
                   </svg>
                   <span class='as-oil-third-party-name'>${element.name}</span>
-                  <div class="Vendor__Switches">
-                      ${element.legIntPurposes.length > 0 ? `
-                        <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--LegInt">
-                            <input data-id="${element.id}" id="as-js-vendor-legint-slider-${element.id}" class="as-js-vendor-legint-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
-                            <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
-                            <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
-                        </label>
-                      ` : ''}
-                    <label class="as-oil-cpc__switch Vendor__Switch Vendor__Switch--Consent">
-                        <input data-id="${element.id}" id="as-js-vendor-slider-${element.id}" class="as-js-vendor-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
-                        <span class="as-oil-cpc__status Vendor__SwitchStatus"></span>
-                        <span class="as-oil-cpc__slider Vendor__SwitchSlider"></span>
-                    </label>
-                  </div>
               </span>
+                ${snippetVendorConsent(element.id)}
               <div class='as-oil-third-party-toggle-part' style='display: none;'>
                 <a class='as-oil-third-party-link' href='${element.policyUrl}'>${element.policyUrl}</a>  
                 ${snippetLegalDescription(element.purposes, 'purposes', 'Purposes (Consent)')}
@@ -241,6 +244,7 @@ const buildVendorListEntry = (element) => {
                 ${snippetLegalDescription(element.features, 'features','Features')}
                 ${snippetLegalDescription(element.specialFeatures, 'specialFeatures','Special Features')}
               </div>
+              ${element.legIntPurposes.length > 0 ? snippetLengint(element.id) : ''}
             </div>
           `;
   }
@@ -258,6 +262,27 @@ const snippetLegalDescription = (list, index ,category) => {
   } else {
     return '';
   }
+}
+
+const snippetLengint = (id) => {
+  return `
+    <div class="LegintBlock">
+      <span class="LegintBlock__Description">Permetti a questo servizio di trattare i tuoi dati sulla base di un interesse legittimo.</span>
+      <label class="LegintBlock__Input">
+        <input data-id="${id}" id="as-js-vendor-legint-slider-${id}" class="as-js-vendor-legint-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+        <span class="LegintBlock__CheckBox"></span>
+      </label>
+    </div>
+  `;
+}
+
+const snippetVendorConsent = (id) => {
+  return `
+    <label class="as-oil-cpc__switch">
+      <input data-id="${id}" id="as-js-vendor-slider-${id}" class="as-js-vendor-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+      <span class="as-oil-cpc__slider"></span>
+    </label>
+  `;
 }
 
 
@@ -285,7 +310,8 @@ const buildPurposeEntries = (list, key = undefined) => {
     return PurposeContainerSnippet({
       id: purpose.id,
       header: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_text`, purpose.name || `Error: Missing text for purpose with id ${purpose.id}!`),
-      text: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_desc`, purpose.descriptionLegal || ''),
+      text: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_desc`, purpose.description || ''),
+      legalText: getLabelWithDefault(`label_cpc_purpose_${formatPurposeId(purpose.id)}_desc`, purpose.descriptionLegal || ''),
       value: false,
       key: key
     })

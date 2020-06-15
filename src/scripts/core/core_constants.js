@@ -23,7 +23,6 @@ export const OIL_CONFIG = {
   ATTR_PERSIST_MINIMUM_TRACKING: 'persist_min_tracking',
   ATTR_LOCALE: 'locale',
   ATTR_CPC_TYPE: 'cpc_type',
-  ATTR_THEME: 'theme',
   ATTR_TIMEOUT: 'timeout',
   ATTR_LOCALE_URL: 'locale_url',
   ATTR_IAB_VENDOR_LIST_URL: 'iabVendorListUrl',

@@ -32,7 +32,7 @@
 
   #as-js-third-parties-list {
     background-color: $third-parties-background;
-    background-color: var(--avacy-third-parties-background);
+    background-color: var(--avacy_third_parties_background);
   }
 
   @include media('>desktop') {
@@ -116,7 +116,7 @@
       padding: 1rem 1rem 0 1rem;
       margin: 0;
       background-color: $third-parties-background;
-      background-color: var(--avacy-third-parties-background);
+      background-color: var(--avacy_third_parties_background);
   }
   }
   
@@ -137,30 +137,30 @@
   }
   
   &__purpose-header {
-    margin: 0 75px 0 0;
+    margin: 0 10px 0 0;
   }
-  
-  &__purpose-text {
+
+  &__purpose-text,
+  &__purpose-legal-text {
     margin-top: 10px;
   }
   
   &__switch {
-    width: 50px;
-    height: 26px;
+    width: $slider-size * 2;
+    height: $slider-size;
     position: relative;
-    margin-bottom: 10px;
   
     input {
       display: none;
   
       &:checked ~ .as-oil-cpc__slider {
         background-color: $accent-primary;
-        background-color: var(--avacy-accent-primary);
+        background-color: var(--avacy_accent_primary);
       }
   
       &:focus ~ .as-oil-cpc__slider {
         box-shadow: 0 0 1px $accent-primary;
-        box-shadow: 0 0 1px var(--avacy-accent-primary);
+        box-shadow: 0 0 1px var(--avacy_accent_primary);
       }
   
       &:checked ~ .as-oil-cpc__slider:before {
@@ -169,22 +169,25 @@
     }
   }
 
-  @include media('<tablet') {
-    &__purpose-text {
-      display: none;
-    }
+  &__purpose-legal-text {
+    padding-left: 1rem;
+    border-left: 3px solid var(--avacy_third_parties_background);
+    margin-top: 0;
+    margin-left: 0.2rem;
   }
+
+  &__purpose-more {
+    font-weight: bold;
+    font-size: 14px;
+    font-size: calc(14px * var(--avacy_font_base_scale));
+    cursor: pointer;
+  }
+
 
   @include media('<desktop') {
     &__row-btn-all {
       display: flex;
       justify-content: center;
-    }
-  }
-
-  @include media('>tablet') {
-    &__purpose-more {
-      display: none;
     }
   }
 
@@ -197,25 +200,6 @@
   
 }
 
-.as-oil-cpc__status {
-  &.Purpose__SwitchStatus,
-  &.Vendor__SwitchStatus {
-    position: relative;
-    width: 100px;
-    height: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    left: -100px;
-    top: auto;
-    display: none;
-
-    &::after {
-      padding: 0 8px;
-      text-align: right;
-    }
-  }
-}
 
 .Purpose,
 .Vendor {
@@ -242,52 +226,77 @@
     }
   }
 
-  &__Switch {
-    width: $slider-size * 2;
-    height: $slider-size;
-    position: relative;
-    margin-bottom: $slider-size / 2;
-
-    &--Consent {
-      input {
-        & + .as-oil-cpc__status:after {
-          content: "Consent";
-        }
-    
-        &:checked ~ .as-oil-cpc__status:after {
-          content: "Consent";
-        }
-      }
-    }
-
-    &--LegInt {
-      // display: none;
-      input {
-        & + .as-oil-cpc__status:after {
-          content: "Legitimate Interest";
-        }
-    
-        &:checked ~ .as-oil-cpc__status:after {
-          content: "Legitimate Interest";
-        }
-      }
-    }
-
-
-    @include media('>=1280px') {
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-end;
-      margin-left: 0.3rem;
-    }
-  }
 }
 
 .Vendor {
   padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
 
-  &__Switches {
-    margin: 10px 0;
-    // display: none;
+  &__Heading {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .as-oil-third-party-name {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+.LegintBlock {
+  background-color: $background_color;
+  background-color: var(--avacy_background_color);
+  border: 1px solid var(--avacy_btn_secondary_background);
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  margin: 0.7rem 0;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  &__Description {
+    flex: 1;
+    font-size: 12px;
+    font-size: calc(12px * var(--avacy_font_base_scale));
+
+    @include media('>=1280px') {
+      font-size: 14px;
+      font-size: calc(14px * var(--avacy_font_base_scale));
+    }
+  }
+
+  &__Input {
+    input {
+      display: none;
+
+      &:checked ~ .LegintBlock__CheckBox {
+        border: 2px solid var(--avacy_accent_primary);
+        position: relative;
+        background-color: var(--avacy_accent_primary);
+
+        &::after {
+          position: absolute;
+          content: '';
+          width: 100%;
+          height: 100%;
+          background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' id='Capa_1' enable-background='new 0 0 515.556 515.556' height='512px' viewBox='0 0 515.556 515.556' width='512px' class=''%3E%3Cg%3E%3Cpath d='m0 274.226 176.549 176.886 339.007-338.672-48.67-47.997-290.337 290-128.553-128.552z' data-original='%23000000' class='active-path' data-old_color='%23000000' fill='%23FFFFFF'/%3E%3C/g%3E%3C/svg%3E%0A");
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: 70%;
+        }
+      }
+    }
+  }
+
+  &__CheckBox {
+    border: 2px solid var(--avacy_btn_secondary_background);
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 5px;
+    display: block;
+    cursor: pointer;
   }
 }

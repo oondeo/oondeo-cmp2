@@ -176,12 +176,12 @@
     &:checked ~ {
       .as-oil-cpc__slider {
         background-color: $accent-primary;
-        background-color: var(--avacy-accent-primary);
+        background-color: var(--avacy_accent_primary);
       }
     }
     &:focus ~ .as-oil-cpc__slider {
       box-shadow: 0 0 1px $accent-primary;
-      box-shadow: 0 0 1px var(--avacy-accent-primary);
+      box-shadow: 0 0 1px var(--avacy_accent_primary);
     }
     &:checked ~ .as-oil-cpc__slider::before {
       transform: translateX($slider-size);

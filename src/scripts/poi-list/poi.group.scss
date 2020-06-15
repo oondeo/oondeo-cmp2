@@ -60,7 +60,7 @@
   svg {
     path {
       fill: $accent-color;
-      fill: var(--avacy-accent-primary);
+      fill: var(--avacy_accent_primary);
     }
   }
 
@@ -72,23 +72,23 @@
     font-weight: bold;
     cursor: pointer;
     font-size: 13px;
-    font-size: calc(13px * var(--avacy-font-base-scale));
+    font-size: calc(13px * var(--avacy_font_base_scale));
   }
   .as-oil-third-party-description, .as-oil-third-party-purpose {
     font-size: 12px;
-    font-size: calc(12px * var(--avacy-font-base-scale));
+    font-size: calc(12px * var(--avacy_font_base_scale));
   }
   .as-oil-third-party-link {
     color: $background-color-dark;
     font-size: 12px;
-    font-size: calc(12px * var(--avacy-font-base-scale));
+    font-size: calc(12px * var(--avacy_font_base_scale));
     opacity: .5;
     text-decoration: none;
   }
 
   .as-oil-third-party-category-list {
     font-size: 12px;
-    font-size: calc(12px * var(--avacy-font-base-scale));
+    font-size: calc(12px * var(--avacy_font_base_scale));
     
     strong,
     b {

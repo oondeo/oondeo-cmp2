@@ -33,7 +33,7 @@
     right: 0;
     bottom: 0;
     background-color: $slider-background-grey;
-    background-color: var(--avacy-slider-background);
+    background-color: var(--avacy_slider_background);
     transition: .4s;
     border-radius: 17px;
 
@@ -45,7 +45,7 @@
       left: $slider-padding;
       bottom: $slider-padding;
       background-color: $slider-background-circle;
-      background-color: var(--avacy-slider-background-circle);
+      background-color: var(--avacy_slider_background_circle);
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .08);
       transition: .4s;
       border-radius: 50%;
