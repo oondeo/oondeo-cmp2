@@ -148,7 +148,7 @@ const snippetPurposeLengint = (id, key, value) => {
     <div class="LegintBlock">
       <span class="LegintBlock__Description">Permetti a questo servizio di trattare i tuoi dati sulla base di un interesse legittimo.</span>
       <label class="LegintBlock__Input">
-          <input data-id="${id}" id="as-js-legint-slider-${id}" class="as-js-${key}-legint-slider" type="checkbox" name="oil-cpc-legint-${id}" value="${value}"/>
+          <input data-id="${id}" id="as-js-legint-slider-${id}" class="as-js-${key}-legint-slider" type="checkbox" name="oil-cpc-legint-${id}" value="${value}" checked/>
           <span class="LegintBlock__CheckBox"></span>
       </label>
     </div>
@@ -269,7 +269,7 @@ const snippetLengint = (id) => {
     <div class="LegintBlock">
       <span class="LegintBlock__Description">Permetti a questo servizio di trattare i tuoi dati sulla base di un interesse legittimo.</span>
       <label class="LegintBlock__Input">
-        <input data-id="${id}" id="as-js-vendor-legint-slider-${id}" class="as-js-vendor-legint-slider" type="checkbox" name="oil-cpc-purpose" value=""/>
+        <input data-id="${id}" id="as-js-vendor-legint-slider-${id}" class="as-js-vendor-legint-slider" type="checkbox" name="oil-cpc-purpose" value="" checked/>
         <span class="LegintBlock__CheckBox"></span>
       </label>
     </div>
@@ -323,14 +323,14 @@ const formatPurposeId = (id) => {
 };
 
 function activateAll() {
-  let elements = document.querySelectorAll('.as-js-purpose-slider, .as-js-purpose-legint-slider, .as-js-specialFeature-slider, .as-js-vendor-slider, .as-js-vendor-legint-slider');
+  let elements = document.querySelectorAll('.as-js-purpose-slider, .as-js-specialFeature-slider, .as-js-vendor-slider');
   forEach(elements, (domNode) => {
     domNode && (domNode.checked = true);
   });
 }
 
 export function deactivateAll() {
-  let elements = document.querySelectorAll('.as-js-purpose-slider, .as-js-purpose-legint-slider, .as-js-specialFeature-slider, .as-js-vendor-slider, .as-js-vendor-legint-slider');
+  let elements = document.querySelectorAll('.as-js-purpose-slider, .as-js-specialFeature-slider, .as-js-vendor-slider');
   forEach(elements, (domNode) => {
     domNode && (domNode.checked = false);
   });
