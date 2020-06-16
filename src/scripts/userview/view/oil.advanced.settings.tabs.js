@@ -45,7 +45,7 @@ export function attachCpcHandlers() {
 const ContentSnippet = () => {
   return `
     <div class="as-oil-tabs-cpc__purpose-description as-oil-center as-oil-margin-top" id="as-oil-cpc-purposes">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_DESC)}
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)}
     </div>
     <div class="as-oil-cpc__middle">
       ${buildPurposeEntries(getPurposes().concat(getCustomPurposes()))}

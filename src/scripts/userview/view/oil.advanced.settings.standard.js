@@ -41,64 +41,67 @@ export function attachCpcHandlers() {
 
 
 const ContentSnippet = () => {
-
   return `
 <div data-qa="cpc-snippet" class="as-oil-l-row as-oil-cpc__content">
-  <div class="as-oil-cpc__left">
-    <a href="#as-oil-cpc-purposes" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link ${CLASS_NAME_FOR_ACTIVE_MENU_SECTION}">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)}
-    </a>
-    <a href="#as-oil-cpc-special-purposes" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)}
-    </a>
-    <a href="#as-oil-cpc-features" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
-    ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_FEATURE_TITLE)}
-    </a>
-    <a href="#as-oil-cpc-special-features" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)}
-    </a>
-    <a href="#as-oil-cpc-third-parties" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_THIRD_PARTY)}
-    </a>
-    ${IsCustomVendorsEnables() ? `
-      <a href="#as-oil-cpc-custom-third-parties" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
-         ${getLabel(OIL_LABELS.ATTR_LABEL_CUSTOM_THIRD_PARTY_HEADING)}
+  <div class="as-oil-cpc__left scroll-tabs-end">
+    <div class="as-oil-cpc__left-wrapper">
+      <a href="#as-oil-cpc-purposes" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link ${CLASS_NAME_FOR_ACTIVE_MENU_SECTION}">
+        ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)}
       </a>
-    ` : ''}
-  </div>
-  <div class="as-oil-cpc__middle as-js-purposes">
-    ${getPurposes() ? `
-    <div class="as-oil-cpc__row-title" id="as-oil-cpc-purposes">
-    ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)}
-    </div>
-    ${buildPurposeEntries(getPurposes(), 'purpose')}
-    ` : ''}
-
-    ${getSpecialPurposes() ? `
-    <div class="as-oil-cpc__row-title" id="as-oil-cpc-special-purposes">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)}
-    </div>
-    ${buildPurposeEntries(getSpecialPurposes())}
-    ` : ''}
-
-    ${getFeatures() ? `
-    <div class="as-oil-cpc__row-title" id="as-oil-cpc-features">
+      <a href="#as-oil-cpc-special-purposes" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
+        ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)}
+      </a>
+      <a href="#as-oil-cpc-features" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
       ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_FEATURE_TITLE)}
+      </a>
+      <a href="#as-oil-cpc-special-features" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
+        ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)}
+      </a>
+      <a href="#as-oil-cpc-third-parties" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
+        ${getLabel(OIL_LABELS.ATTR_LABEL_THIRD_PARTY)}
+      </a>
+      ${IsCustomVendorsEnables() ? `
+        <a href="#as-oil-cpc-custom-third-parties" onclick='${OIL_GLOBAL_OBJECT_NAME}._switchLeftMenuClass(this)' class="as-oil-cpc__category-link">
+          ${getLabel(OIL_LABELS.ATTR_LABEL_CUSTOM_THIRD_PARTY_HEADING)}
+        </a>
+      ` : ''}
     </div>
-    ${buildPurposeEntries(getFeatures())}
-    ` : ''}
+  </div>
+  <div class="as-oil-cpc__middle scroll-content-end as-js-purposes">
+    <div class="as-oil-cpc__middle-wrapper">
+      ${getPurposes() ? `
+      <div class="as-oil-cpc__row-title" id="as-oil-cpc-purposes">
+      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_PURPOSE_TITLE)}
+      </div>
+      ${buildPurposeEntries(getPurposes(), 'purpose')}
+      ` : ''}
 
-    ${getSpecialFeatures() ? `
-    <div class="as-oil-cpc__row-title" id="as-oil-cpc-special-features">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)}
+      ${getSpecialPurposes() ? `
+      <div class="as-oil-cpc__row-title" id="as-oil-cpc-special-purposes">
+        ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_PURPOSE_TITLE)}
+      </div>
+      ${buildPurposeEntries(getSpecialPurposes())}
+      ` : ''}
+
+      ${getFeatures() ? `
+      <div class="as-oil-cpc__row-title" id="as-oil-cpc-features">
+        ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_FEATURE_TITLE)}
+      </div>
+      ${buildPurposeEntries(getFeatures())}
+      ` : ''}
+
+      ${getSpecialFeatures() ? `
+      <div class="as-oil-cpc__row-title" id="as-oil-cpc-special-features">
+        ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE)}
+      </div>
+      ${buildPurposeEntries(getSpecialFeatures(), 'specialFeature')}
+      ` : ''}
+      
+      ${buildPurposeEntries(getCustomPurposes())}
+
+      ${buildIabVendorList()}
+      ${buildCustomVendorList()}
     </div>
-    ${buildPurposeEntries(getSpecialFeatures(), 'specialFeature')}
-    ` : ''}
-    
-    ${buildPurposeEntries(getCustomPurposes())}
-
-    ${buildIabVendorList()}
-    ${buildCustomVendorList()}
   </div>
   <div class="as-oil-cpc__right">
     <div class="as-oil-l-row as-oil-l-buttons">

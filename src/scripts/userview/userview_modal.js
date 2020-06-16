@@ -33,6 +33,7 @@ import { manageDomElementActivation } from '../core/core_tag_management';
 import { sendConsentInformationToCustomVendors } from '../core/core_custom_vendors';
 import { getAllPreferences } from '../core/core_consents';
 import { getVisualConfig, getDefaultVisualConfig } from '../userview/userview_config';
+import { set } from 'core-js/fn/dict';
 // Initialize our Oil wrapper and save it ...
 
 export const oilWrapper = defineOilWrapper;
@@ -228,7 +229,7 @@ function oilShowThirdPartyList() {
 function defineOilWrapper() {
   let oilWrapper = document.createElement('div');
   // Set some attributes as CSS classes and attributes for testing
-  oilWrapper.setAttribute('class', `as-oil ${getTheme()} ${getBannerPosition()} ${getBannerAnimation()}`);
+  oilWrapper.setAttribute('class', `as-oil ${getBannerPosition()} ${getBannerAnimation()}`);
   oilWrapper.setAttribute('data-qa', 'oil-Layer');
   return oilWrapper;
 }
@@ -244,7 +245,43 @@ function renderOilContentToWrapper(content) {
   setFontBaseSize(wrapper);
   setFontFamily(wrapper);
   injectOilWrapperInDOM(wrapper);
+  setTabsBlur(wrapper);
+  setContentBlur(wrapper);
+}
 
+function setTabsBlur(wrapper) {
+  let scrollable = wrapper.querySelector('.as-oil-cpc__left');
+  let scrollableWrapper = wrapper.querySelector('.as-oil-cpc__left-wrapper');
+  if (scrollableWrapper) { 
+    scrollableWrapper.addEventListener('scroll', e => {
+      if (e.target.scrollLeft > 0) {
+        scrollable.classList.remove('scroll-tabs-end');
+        scrollable.classList.add('scroll-tabs-start');
+      } else {
+        scrollable.classList.add('scroll-tabs-end');
+        scrollable.classList.remove('scroll-tabs-start');
+      }
+    });
+  }
+}
+
+function setContentBlur(wrapper) {
+  let scrollable = wrapper.querySelector('.as-oil-cpc__middle');
+  let scrollableWrapper = wrapper.querySelector('.as-oil-cpc__middle-wrapper');
+  if (scrollableWrapper) { 
+    scrollableWrapper.addEventListener('scroll', e => {
+      if (e.target.scrollTop > 0) {
+        scrollable.classList.add('scroll-content-start');
+        scrollable.classList.add('scroll-content-end');
+        if (e.target.scrollTop === e.target.scrollHeight - e.target.offsetHeight - 1) {
+          scrollable.classList.remove('scroll-content-end');
+        }
+      } else {
+        scrollable.classList.add('scroll-content-end');
+        scrollable.classList.remove('scroll-content-start');
+      }
+    });
+  }
 }
 
 function setColorVariables(wrapper) {

@@ -166,6 +166,7 @@ function oilListTemplate(list, heading, text) {
   return `<div class="as-oil-fixed">
     <div class="as-oil-content-overlay as-oil-poi-group-list-wrapper" data-qa="oil-poi-list">
         <div class="as-oil-l-wrapper-layout-max-width">
+            ${BackButton()}
             <div class="as-oil__heading">
                 ${heading}
             </div>
@@ -173,7 +174,6 @@ function oilListTemplate(list, heading, text) {
                 ${text} 
             </p>
             ${listSnippet(list)}
-            ${BackButton()}
         </div>
         <div class="as-oil-l-row as-oil-l-buttons">
             <div class="as-oil-l-item">

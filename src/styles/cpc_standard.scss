@@ -55,8 +55,56 @@
   &__left {
     display: flex;
     align-items: center;
-    overflow-x: scroll;
     margin-bottom: 1rem;
+    width: 100%;
+
+    @include media('<phone') {
+      &.scroll-tabs-end {
+        position: relative;
+        &::after {
+          position: absolute;
+          content: '';
+          right: 0;
+          top: 0;
+          height: 100%;
+          width: 2rem;
+          background: $background_color;
+          background: -moz-linear-gradient(270deg, $background_color 0%, transparentize($background_color, 1) 100%);
+          background: -webkit-linear-gradient(270deg, $background_color 0%, transparentize($background_color, 1) 100%);
+          background: linear-gradient(270deg, $background_color 0%, transparentize($background_color, 1) 100%);
+        }
+      }
+
+      &.scroll-tabs-start {
+        position: relative;
+        &::after {
+          position: absolute;
+          content: '';
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: 2rem;
+          background: $background_color;
+          background: -moz-linear-gradient(90deg, $background_color 0%, transparentize($background_color, 1) 100%);
+          background: -webkit-linear-gradient(90deg, $background_color 0%, transparentize($background_color, 1) 100%);
+          background: linear-gradient(90deg, $background_color 0%, transparentize($background_color, 1) 100%);
+        }
+      }
+    }
+    @include media('>desktop') {
+      align-items: flex-start;
+      width: auto;
+    }
+  }
+
+  &__left-wrapper {
+    display: flex;
+    align-items: center;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     @include media('>desktop') {
       flex-direction: column;
@@ -66,19 +114,92 @@
   }
 
   &__middle {
-    display: inline-block;
-    overflow: scroll;
-    max-height: 500px; /* The Fallback */
+    display: flex;
+    max-height: 300px; /* The Fallback */
     height: 30vh;
     width: 100%;
-  
+
+    @include media('<phone') {
+      &.scroll-content-end {
+        position: relative;
+        &::after {
+          position: absolute;
+          z-index: 1;
+          content: '';
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 2rem;
+          background: $background_color;
+          background: -moz-linear-gradient(0, $background_color 0%, transparentize($background_color, 1) 100%);
+          background: -webkit-linear-gradient(0, $background_color 0%, transparentize($background_color, 1) 100%);
+          background: linear-gradient(0, $background_color 0%, transparentize($background_color, 1) 100%);
+        }
+      }
+
+      &.scroll-content-start {
+        position: relative;
+        &::before {
+          position: absolute;
+          content: '';
+          z-index: 1;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 2rem;
+          background: $background_color;
+          background: -moz-linear-gradient(180deg, $background_color 0%, transparentize($background_color, 1) 100%);
+          background: -webkit-linear-gradient(180deg, $background_color 0%, transparentize($background_color, 1) 100%);
+          background: linear-gradient(180deg, $background_color 0%, transparentize($background_color, 1) 100%);
+        }
+      }
+    }
+
     @include media('>phone') {
       padding: 0 1.5rem 1.5rem 1.5rem;
+      max-height: 300px; /* The Fallback */
+      height: 40vh;
     }
     @include media('>tablet') {
       flex: 1;
     }
   }
+
+  &__middle-wrapper {
+    height: 100%;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include media('>tablet') {
+      flex: 1;
+
+      &::-webkit-scrollbar {
+          display: block;
+          width: 0.5rem;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+          border-radius: 0.3rem;
+          background: var(--avacy_third_parties_background);
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+          background: var(--avacy_accent_primary);
+          border-radius: 0.3rem;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+          background: var(--avacy_accent_primary);
+      }
+    }
+  }
+
   
   &__right {
     width: 100%;
@@ -103,7 +224,7 @@
       align-items: center;
       justify-content: center;
       width: 49%;
-      margin: 0 0.2rem;
+      margin: 0.2rem;
       text-align: center;
       padding: .7rem 1rem;
     }

@@ -18,9 +18,26 @@
     }
   }
 
+  @include media('>phone') {
+    .as-oil-l-row {
+      width: auto;
+  
+      .as-oil-l-item {
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+  }
+
+  .as-oil-l-wrapper-layout-max-width {
+    display: flex;
+    flex-direction: column;
+  }
+
   .as-oil-poi-group-list {
     overflow: auto;
     overflow-y: scroll;
+    min-height: 150px;
     max-height: 200px;
   }
 
