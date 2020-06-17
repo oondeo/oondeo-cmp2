@@ -241,11 +241,11 @@ const buildVendorListEntry = (element) => {
                 ${snippetVendorConsent(element.id)}
               <div class='as-oil-third-party-toggle-part' style='display: none;'>
                 <a class='as-oil-third-party-link' href='${element.policyUrl}'>${element.policyUrl}</a>  
-                ${snippetLegalDescription(element.purposes, 'purposes', 'Purposes (Consent)')}
-                ${snippetLegalDescription(element.legIntPurposes, 'purposes', 'Purposes (Legitimate Interest)')}
-                ${snippetLegalDescription(element.specialPurposes, 'specialPurposes', 'Special Purposes')}
-                ${snippetLegalDescription(element.features, 'features','Features')}
-                ${snippetLegalDescription(element.specialFeatures, 'specialFeatures','Special Features')}
+                ${snippetLegalDescription(element.purposes, 'purposes', getLabel(OIL_LABELS.ATTR_LABEL_CPC_LEGAL_PURPOSE_CONSENT))}
+                ${snippetLegalDescription(element.legIntPurposes, 'purposes', getLabel(OIL_LABELS.ATTR_LABEL_CPC_LEGAL_PURPOSE_LEG_INT))}
+                ${snippetLegalDescription(element.specialPurposes, 'specialPurposes', getLabel(OIL_LABELS.ATTR_LABEL_CPC_LEGAL_PURPOSE_SPECIAL_PURPOSES))}
+                ${snippetLegalDescription(element.features, 'features', getLabel(OIL_LABELS.ATTR_LABEL_CPC_LEGAL_PURPOSE_FEATURES))}
+                ${snippetLegalDescription(element.specialFeatures, 'specialFeatures', getLabel(OIL_LABELS.ATTR_LABEL_CPC_LEGAL_PURPOSE_SPECIAL_FEATURES))}
               </div>
               ${element.legIntPurposes.length > 0 ? snippetLengint(element.id) : ''}
             </div>
