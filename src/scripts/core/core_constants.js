@@ -8,6 +8,7 @@ export const OIL_SPEC = {
 
 export const OIL_CONFIG = {
   ATTR_CONFIG_VERSION: 'config_version',
+  ATTR_POLICY_VERSION: 'policy_version',
   ATTR_ACTIVATE_POI: 'poi_activate_poi',
   ATTR_HUB_ORIGIN: 'poi_hub_origin',
   ATTR_HUB_PATH: 'poi_hub_path',
@@ -22,7 +23,6 @@ export const OIL_CONFIG = {
   ATTR_PERSIST_MINIMUM_TRACKING: 'persist_min_tracking',
   ATTR_LOCALE: 'locale',
   ATTR_CPC_TYPE: 'cpc_type',
-  ATTR_THEME: 'theme',
   ATTR_TIMEOUT: 'timeout',
   ATTR_LOCALE_URL: 'locale_url',
   ATTR_IAB_VENDOR_LIST_URL: 'iabVendorListUrl',
@@ -37,7 +37,10 @@ export const OIL_CONFIG = {
   ATTR_GDPR_APPLIES: 'gdpr_applies',
   ATTR_REQUIRE_OPTOUT_CONFIRM: 'require_optout_confirm',
   ATTR_INFO_BANNER_ONLY: 'info_banner_only',
-  ATTR_SUPPRESS_COOKIES: 'suppress_cookies'
+  ATTR_SUPPRESS_COOKIES: 'suppress_cookies',
+  ATTR_LANGUAGE: 'language',
+  ATTR_LANGUAGES_LIST: 'languages',
+  ATTR_VISUAL_CONFIGURATION: 'visual_configuration'
 };
 
 export const OIL_CONFIG_CPC_TYPES = {
@@ -46,6 +49,7 @@ export const OIL_CONFIG_CPC_TYPES = {
 };
 
 export const OIL_CONFIG_DEFAULT_VERSION = 0;
+export const OIL_POLICY_DEFAULT_VERSION = 0;
 
 // Main Click events
 export const EVENT_NAME_OPT_IN = 'oil_optin_done';
@@ -84,6 +88,7 @@ export const OIL_PAYLOAD_LOCALE_VARIANT_VERSION = 'lvv';
 export const OIL_PAYLOAD_CUSTOM_PURPOSES = 'cp';
 export const OIL_PAYLOAD_CUSTOM_VENDORLIST_VERSION = 'cvl';
 export const OIL_PAYLOAD_CONFIG_VERSION = 'cv';
+export const OIL_PAYLOAD_POLICY_VERSION = 'pv';
 
 // Identify privacy page link, eg. for tracking
 export const DATAQA_PRIVACY_PAGE = 'oil-PrivacyPage';
@@ -109,4 +114,8 @@ export const OIL_GLOBAL_OBJECT_NAME = 'AS_OIL';
 // Tag management
 export const MANAGED_TAG_IDENTIFIER = 'as-oil';
 export const MANAGED_TAG_IDENTIFIER_ATTRIBUTE = 'data-managed';
-export const MANAGED_TAG_PURPOSES_ATTRIBUTE = 'data-purposes';
+export const MANAGED_TAG__ATTRIBUTES = {
+  PURPOSES_ATTRIBUTE: 'data-purposes',
+  LEGINT_ATTRIBUTE: 'data-legints',
+  SPECIAL_FEATURES_ATTRIBUTE: 'data-special-features'
+}

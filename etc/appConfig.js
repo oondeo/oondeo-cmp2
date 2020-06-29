@@ -124,6 +124,12 @@ module.exports = {
     chunksSortMode: 'dependency',
     inject: 'head'
   }, {
+    filename: 'demos/papyri-integration.html',
+    template: path.resolve(sourcePath, 'demos', 'papyri-integration.html'),
+    chunks: ['oilstub', 'oil'],
+    chunksSortMode: 'dependency',
+    inject: 'head'
+  }, {
     filename: 'demos/open-source-example.html',
     template: path.resolve(sourcePath, 'demos', 'open-source-example.html'),
     chunks: [],

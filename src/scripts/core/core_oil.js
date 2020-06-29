@@ -3,12 +3,12 @@ import { handleOptOut } from './core_optout';
 import { logError, logInfo, logPreviewInfo } from './core_log';
 import { checkOptIn } from './core_optin';
 import { getSoiCookie, isBrowserCookieEnabled, isPreviewCookieSet, removePreviewCookie, removeVerboseCookie, setPreviewCookie, setVerboseCookie } from './core_cookies';
-import { getLocale, isAmpModeActivated, isPreviewMode, resetConfiguration, setGdprApplies } from './core_config';
+import { getLocale, isAmpModeActivated, isPreviewMode, resetConfiguration, setGdprApplies, gdprApplies } from './core_config';
 import { EVENT_NAME_HAS_OPTED_IN, EVENT_NAME_NO_COOKIES_ALLOWED } from './core_constants';
 import { updateTcfApi } from './core_tcf_api';
 import { manageDomElementActivation } from './core_tag_management';
 import { sendConsentInformationToCustomVendors } from './core_custom_vendors';
-
+import { getPurposes } from './core_vendor_lists';
 /**
  * Initialize Oil on Host Site
  * This functions gets called directly after Oil has loaded
@@ -50,6 +50,7 @@ export function initOilLayer() {
     checkOptIn().then((result) => {
       let optin = result[0];
       let cookieData = result[1];
+
       if (optin) {
         /**
          * User has opted in
@@ -64,7 +65,9 @@ export function initOilLayer() {
         import('../userview/locale/userview_oil.js')
           .then(userview_modal => {
             userview_modal.locale(uv_m => uv_m.renderOil({ optIn: false }));
-            updateTcfApi(cookieData, true);
+            if (gdprApplies()) {
+              updateTcfApi(cookieData, true);
+            }
           })
           .catch((e) => {
             logError('Locale could not be loaded.', e);
@@ -133,9 +136,9 @@ function attachUtilityFunctionsToWindowObject() {
     return getSoiCookie();
   });
 
-  setGlobalOilObject('showPreferenceCenter', () => {
+  setGlobalOilObject('showPreferenceCenter', (mode = 'inline') => {
     loadLocale(userview_modal => {
-      userview_modal.oilShowPreferenceCenter();
+      userview_modal.oilShowPreferenceCenter(mode);
     });
   });
 
@@ -159,6 +162,81 @@ function attachUtilityFunctionsToWindowObject() {
 
   setGlobalOilObject('triggerOptOut', () => {
     handleOptOut();
+  });
+
+  setGlobalOilObject('getPurposeConsents', () => {
+    return new Promise((resolve, reject) => {
+      window.__tcfapi('getTCData', 2, (tcData, success) => {
+        if(success) {
+          let consentsList = {}
+          for (let [key, value] of Object.entries(getPurposes())) {
+            if (tcData.purpose.consents[key] === true) {
+              consentsList[key] = true;
+            } else {
+              consentsList[key] = false;
+            }
+          }
+          resolve(consentsList)
+        } else {
+          reject(false)
+        }
+      });
+    });
+  });
+
+  setGlobalOilObject('getLegIntConsents', () => {
+    return new Promise((resolve, reject) => {
+      window.__tcfapi('getTCData', 2, (tcData, success) => {
+        if(success) {
+          let legintList = {}
+          for (let [key, value] of Object.entries(getPurposes())) {
+            if (tcData.purpose.legitimateInterests[key] === true) {
+              legintList[key] = true;
+            } else {
+              legintList[key] = false;
+            }
+          }
+          resolve(legintList)
+        } else {
+          reject(false)
+        }
+      });
+    });
+  });
+
+  setGlobalOilObject('hasConsents', (purposes = [], legint = []) => {
+    return new Promise((resolve, reject) => {
+      if (Array.isArray(purposes) && purposes.length > 0 && Array.isArray(legint)) {
+          let consentsResult = window.AS_OIL.getPurposeConsents().then(value => {
+            return purposes.every(item => value[item] === true)
+          })
+
+          let legIntsResult = window.AS_OIL.getLegIntConsents().then(value => {
+            return legint.every(item => value[item] === true)
+          })
+
+          Promise.all([consentsResult, legIntsResult]).then(result => {
+            resolve(result.every(value => value === true));
+          })
+
+      } else {
+          reject(false);
+      }
+    });
+  });
+
+  setGlobalOilObject('getLegalText', (legalText = 'cookie') => {
+    return new Promise((resolve, reject) => {
+      //TODO: Check if config object exist
+      if (legalText && window.AS_OIL.CONFIG.locale[legalText + '_policy']) {
+          resolve({
+              text: window.AS_OIL.CONFIG.locale[`${legalText}_policy`],
+              version: window.AS_OIL.CONFIG.locale[`${legalText}_policy_version`]
+          });
+      } else {
+          reject(`Cannot find legal text ${legalText}_policy`);
+      }
+  });
   });
 
   setGlobalOilObject('applyGDPR', () => {

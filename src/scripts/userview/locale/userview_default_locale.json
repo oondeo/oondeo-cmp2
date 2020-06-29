@@ -27,6 +27,11 @@
     "label_cpc_purpose_title": "Purposes",
     "label_cpc_special_purpose_title": "Special Purposes",
     "label_cpc_feature_title": "Feature",
-    "label_cpc_special_feature_title": "Special Features"
+    "label_cpc_special_feature_title": "Special Features",
+    "label_cpc_legal_purpose_consent": "Purposes (Consent)",
+    "label_cpc_legal_purpose_leg_int": "Purposes (Legitimate Interest)",
+    "label_cpc_legal_special_purposes": "Special Purposes",
+    "label_cpc_legal_features": "Features",
+    "label_cpc_legal_special_features": "Special Features"
   }
 }

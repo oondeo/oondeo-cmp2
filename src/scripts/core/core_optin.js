@@ -2,7 +2,7 @@
 import { getSoiCookie, setSoiCookieWithPoiCookieData } from './core_cookies';
 import { logPreviewInfo } from './core_log';
 import { verifyPowerOptIn } from './core_poi';
-
+import { getPolicyVersion } from './core_config';
 /**
  * Log Helper function for checkOptIn
  * @param {*} singleOptIn
@@ -27,6 +27,10 @@ export function checkOptIn() {
     let cookie = getSoiCookie();
     let soiOptIn = cookie.opt_in;
     let resultOptIn = soiOptIn;
+
+    if (cookie.policyVersion !== getPolicyVersion()) {
+      resultOptIn = false;
+    }
 
     // Verify Power Opt In (will return immediately if not activated), it will overwrite the SOI result only if its positive
     verifyPowerOptIn().then((powerOptIn) => {

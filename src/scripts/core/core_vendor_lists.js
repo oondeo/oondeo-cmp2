@@ -3,14 +3,15 @@ import { getCustomVendorListUrl, getIabVendorBlacklist, getIabVendorListDomain, 
 import { logError, logInfo } from './core_log';
 import { fetchJsonData } from './core_utils';
 import { GVL } from '@iabtcf/core';
-import { getLanguage } from './core_config';
+import { getLanguageFromConfigObject } from './core_config';
 
 export const DEFAULT_VENDOR_LIST = {
-
   vendorListVersion: 36, //TODO: @tcf2 @tc2soi
   maxVendorId: 747, //TODO @tcf2 @tc2soi
   lastUpdated: '2018-05-30T16:00:15Z', //TODO @tcf2 @tc2soi
-  purposeIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] //TODO @tcf2 @tc2soi
+  purposeIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], //TODO @tcf2 @tc2soi
+  legintIds: [2, 3, 4, 5, 6, 7, 8 , 9, 10],
+  specialFeaturesIds: [1, 2]
 };
 
 export const DEFAULT_CUSTOM_VENDOR_LIST = {
@@ -92,7 +93,7 @@ function getGlobalVendorListPromise() {
 
   let iabGvl = getGlobalVendorList();
 
-  return iabGvl.changeLanguage(getLanguage()).then(() => {
+  return iabGvl.changeLanguage(getLanguageFromConfigObject()).then(() => {
     return iabGvl;
   });
 
@@ -111,12 +112,24 @@ export function getFeatures() {
   return cachedVendorList ? cachedVendorList.features : null;
 }
 
+export function getLegitimateInterest() {
+  return expandIdsToObjects(DEFAULT_VENDOR_LIST.legintIds);
+}
+
 export function getSpecialFeatures() {
-  return cachedVendorList ? cachedVendorList.specialFeatures : null;
+  return cachedVendorList ? cachedVendorList.specialFeatures : expandIdsToObjects(DEFAULT_VENDOR_LIST.specialFeaturesIds);
 }
 
 export function getPurposeIds() {
-  return getPurposes().map(({ id }) => id);
+  return Object.entries(getPurposes()).map(([index, value]) => value.id);
+}
+
+export function getLegintIds() {
+  return Object.entries(getLegitimateInterest()).map(([index, value]) => value.id);
+}
+
+export function getSpecialFeatureIds() {
+  return Object.entries(getSpecialFeatures()).map(([index, value]) => value.id);
 }
 
 export function getVendors() {

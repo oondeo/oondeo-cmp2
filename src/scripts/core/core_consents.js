@@ -25,7 +25,7 @@ function getLegalBasisPreferences(TCModel, category) {
   let legintMethod = category + 'LegitimateInterests';
 
   let categoryLegalBasis = {};
-  //TCModel[legintMethod].set_.forEach((val) => { console.log(val) });
+
   TCModel[consentMethod].forEach((checked, id) => {
     if (checked) {
       if (!categoryLegalBasis[id]) {
