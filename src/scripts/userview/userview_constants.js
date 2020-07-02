@@ -32,6 +32,7 @@ export const OIL_LABELS = {
 
 
   // CPC labels
+  ATTR_LABEL_CPC_SAVE: 'label_cpc_save',
   ATTR_LABEL_CPC_HEADING: 'label_cpc_heading',
   ATTR_LABEL_CPC_TEXT: 'label_cpc_text',
   ATTR_LABEL_CPC_ACTIVATE_ALL: 'label_cpc_activate_all',

@@ -32,6 +32,7 @@
     "label_cpc_legal_purpose_leg_int": "Purposes (Legitimate Interest)",
     "label_cpc_legal_special_purposes": "Special Purposes",
     "label_cpc_legal_features": "Features",
-    "label_cpc_legal_special_features": "Special Features"
+    "label_cpc_legal_special_features": "Special Features",
+    "label_cpc_save": "Save"
   }
 }

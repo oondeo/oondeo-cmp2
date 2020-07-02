@@ -10,12 +10,18 @@ JS_CLASS_BUTTON_PROCEED,
 JS_CLASS_BUTTON_CANCEL,
 JS_CLASS_BUTTON_ADVANCED_SETTINGS } from '../../../core/core_constants.js';
 
-export const YesButton = (classes) => {
-  return `
+export const YesButton = (classes, layer) => {
+  if (layer === 'first_layer') {
+    return `
     <button class="${classes}" data-context="${DATA_CONTEXT_YES}" data-qa="oil-YesButton">
-      ${getLabel(OIL_LABELS.ATTR_LABEL_BUTTON_YES)}
-    </button>
-  `
+        ${getLabel(OIL_LABELS.ATTR_LABEL_BUTTON_YES)}
+    </button>`
+  } else {
+    return `
+    <button class="${classes}" data-context="${DATA_CONTEXT_YES}" data-qa="oil-YesButton">
+        ${getLabel(OIL_LABELS.ATTR_LABEL_CPC_SAVE)}
+    </button>`
+  }
 }
 
 export const ProceedButton = () => {
