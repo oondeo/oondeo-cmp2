@@ -27,6 +27,9 @@ export const OIL_LABELS = {
   ATTR_LABEL_CPC_SPECIAL_FEATURE_TITLE: 'label_cpc_special_feature_title',
   ATTR_LABEL_CPC_SPECIAL_FEATURE_DESC: 'label_cpc_special_feature_desc',
 
+  ATTR_LABEL_THIRD_PARTY_DESCRIPTION: 'label_third_party_description',
+  ATTR_LABEL_CUSTOM_THIRD_PARTY_DESCRIPTION: 'label_custom_third_party_description',
+
 
   // CPC labels
   ATTR_LABEL_CPC_HEADING: 'label_cpc_heading',

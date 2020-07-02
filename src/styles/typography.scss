@@ -70,6 +70,21 @@
         color: var(--avacy_text_color_secondary);
     }
 
+    &__row-thirdPartiesText,
+    &__row-customThirdPartiesText {
+        font-size: 14px;
+        font-size: calc(14px * var(--avacy_font_base_scale));
+        color: $text-color-primary;
+        color: var(--avacy_text_color_primary);
+
+        a {
+            color: $accent-color;
+            color: var(--avacy_accent_primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+    }
+
     &__category-link {
         font-size: 13px;
         font-size: calc(13px * var(--avacy_font_base_scale));

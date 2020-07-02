@@ -172,7 +172,10 @@ const buildIabVendorList = () => {
   return `
 <div class="as-oil-cpc__row-title" id="as-oil-cpc-third-parties">
   ${getLabel(OIL_LABELS.ATTR_LABEL_THIRD_PARTY)}
-</div>
+  </div>
+  ${getLabel(OIL_LABELS.ATTR_LABEL_THIRD_PARTY_DESCRIPTION) === OIL_LABELS.ATTR_LABEL_THIRD_PARTY_DESCRIPTION ? '' : `
+    <div class="as-oil-cpc__row-thirdPartiesText">${getLabel(OIL_LABELS.ATTR_LABEL_THIRD_PARTY_DESCRIPTION)}</div>
+  `}
 <div id="as-js-third-parties-list">
   ${buildIabVendorEntries()}
 </div>`
@@ -184,6 +187,9 @@ const buildCustomVendorList = () => {
 <div class="as-oil-cpc__row-title" id="as-oil-cpc-custom-third-parties">
   ${getLabel(OIL_LABELS.ATTR_LABEL_CUSTOM_THIRD_PARTY_HEADING)}
 </div>
+  ${getLabel(OIL_LABELS.ATTR_LABEL_CUSTOM_THIRD_PARTY_DESCRIPTION) === OIL_LABELS.ATTR_LABEL_CUSTOM_THIRD_PARTY_DESCRIPTION ? '' : `
+  <div class="as-oil-cpc__row-customThirdPartiesText">${getLabel(OIL_LABELS.ATTR_LABEL_CUSTOM_THIRD_PARTY_DESCRIPTION)}</div>
+  `}
 <div id="as-oil-custom-third-parties-list">
   ${buildCustomVendorEntries()}
 </div>`
@@ -195,10 +201,11 @@ const buildCustomVendorList = () => {
 
 const buildIabVendorEntries = () => {
   let vendorList = getVendorList();
-
+  console.log('vendorList.isDefault',vendorList.isDefault);
 
   if (vendorList && !vendorList.isDefault) {
     let listWrapped = getVendorsToDisplay();
+    console.log('listWrapped', listWrapped);
 
     if (typeof (listWrapped) === 'object') {
       listWrapped = Object.values(listWrapped)
@@ -214,12 +221,16 @@ const buildIabVendorEntries = () => {
 
 const buildCustomVendorEntries = () => {
   let customVendorList = getCustomVendorList();
-
   if (customVendorList && !customVendorList.isDefault) {
-    let listWrapped = customVendorList.vendors.map((element) => {
+    
+    let customVendors = customVendorList.vendors;
+    if (typeof (customVendors) === 'object') {
+      customVendors = Object.values(customVendors)
+    }
+    customVendors = customVendors.map((element) => {
       return buildVendorListEntry(element);
     });
-    return `<div class="as-oil-poi-group-list">${listWrapped.join('')}</div>`;
+    return `<div class="as-oil-poi-group-list">${customVendors.join('')}</div>`;
   } else {
     return 'Missing custom vendor list! Maybe vendor list retrieval has failed! Please contact web administrator!';
   }
@@ -253,7 +264,7 @@ const buildVendorListEntry = (element) => {
   }
 };
 
-const snippetLegalDescription = (list, index ,category) => {
+const snippetLegalDescription = (list, index ,category) => {  
   if (list.length > 0) {
     return `
       <div class="as-oil-third-party-category-list">

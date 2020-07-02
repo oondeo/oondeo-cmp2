@@ -2,6 +2,7 @@
 import { getCustomVendorList, loadVendorListAndCustomVendorList } from './core_vendor_lists';
 import { logError } from './core_log';
 import { getSoiCookie } from './core_cookies';
+import { getPurposesAllowed } from './core_consents';
 
 export function sendConsentInformationToCustomVendors() {
   return loadVendorListAndCustomVendorList()
@@ -9,19 +10,30 @@ export function sendConsentInformationToCustomVendors() {
       let customVendorList = getCustomVendorList();
 
       if (customVendorList && !customVendorList.isDefault) {
+
+        let customVendors = customVendorList.vendors;
+        if (typeof (customVendors) === 'object') {
+          customVendors = Object.values(customVendors)
+        }
+
         // TODO getSoiCookie is not sufficient - possibly required information is in poi cookie and soi cookie does not exist (see OIL-336)
         let cookie = getSoiCookie();
         if (cookie && cookie.consentData) {
-          customVendorList.vendors.forEach(customVendor => sendConsentInformationToCustomVendor(customVendor, cookie.consentData));
+          customVendors.forEach(customVendor => {
+            sendConsentInformationToCustomVendor(customVendor, cookie.consentData)
+          });
         }
       }
     });
 }
 
 function sendConsentInformationToCustomVendor(customVendor, consentData) {
-  let allowedPurposeIds = consentData.getPurposesAllowed();
+  let allowedPurposeIds = getPurposesAllowed(consentData);
 
-  if (customVendor.purposeIds.every(purposeId => allowedPurposeIds.indexOf(purposeId) !== -1)) {
+  if (Object.keys(allowedPurposeIds).length > 0 && customVendor.purposes.every(purposeId => {
+    
+    allowedPurposeIds.indexOf(purposeId) !== -1
+  })) {
     executeCustomVendorScript('opt-in', customVendor.optInSnippet, customVendor);
   } else {
     executeCustomVendorScript('opt-out', customVendor.optOutSnippet, customVendor);
