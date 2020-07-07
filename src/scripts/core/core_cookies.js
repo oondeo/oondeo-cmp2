@@ -147,10 +147,11 @@ export function updateTCModel(privacySettings) {
       }
 
     });
+    tcModel.consentScreen = 2;
     return tcModel;
   }
-
   tcModel.setAll();
+  tcModel.consentScreen = 1;
   return tcModel;
 
 }
@@ -168,7 +169,6 @@ export function buildSoiCookie(privacySettings) {
       logInfo('privacySettings', privacySettings);
       logInfo('new TCModel', consentData);
       logInfo('new TCString', TCString.encode(consentData));
-
 
       let outputCookie = {
         opt_in: true,
@@ -326,14 +326,14 @@ function getDefaultTCModel() {
   let gvl = getVendorList();
   let consentData = new TCModel(gvl);
   consentData.cmpId = OIL_SPEC.CMP_ID;
-  consentData.publisherCountryCode = 'EN'; //TODO: get from configuration
+  consentData.publisherCountryCode = 'IT';
   consentData.cmpVersion = OIL_SPEC.CMP_VERSION;
   consentData.isServiceSpecific = true;
   consentData.purposeOneTreatment = true;
   consentData.supportOOB = false;
-  consentData.consentScreen = 1; //TODO: add number of layer where consent was given
+  consentData.consentScreen = 1;
 
-  consentData.vendorsDisclosed.set(2);
+  // consentData.vendorsDisclosed.set(2);
 
   // consentData.setConsentLanguage(getLanguage());
   // consentData.setPurposesAllowed(getAllowedStandardPurposesDefault());

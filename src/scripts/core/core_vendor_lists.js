@@ -1,9 +1,8 @@
 //REVIEW: changes in todo comments @tcf2
-import { getCustomVendorListUrl, getIabVendorBlacklist, getIabVendorListDomain, getIabVendorWhitelist, getShowLimitedVendors } from './core_config';
+import { getCustomVendorListUrl, getIabVendorBlacklist, getIabVendorListDomain, getIabVendorWhitelist, getShowLimitedVendors, getLanguageFromConfigObject } from './core_config';
 import { logError, logInfo } from './core_log';
 import { fetchJsonData } from './core_utils';
 import { GVL } from '@iabtcf/core';
-import { getLanguageFromConfigObject } from './core_config';
 
 export const DEFAULT_VENDOR_LIST = {
   vendorListVersion: 36, //TODO: @tcf2 @tc2soi
@@ -20,8 +19,8 @@ export const DEFAULT_CUSTOM_VENDOR_LIST = {
   'vendors': []
 };
 
-export let cachedVendorList;
-export let cachedCustomVendorList;
+export let cachedVendorList = null;
+export let cachedCustomVendorList = null;
 export let pendingVendorListPromise = null;
 let cachedGVL = null;
 
@@ -79,9 +78,10 @@ function loadCustomVendorList() {
 }
 
 function getGlobalVendorList() {
-  if (cachedGVL) {
-    return cachedGVL;
-  }
+  //TODO: Per ora ho commentato il seguente if, ma è da rivedere;
+  // if (cachedGVL) {
+  //   return cachedGVL;
+  // }
   
   GVL.baseUrl = getIabVendorListDomain();
 
@@ -93,7 +93,8 @@ function getGlobalVendorListPromise() {
 
   let iabGvl = getGlobalVendorList();
 
-  return iabGvl.changeLanguage(getLanguageFromConfigObject()).then(() => {
+  let newLang = getLanguageFromConfigObject();
+  return iabGvl.changeLanguage(newLang).then(() => {
     return iabGvl;
   });
 

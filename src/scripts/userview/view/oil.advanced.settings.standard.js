@@ -201,11 +201,9 @@ const buildCustomVendorList = () => {
 
 const buildIabVendorEntries = () => {
   let vendorList = getVendorList();
-  console.log('vendorList.isDefault',vendorList.isDefault);
 
   if (vendorList && !vendorList.isDefault) {
     let listWrapped = getVendorsToDisplay();
-    console.log('listWrapped', listWrapped);
 
     if (typeof (listWrapped) === 'object') {
       listWrapped = Object.values(listWrapped)

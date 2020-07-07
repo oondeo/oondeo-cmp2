@@ -18,17 +18,57 @@
             "poi_activate_poi": true,
             "poi_group_name": "testPoiList",
             "poi_hub_origin": "/",
-            "poi_hub_path": "/",
+            "poi_hub_path": "rai-a.avacysolution.com/",
             "timeout": -1,
             "publicPath": "/",
             "languages": {
                 "it": {
-                "localeId": "it",
-                "version": 1,
+                    "localeId": "it",
+                    "version": 1,
                     "texts": {
                         "label_intro_heading": "Cookie e pubblicità su questo sito",
                         "label_button_yes": "Acconsento",
                         "label_intro": "Rai utilizza cookie e strumenti equivalenti, anche di terzi, per misurare il consumo e garantire la fruizione dei contenuti digitali Rai, facilitare la navigazione, proporre pubblicità mirata. Per saperne di più puoi visionare l’informativa estesa <a href=\"https://www.rai.it/privacy/CookiePolicy.html\" target=\"_blank\">cliccando qui</a>, per negare il consenso o gestire le tue preferenze usa il pulsante “ESPRIMO PREFERENZE”. Premendo “ACCONSENTO” acconsenti all’uso di cookie e strumenti equivalenti.",
+                        "label_cpc_heading": "Cookie e pubblicità su questo sito",
+                        "label_cpc_text": "Puoi visionare l'Informativa estesa sui Cookie al seguente <a href=\"https://www.rai.it/privacy/CookiePolicy.html\" target=\"_blank\">link</a>.",
+                        "label_cpc_activate_all": "Attiva tutto",
+                        "label_cpc_deactivate_all": "Disattiva tutto",
+                        "label_third_party": "Fornitori Che Aderiscono a IAB TCF",
+                        "label_cpc_purpose_title": "Finalità",
+                        "label_cpc_special_purpose_title": "Finalità Speciali",
+                        "label_cpc_feature_title": "Funzionalità",
+                        "label_cpc_special_feature_title": "Funzionalità Speciali",
+                        "label_cpc_read_less": "Leggi di meno.",
+                        "label_cpc_read_more": "Leggi di più...",
+                        "label_button_back": "Indietro",
+                        "label_button_advanced_settings": "Esprimo preferenze",
+                        "label_custom_thirdparty_heading": "Altri Fornitori",
+                        "label_cpc_purpose_optout_confirm_heading": "Sei sicuro?",
+                        "label_cpc_purpose_optout_confirm_text": "Queste impostazioni modificheranno l'esperienza sul sito.",
+                        "label_cpc_purpose_optout_confirm_proceed": "Contina",
+                        "label_cpc_purpose_optout_confirm_cancel": "Cancella",
+                        "label_poi_group_list_heading": "Your consent for companies of the group",
+                        "label_poi_group_list_text": "Here is a list of companies of the group:",
+                        "label_thirdparty_list_heading": "Your consent for third party software",
+                        "label_thirdparty_list_text": "Here is a list of third party software.",
+                        "label_nocookie_head": "In order to be able to provide our services in the best possible way, cookies must be activated in your browser.",
+                        "label_nocookie_text": "Please activate cookies in the properties of your browsers. So you can do it in <a href=\"https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&amp;hl=en-GB\" class=\"as-oil__intro-txt--link\" target=\"_blank\">Google Chrome</a> or <a href=\"https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer\" class=\"as-oil__intro-txt--link\" target=\"_blank\">Firefox</a>.\".",
+                        "label_cpc_legal_purpose_consent": "Finalità (Consenso)",
+                        "label_cpc_legal_purpose_leg_int": "Finalità (Legittimo Interesse)",
+                        "label_cpc_legal_special_purposes": "Finalità Speciali",
+                        "label_cpc_legal_features": "Funzionalità",
+                        "label_cpc_legal_special_features": "Funzionalità Speciali",
+                        "label_third_party_description": "Questi servizi aderiscono al <a target=\"_blank\" href=\"https://iabeurope.eu/transparency-consent-framework/\">IAB Transparency and Consent Framework (TCF)</a>.",
+                        "label_cpc_save": "Salva e Continua"
+                    }
+                },
+                "fr": {
+                    "localeId": "fr",
+                    "version": 1,
+                    "texts": {
+                        "label_intro_heading": "FR Cookie e pubblicità su questo sito",
+                        "label_button_yes": "Acconsento",
+                        "label_intro": "FR Rai utilizza cookie e strumenti equivalenti, anche di terzi, per misurare il consumo e garantire la fruizione dei contenuti digitali Rai, facilitare la navigazione, proporre pubblicità mirata. Per saperne di più puoi visionare l’informativa estesa <a href=\"https://www.rai.it/privacy/CookiePolicy.html\" target=\"_blank\">cliccando qui</a>, per negare il consenso o gestire le tue preferenze usa il pulsante “ESPRIMO PREFERENZE”. Premendo “ACCONSENTO” acconsenti all’uso di cookie e strumenti equivalenti.",
                         "label_cpc_heading": "Cookie e pubblicità su questo sito",
                         "label_cpc_text": "Puoi visionare l'Informativa estesa sui Cookie al seguente <a href=\"https://www.rai.it/privacy/CookiePolicy.html\" target=\"_blank\">link</a>.",
                         "label_cpc_activate_all": "Attiva tutto",
@@ -120,7 +160,7 @@
     <h2 class="SectionTitle">Ricarica Banner</h2>
     <button onclick='(function(){window.AS_OIL.triggerOptOut(); location.reload();})();'>Effettua
         Optout e ricarica</button><br>
-    <button onclick="window.AS_OIL.showPreferenceCenter()">Modifica Consenso</button><br>
+    <button onclick="window.AS_OIL.showPreferenceCenter('absolute')">Modifica Consenso</button><br>
     <button
         onclick="window.AS_OIL.getLegalText('privacy').then(r => {document.querySelector('#policy-text').innerHTML = r.text;document.querySelector('#policy-version').innerHTML = r.version}).catch(r => {console.log(r)})">Mostra
         Privacy Policy</button><br>
@@ -136,7 +176,7 @@
 
 
 <script data-managed="as-oil" data-type="text/javascript" data-purposes="1,3,4,5,9,10" data-legints="2,5" data-special-features="1" type="as-oil" charset="UTF-8">
-    console.log('custom script');
+    console.log('custom script data-purposes="1,3,4,5,9,10" data-legints="2,5" data-special-features="1"');
 </script>
 
 <section>

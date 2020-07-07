@@ -30,10 +30,19 @@ export function sendConsentInformationToCustomVendors() {
 function sendConsentInformationToCustomVendor(customVendor, consentData) {
   let allowedPurposeIds = getPurposesAllowed(consentData);
 
-  if (Object.keys(allowedPurposeIds).length > 0 && customVendor.purposes.every(purposeId => {
-    
-    allowedPurposeIds.indexOf(purposeId) !== -1
-  })) {
+  let testCustomVendorConsent;
+  if (Object.keys(allowedPurposeIds).length > 0) {
+    testCustomVendorConsent = customVendor.purposes.every(purposeId => {
+      if (allowedPurposeIds[purposeId] === undefined) {
+        return false;
+      }
+      if (allowedPurposeIds[purposeId].hasOwnProperty('consent')) {
+        return allowedPurposeIds[purposeId].consent !== -1
+      }
+    })
+  }
+
+  if (testCustomVendorConsent) {
     executeCustomVendorScript('opt-in', customVendor.optInSnippet, customVendor);
   } else {
     executeCustomVendorScript('opt-out', customVendor.optOutSnippet, customVendor);

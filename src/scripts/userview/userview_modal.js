@@ -28,12 +28,12 @@ import { getCpcType, getTheme, getTimeOutValue, isOptoutConfirmRequired, isPersi
 import { gdprApplies, getAdvancedSettingsPurposesDefault, isInfoBannerOnly, isPoiActive } from '../core/core_config';
 import { applyPrivacySettings, getPrivacySettings, getSoiConsentData } from './userview_privacy';
 import { activateOptoutConfirm } from './userview_optout_confirm';
-import { getPurposeIds, loadVendorListAndCustomVendorList } from '../core/core_vendor_lists';
+import { getPurposeIds, loadVendorListAndCustomVendorList} from '../core/core_vendor_lists';
+
 import { manageDomElementActivation } from '../core/core_tag_management';
 import { sendConsentInformationToCustomVendors } from '../core/core_custom_vendors';
 import { getAllPreferences } from '../core/core_consents';
 import { getVisualConfig, getDefaultVisualConfig } from '../userview/userview_config';
-import { set } from 'core-js/fn/dict';
 // Initialize our Oil wrapper and save it ...
 
 export const oilWrapper = defineOilWrapper;
@@ -112,7 +112,6 @@ export function oilShowPreferenceCenter(mode) {
 function handleOptInBtn() {
   sendEventToHostSite(EVENT_NAME_OPT_IN_BUTTON_CLICKED);
   handleOptIn();
-  document.querySelector('#oil-preference-center').innerHTML = '';
 }
 export function handleOptIn() {
   stopTimeOut();
@@ -135,6 +134,7 @@ function onOptInComplete() {
   }
   sendConsentInformationToCustomVendors().then(() => logInfo('Consent information sending to custom vendors after user\'s opt-in finished!'));
   manageDomElementActivation();
+  document.querySelector('#oil-preference-center').innerHTML = '';
 }
 
 function shouldRenderOilLayer(props) {

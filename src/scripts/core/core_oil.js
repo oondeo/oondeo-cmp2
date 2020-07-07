@@ -4,11 +4,11 @@ import { logError, logInfo, logPreviewInfo } from './core_log';
 import { checkOptIn } from './core_optin';
 import { getSoiCookie, isBrowserCookieEnabled, isPreviewCookieSet, removePreviewCookie, removeVerboseCookie, setPreviewCookie, setVerboseCookie } from './core_cookies';
 import { getLocale, isAmpModeActivated, isPreviewMode, resetConfiguration, setGdprApplies, gdprApplies } from './core_config';
-import { EVENT_NAME_HAS_OPTED_IN, EVENT_NAME_NO_COOKIES_ALLOWED } from './core_constants';
+import { EVENT_NAME_HAS_OPTED_IN, EVENT_NAME_NO_COOKIES_ALLOWED, OIL_GLOBAL_OBJECT_NAME } from './core_constants';
 import { updateTcfApi } from './core_tcf_api';
 import { manageDomElementActivation } from './core_tag_management';
 import { sendConsentInformationToCustomVendors } from './core_custom_vendors';
-import { getPurposes } from './core_vendor_lists';
+import { getPurposes, clearVendorListCache } from './core_vendor_lists';
 /**
  * Initialize Oil on Host Site
  * This functions gets called directly after Oil has loaded
@@ -130,6 +130,15 @@ function attachUtilityFunctionsToWindowObject() {
     resetConfiguration();
     initOilLayer();
     return 'OIL reloaded';
+  });
+
+  setGlobalOilObject('changeLanguage', (lang) => {
+    clearVendorListCache();
+    if (window[OIL_GLOBAL_OBJECT_NAME].CONFIG.language !== lang) {
+      window[OIL_GLOBAL_OBJECT_NAME].CONFIG.language = lang;
+    }
+    initOilLayer();
+    return 'OIL language Changed';
   });
 
   setGlobalOilObject('status', () => {
