@@ -110,8 +110,7 @@ export function setSoiCookieWithPoiCookieData(poiCookieJson) {
   });
 }
 
-export function updateTCModel(privacySettings) {
-  let tcModel = getDefaultTCModel();
+export function updateTCModel(privacySettings, tcModel) {
 
   if (privacySettings !== 1) {
     ['purpose', 'vendor'].forEach((category) => {
@@ -148,23 +147,23 @@ export function updateTCModel(privacySettings) {
 
     });
     tcModel.consentScreen = 2;
+    tcModel.updated();
     return tcModel;
   }
   tcModel.setAll();
   tcModel.consentScreen = 1;
+  tcModel.updated();
   return tcModel;
 
 }
 
 export function buildSoiCookie(privacySettings) {
-  //TODO: set new consent @tcf2 @tcf2soi
-
   return new Promise((resolve, reject) => {
     loadVendorListAndCustomVendorList().then(() => {
       let cookieConfig = getOilCookieConfig();
 
       logInfo('creating TCModel with this settings:', privacySettings);
-      let consentData = updateTCModel(privacySettings);
+      let consentData = updateTCModel(privacySettings, cookieConfig.defaultCookieContent.consentData);
 
       logInfo('privacySettings', privacySettings);
       logInfo('new TCModel', consentData);
@@ -333,21 +332,22 @@ function getDefaultTCModel() {
   consentData.supportOOB = false;
   consentData.consentScreen = 1;
 
-  // consentData.vendorsDisclosed.set(2);
-
-  // consentData.setConsentLanguage(getLanguage());
-  // consentData.setPurposesAllowed(getAllowedStandardPurposesDefault());
-  // consentData.setVendorsAllowed(getAllowedVendorsDefault());
-  // consentData.setGlobalVendorList(getVendorList());
-
   return consentData;
 }
 
 function getOilCookieConfig() {
   //TODO: set new consent @tcf2 @tcf2soi
+  let consentData;
+  let consentString;
 
-
-  let consentData = getDefaultTCModel();
+  try {
+    consentData = getOilCookie({name: OIL_DOMAIN_COOKIE_NAME}).consentData;
+    consentData.gvl = getVendorList();
+    consentString = getOilCookie({name: OIL_DOMAIN_COOKIE_NAME}).consentString;
+  } catch (error) {
+    consentData = getDefaultTCModel();
+    consentString = consentData.gvl.isReady ? TCString.encode(consentData) : ''; 
+  } 
 
   return {
     name: OIL_DOMAIN_COOKIE_NAME,
@@ -359,7 +359,7 @@ function getOilCookieConfig() {
       localeVariantVersion: getLocaleVariantVersion(),
       customPurposes: getAllowedCustomPurposesDefault(),
       consentData: consentData,
-      consentString: !isInfoBannerOnly() && consentData.gvl.isReady ? TCString.encode(consentData) : '',
+      consentString: !isInfoBannerOnly() ? consentString : '',
       configVersion: getConfigVersion(),
       policyVersion: getPolicyVersion()
     },
