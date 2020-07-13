@@ -6,6 +6,7 @@ export const OIL_SPEC = {
   LATEST_CONSENT_STRING_VERSION: 2
 };
 
+
 export const OIL_CONFIG = {
   ATTR_CONFIG_VERSION: 'config_version',
   ATTR_POLICY_VERSION: 'policy_version',
