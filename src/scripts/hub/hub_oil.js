@@ -100,5 +100,14 @@ function parseJson(data) {
 
 export function redirectBack() {
   // To make it visible: setTimeout(function(){ window.location.replace(document.referrer); }, 2000);
-  window.location.replace(document.referrer);
+
+  if (document.referrer) {
+    window.location.replace(document.referrer);
+  } else {
+      let referrer = getStringParam(window.location.href, 'backto');
+      if (referrer) {
+            window.location.replace(referrer);
+      }
+  }
+
 }

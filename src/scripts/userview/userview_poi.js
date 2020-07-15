@@ -55,7 +55,7 @@ export function activatePowerOptInWithRedirect(payload) {
       targetLocation = targetLocation + '&' + POI_PAYLOAD + '=' + payloadUriParam;
     }
 
-    exports.redirectToLocation(targetLocation);
+    exports.redirectToLocation(targetLocation +`&backto=${window.location.href}`);
   }
 }
 
