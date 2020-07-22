@@ -11,6 +11,8 @@
 @import "./_cpc_global";
 
 .as-oil-cpc-wrapper {
+  font-family: $font-family;
+  font-family: var(--avacy_font_family);
 
   button {
     cursor: pointer;

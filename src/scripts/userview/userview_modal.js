@@ -1,6 +1,6 @@
 import '../../styles/modal.scss';
 import { getGlobalOilObject, isObject, sendEventToHostSite } from '../core/core_utils';
-import { removeSubscriberCookies } from '../core/core_cookies';
+import { removeSubscriberCookies, getSoiCookie } from '../core/core_cookies';
 import {
   EVENT_NAME_ADVANCED_SETTINGS,
   EVENT_NAME_AS_PRIVACY_SELECTED,
@@ -34,6 +34,7 @@ import { manageDomElementActivation } from '../core/core_tag_management';
 import { sendConsentInformationToCustomVendors } from '../core/core_custom_vendors';
 import { getAllPreferences } from '../core/core_consents';
 import { getVisualConfig, getDefaultVisualConfig } from '../userview/userview_config';
+import { updateTcfApi } from '../core/core_tcf_api';
 // Initialize our Oil wrapper and save it ...
 
 export const oilWrapper = defineOilWrapper;
@@ -89,6 +90,7 @@ export function oilShowPreferenceCenter(mode) {
             renderOil({ advancedSettings: true });
           } else if (entryNode) {
             entryNode.innerHTML = findAdvancedSettingsInlineTemplate();
+            setWrapperStyles(entryNode);
             addOilHandlers(getOilDOMNodes());
           } else {
             logError('No wrapper for the CPC with the id #oil-preference-center was found.');
@@ -134,6 +136,7 @@ function onOptInComplete() {
   }
   sendConsentInformationToCustomVendors().then(() => logInfo('Consent information sending to custom vendors after user\'s opt-in finished!'));
   manageDomElementActivation();
+  updateTcfApi(getSoiCookie(), false);
   document.querySelector('#oil-preference-center').innerHTML = '';
 }
 
@@ -241,10 +244,14 @@ function defineOilWrapper() {
 function renderOilContentToWrapper(content) {
   let wrapper = oilWrapper();
   wrapper.innerHTML = content;
+  setWrapperStyles(wrapper);
+  injectOilWrapperInDOM(wrapper);
+}
+
+function setWrapperStyles(wrapper) {
   setColorVariables(wrapper);
   setFontBaseSize(wrapper);
   setFontFamily(wrapper);
-  injectOilWrapperInDOM(wrapper);
   setTabsBlur(wrapper);
   setContentBlur(wrapper);
 }
