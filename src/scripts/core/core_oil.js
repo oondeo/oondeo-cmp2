@@ -19,6 +19,8 @@ export function initOilLayer() {
   if (isPreviewMode() && !isPreviewCookieSet()) {
     logPreviewInfo('Preview mode ON and OIL layer remains hidden. Run AS_OIL.previewModeOn() and reload to display the layer.');
   }
+
+  window.PAPYRI = window.AS_OIL;
   registerDomElementActivationManager();
 
   attachUtilityFunctionsToWindowObject();
