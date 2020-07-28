@@ -222,6 +222,7 @@
     order: 1;
     margin-top: 1rem;
     padding-bottom: 1rem;
+    display: flex;
 
     span {
       display: inline-flex;
@@ -320,7 +321,6 @@
 
   @include media('<desktop') {
     &__row-btn-all {
-      display: flex;
       justify-content: center;
     }
   }
@@ -329,6 +329,7 @@
     &__row-btn-all {
       margin-top: 0;
       width: 40%;
+      justify-content: flex-end;
     }
   }
   
