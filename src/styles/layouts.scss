@@ -25,7 +25,7 @@
         &__intro-txt {
             width: 75%;
             margin: 1rem 0;  
-            padding-right: 1rem;
+            padding-right: 2rem;
         }
     }
 }
@@ -40,7 +40,7 @@
     padding: 1rem;
 
     @include media('>phone') {
-        padding: 2rem 5rem;
+        padding: 2rem 2rem;
     }
 }
 

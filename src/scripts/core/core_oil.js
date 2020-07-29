@@ -255,6 +255,17 @@ function attachUtilityFunctionsToWindowObject() {
     initOilLayer();
     return 'GDPR applied';
   });
+
+  setGlobalOilObject('isInCollection', (event_name = 'oil_shown') => {
+    let count = 0;
+    let collection = window.AS_OIL.eventCollection;
+    if (collection) {
+      collection.forEach(element => {
+        if (element.name === event_name) {
+          count = count + 1;
+        }
+      });
+    }
+    return count;
+  })
 }
-
-

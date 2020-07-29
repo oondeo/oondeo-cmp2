@@ -375,6 +375,10 @@
     justify-content: flex-start;
 
     .as-oil-third-party-name {
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+      font-size: calc(13px * var(--avacy_font_base_scale));
       margin-left: 0.5rem;
     }
   }
