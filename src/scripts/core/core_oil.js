@@ -181,10 +181,10 @@ function attachUtilityFunctionsToWindowObject() {
         if(success) {
           let consentsList = {}
           for (let [key, value] of Object.entries(getPurposes())) {
-            if (tcData.purpose.consents[key] === true) {
-              consentsList[key] = true;
+            if (tcData.purpose.consents[+key + 1] === true) {
+              consentsList[+key + 1] = true;
             } else {
-              consentsList[key] = false;
+              consentsList[+key + 1] = false;
             }
           }
           resolve(consentsList)
