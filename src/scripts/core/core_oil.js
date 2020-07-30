@@ -180,12 +180,14 @@ function attachUtilityFunctionsToWindowObject() {
       window.__tcfapi('getTCData', 2, (tcData, success) => {
         if(success) {
           let consentsList = {}
+          let count = 1;
           for (let [key, value] of Object.entries(getPurposes())) {
-            if (tcData.purpose.consents[+key + 1] === true) {
-              consentsList[+key + 1] = true;
+            if (tcData.purpose.consents[count] === true) {
+              consentsList[count] = true;
             } else {
-              consentsList[+key + 1] = false;
+              consentsList[count] = false;
             }
+            count = count + 1;
           }
           resolve(consentsList)
         } else {
