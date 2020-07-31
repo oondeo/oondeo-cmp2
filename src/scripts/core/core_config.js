@@ -174,7 +174,7 @@ export function getPoiGroupName() {
 }
 
 export function getCookieExpireInDays() {
-  return getConfigValue(OIL_CONFIG.ATTR_COOKIE_EXPIRES_IN_DAYS, 31);
+  return getConfigValue(OIL_CONFIG.ATTR_COOKIE_EXPIRES_IN_DAYS, 365);
 }
 
 export function getLocaleVariantName() {
