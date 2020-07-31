@@ -1,8 +1,10 @@
 import {
   OIL_CONFIG_DEFAULT_VERSION,
   OIL_POLICY_DEFAULT_VERSION,
+  OIL_DEFAULT_COOKIE_EXPIRE,
   OIL_PAYLOAD_CONFIG_VERSION,
   OIL_PAYLOAD_POLICY_VERSION,
+  OIL_PAYLOAD_COOKIE_EXPIRE,
   OIL_PAYLOAD_CUSTOM_PURPOSES, OIL_PAYLOAD_CUSTOM_VENDORLIST_VERSION,
   OIL_PAYLOAD_LOCALE_VARIANT_NAME,
   OIL_PAYLOAD_LOCALE_VARIANT_VERSION,
@@ -41,9 +43,10 @@ export function setPoiCookie(groupName, payload) {
       customVendorListVersion: getCustomVendorlistVersionFromPayload(payload),
       consentString: consentStringAsPrivacy,
       configVersion: getConfigVersionFromPayload(payload),
-      policyVersion: getPolicyVersionFromPayload(payload)
+      policyVersion: getPolicyVersionFromPayload(payload),
+      cookieExpire: getCookieExpireFromPayload(payload)
     };
-    setDomainCookie(getOilHubCookieName(groupName), cookie, getCookieExpireInDays());
+    setDomainCookie(getOilHubCookieName(groupName), cookie, getCookieExpireFromPayload(payload));
   } else {
     logError('Oil Hub received old or empty payload! No POI cookie stored.')
   }
@@ -57,6 +60,7 @@ function transformOutdatedOilCookie(cookieConfig) {
   cookie.version = cookieJson.version;
   cookie.configVersion = OIL_CONFIG_DEFAULT_VERSION;
   cookie.policyVersion = OIL_POLICY_DEFAULT_VERSION;
+  cookie.cookieExpire= OIL_DEFAULT_COOKIE_EXPIRE;
   cookie.localeVariantName = cookieJson.localeVariantName;
   cookie.localeVariantVersion = cookieJson.localeVariantVersion;
   cookie.customPurposes = []; // we do not know custom purposes config in the hub, but old cookies does not encode them
@@ -95,7 +99,8 @@ function getHubDomainCookieConfig(groupName) {
       consentData: consentData,
       consentString: '', // consent string is not computed because global vendor list is not loaded in hub
       configVersion: getConfigVersion(),
-      policyVersion: getPolicyVersion()
+      policyVersion: getPolicyVersion(),
+      cookieExpire: getCookieExpireFromPayload(payload)
     },
     outdated_cookie_content_keys: ['power_opt_in', 'timestamp', 'version', 'localeVariantName', 'localeVariantVersion', 'privacy']
   };
@@ -111,6 +116,10 @@ function getConfigVersionFromPayload(payload) {
 
 function getPolicyVersionFromPayload(payload) {
   return getPayloadPropertyOrDefault(payload, OIL_PAYLOAD_POLICY_VERSION, OIL_POLICY_DEFAULT_VERSION);
+}
+
+function getCookieExpireFromPayload(payload) {
+  return getPayloadPropertyOrDefault(payload, OIL_PAYLOAD_COOKIE_EXPIRE, OIL_DEFAULT_COOKIE_EXPIRE);
 }
 
 function getCustomPurposesFromPayload(payload) {

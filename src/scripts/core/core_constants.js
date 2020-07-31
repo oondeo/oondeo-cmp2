@@ -51,6 +51,7 @@ export const OIL_CONFIG_CPC_TYPES = {
 
 export const OIL_CONFIG_DEFAULT_VERSION = 0;
 export const OIL_POLICY_DEFAULT_VERSION = 0;
+export const OIL_DEFAULT_COOKIE_EXPIRE = 31;
 
 // Main Click events
 export const EVENT_NAME_OPT_IN = 'oil_optin_done';
@@ -90,6 +91,7 @@ export const OIL_PAYLOAD_CUSTOM_PURPOSES = 'cp';
 export const OIL_PAYLOAD_CUSTOM_VENDORLIST_VERSION = 'cvl';
 export const OIL_PAYLOAD_CONFIG_VERSION = 'cv';
 export const OIL_PAYLOAD_POLICY_VERSION = 'pv';
+export const OIL_PAYLOAD_COOKIE_EXPIRE = 'ce';
 
 // Identify privacy page link, eg. for tracking
 export const DATAQA_PRIVACY_PAGE = 'oil-PrivacyPage';

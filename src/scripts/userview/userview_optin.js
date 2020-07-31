@@ -6,6 +6,7 @@ import {
   EVENT_NAME_OPT_IN,
   OIL_PAYLOAD_CONFIG_VERSION,
   OIL_PAYLOAD_POLICY_VERSION,
+  OIL_PAYLOAD_COOKIE_EXPIRE,
   OIL_PAYLOAD_CUSTOM_PURPOSES,
   OIL_PAYLOAD_CUSTOM_VENDORLIST_VERSION,
   OIL_PAYLOAD_LOCALE_VARIANT_NAME,
@@ -42,7 +43,8 @@ export function oilPowerOptIn(privacySettings) {
         [OIL_PAYLOAD_CUSTOM_VENDORLIST_VERSION]: cookie.customVendorListVersion,
         [OIL_PAYLOAD_CUSTOM_PURPOSES]: cookie.customPurposes,
         [OIL_PAYLOAD_CONFIG_VERSION]: cookie.configVersion,
-        [OIL_PAYLOAD_POLICY_VERSION]: cookie.policyVersion
+        [OIL_PAYLOAD_POLICY_VERSION]: cookie.policyVersion,
+        [OIL_PAYLOAD_COOKIE_EXPIRE]: cookie.cookieExpire
       };
 
       if (isPoiActive()) {
