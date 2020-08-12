@@ -46,6 +46,7 @@ The Opt-In Layer (OIL) is an offical [Consent Management Provider (CMP)](http://
 * [About POI and SOI](#poi-and-soi)
 * [Styling](#styling)
 * [Development and Contributing](#development-and-contributing)
+* [Alternatives](#alternatives)
 * [Changelog and releases](https://github.com/as-ideas/oil/releases)
 * [Roadmap](ROADMAP.md)
   
@@ -336,6 +337,11 @@ The is a detailed section about styling in the documentation. You can edit the d
 
 See the [releases](https://github.com/as-ideas/oil/releases) section.
 
+## Alternatives
+
+- https://github.com/empreinte-digitale/orejime
+- https://github.com/segmentio/consent-manager
+- https://github.com/topics/consent-management
 
 ## Development and Contributing
 
@@ -357,3 +363,4 @@ oil.js is freely distributable under the terms of the [GPL v2.0](https://github.
 
 [license-image]: https://img.shields.io/badge/license-GPLv2-blue.svg?style=flat
 [license-url]: LICENSE
+
